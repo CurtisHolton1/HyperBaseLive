@@ -39,7 +39,11 @@
     </Reference>
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +62,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="APICaller.cs" />
+    <Compile Include="DataObject.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />

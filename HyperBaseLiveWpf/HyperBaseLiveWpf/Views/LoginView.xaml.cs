@@ -32,6 +32,9 @@ namespace HyperBaseLiveWpf
             UserName = "Username";           
             InitializeComponent();
             this.DataContext = this;
+
+            //APICaller apiCaller = new APICaller();
+            //apiCaller.APIStart();
           
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       

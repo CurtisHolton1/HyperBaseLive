@@ -4,14 +4,7 @@
         Title="Clients" Height="500" Width="450" MinHeight="500" MinWidth="450" Background="#FF303030">
     <Grid >
         <Grid>
-            <DataGrid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="300" ItemsSource="{Binding Sample}">
-                <DataGrid.Columns>
-                </DataGrid.Columns>
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
+            <DataGrid x:Name="DataGrid1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Width="Auto" ItemsSource="{Binding DataList}" AlternatingRowBackground="DimGray" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False">
             </DataGrid>
             
 
