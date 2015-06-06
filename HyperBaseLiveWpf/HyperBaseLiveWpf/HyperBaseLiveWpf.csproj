@@ -40,6 +40,7 @@
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,31 +58,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TaskBar.xaml.cs">
-      <DependentUpon>TaskBar.xaml</DependentUpon>
+    <Compile Include="Menu\Clients.cs" />
+    <Compile Include="Menu\Exit.cs" />
+    <Compile Include="Menu\IMenuItem.cs" />
+    <Compile Include="Menu\MenuStaticClassFactory.cs" />
+    <Compile Include="Menu\Start.cs" />
+    <Compile Include="Menu\Stop.cs" />
+    <Compile Include="Menu\Update.cs" />
+    <Compile Include="Views\InstallServiceView.xaml.cs">
+      <DependentUpon>InstallServiceView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Clients.xaml">
+    <Compile Include="Views\TaskBarView.xaml.cs">
+      <DependentUpon>TaskBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ClientsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Login.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Clients.xaml.cs">
-      <DependentUpon>Clients.xaml</DependentUpon>
+    <Compile Include="Views\ClientsView.xaml.cs">
+      <DependentUpon>ClientsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="TaskBar.xaml">
+    <Page Include="Views\InstallServiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TaskBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\profile.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
