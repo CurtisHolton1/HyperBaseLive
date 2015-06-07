@@ -80,8 +80,6 @@ namespace HyperBaseLiveWpf
         {
             Window win = new ClientsView();
             win.Show();
-            win = new InstallServiceView();
-            win.Show();
             win = new TaskBarView();
             win.Show();
             this.Close();
@@ -98,5 +96,17 @@ namespace HyperBaseLiveWpf
         }
 
         #endregion
+
+        private void UserNameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (UserName.Equals(""))
+                UserName = "Username";
+        }
+
+        private void PasswordBox1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PassWord.Equals(""))
+                PasswordCover.Visibility = Visibility.Visible;
+        }
     }
 }
