@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HyperBaseLiveWpf.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -49,6 +50,14 @@ namespace HyperBaseLiveWpf
 
         }
 
+        private void AddClientButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window wnd = new AddClientView();
+            
+            wnd.Show();
+            this.Close();
+        }
+
 
         #region INotifyPropertyChanged Members
 
@@ -61,5 +70,8 @@ namespace HyperBaseLiveWpf
         }
 
         #endregion
+
+       
+        
     }
 }
