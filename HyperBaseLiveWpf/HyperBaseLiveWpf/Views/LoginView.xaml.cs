@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,15 +27,14 @@ namespace HyperBaseLiveWpf
         public string UserName { get {return userName; } set {userName = value; this.OnPropertyChanged("UserName");} }
 
         private string password;
-        public string PassWord { get { return this.PasswordBox1.Password; } set { password = value; this.OnPropertyChanged("PassWord"); } }
+        public string Password { get { return this.PasswordBox1.Password; } set { password = value; this.OnPropertyChanged("PassWord"); } }
         public LoginView()
         {
             UserName = "Username";           
             InitializeComponent();
             this.DataContext = this;
 
-            //APICaller apiCaller = new APICaller();
-            //apiCaller.APIStart();
+            
           
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
@@ -45,16 +45,21 @@ namespace HyperBaseLiveWpf
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (UserName == "admin" && PassWord == "password")
-            {
-                
+            var kvp = new KeyValuePair<string,string>("username", UserName);
+            var kvp2 = new KeyValuePair<string,string>("password", Password);
+            var kvpList = new List<KeyValuePair<string,string>>();
+            kvpList.Add(kvp);
+            kvpList.Add(kvp2);
+            Configurer.UpdateConfig(kvpList);
+                APICaller.APIStart();
+            
                 LoginComplete();
                
-            }
-            else
-            {
-                ErrorMessage.Visibility = Visibility.Visible;
-            }
+            //}
+            //else
+            //{
+            //    ErrorMessage.Visibility = Visibility.Visible;
+            //}
         }
 
         private void PasswordBox1_GotFocus(object sender, RoutedEventArgs e)
@@ -105,8 +110,11 @@ namespace HyperBaseLiveWpf
 
         private void PasswordBox1_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (PassWord.Equals(""))
+            if (Password.Equals(""))
                 PasswordCover.Visibility = Visibility.Visible;
         }
+
+
+       
     }
 }

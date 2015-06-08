@@ -66,6 +66,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="APICaller.cs" />
+    <Compile Include="Configurer.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
