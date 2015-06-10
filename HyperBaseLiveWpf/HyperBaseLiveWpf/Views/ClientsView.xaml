@@ -9,7 +9,7 @@
             
             <Label Content="Installed Clients:" Foreground="White" d:IsHidden="True"/>
             <Grid Margin="10,26,10,105" d:IsHidden="True">
-                <DataGrid x:Name="DataGrid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" ItemsSource="{Binding DataList}" AlternatingRowBackground="DimGray" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" IsReadOnly="True"/>
+                <DataGrid x:Name="DataGrid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" ItemsSource="{Binding DataList}" AlternatingRowBackground="LightBlue" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" IsReadOnly="True" SnapsToDevicePixels="True" GridLinesVisibility="Vertical"/>
             </Grid>
         </Grid>
         <Button x:Name="AddClientButton" Content="Add Client" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100"  Background="#FFF7BC01" Height="32" Click="AddClientButton_Click" />

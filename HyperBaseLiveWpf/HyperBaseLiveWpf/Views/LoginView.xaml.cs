@@ -45,14 +45,9 @@ namespace HyperBaseLiveWpf
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var kvp = new KeyValuePair<string,string>("username", UserName);
-            var kvp2 = new KeyValuePair<string,string>("password", Password);
-            var kvpList = new List<KeyValuePair<string,string>>();
-            kvpList.Add(kvp);
-            kvpList.Add(kvp2);
-            Configurer.UpdateConfig(kvpList);
-                APICaller.APIStart();
-            
+
+
+            HblAuthentication.Authenticate(UserName, Password);
                 LoginComplete();
                
             //}

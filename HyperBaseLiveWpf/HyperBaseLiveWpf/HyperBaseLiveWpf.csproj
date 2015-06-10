@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="APICaller.cs" />
+    <Compile Include="HblAuthentication.cs" />
     <Compile Include="Configurer.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Menu\Clients.cs" />
@@ -86,6 +86,9 @@
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValidateIDView.xaml.cs">
+      <DependentUpon>ValidateIDView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddClientView.xaml">
       <SubType>Designer</SubType>
@@ -113,6 +116,10 @@
     <Page Include="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ValidateIDView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

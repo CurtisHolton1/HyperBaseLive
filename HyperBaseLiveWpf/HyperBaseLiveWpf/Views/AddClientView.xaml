@@ -5,11 +5,15 @@
     <Grid>
         <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="86,78,86,0"/>        
         <Grid Margin="0,163,0,0">
-            <TextBox x:Name="ClientNameBox" Text="{Binding ClientNameText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,10,0,0" GotFocus="ClientNameBox_GotFocus" LostFocus="ClientNameBox_LostFocus" ></TextBox>
-            <TextBox x:Name="FolderBrowserBox" Text="{Binding FolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,70,0,0" GotFocus="FolderBrowserBox_GotFocus" LostFocus="FolderBrowserBox_LostFocus" ></TextBox>
-            <Button x:Name="BrowseButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,102,0,0" Click="BrowseButton_Click" ></Button>
-            <TextBox x:Name="ClientID" Text="{Binding ClientIDText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,130,0,0" GotFocus="ClientID_GotFocus" LostFocus="ClientID_LostFocus" ></TextBox>           
-                <TextBlock x:Name="Generate" Text="Generate Here " TextDecorations="Underline" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="270,160,0,0" Foreground="White" MouseLeftButtonDown="Generate_MouseLeftButtonDown"></TextBlock>
+            <Label x:Name="ClientNameLabel" Content="{Binding ClientNameText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,10,0,0" Foreground="White" FontSize="18"></Label>
+            <TextBox x:Name="HyperSpinFolderBox" Text="{Binding HyperSpinFolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,70,0,0"></TextBox>
+            <Button x:Name="HyperSpinButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,102,0,0" Click="HyperSpinButton_Click"></Button>
+
+
+            <TextBox x:Name="ServiceFolderBrowserBox" Text="{Binding ServiceFolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,150,0,0" GotFocus="ServiceFolderBrowserBox_GotFocus" LostFocus="ServiceFolderBrowserBox_LostFocus" ></TextBox>
+            <Button x:Name="ServiceButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,182,0,0" Click="ServiceButton_Click" ></Button>
+            
+
 
         </Grid>
         <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100"  Background="#FFF7BC01" Height="32" Click="NextButton_Click" />
