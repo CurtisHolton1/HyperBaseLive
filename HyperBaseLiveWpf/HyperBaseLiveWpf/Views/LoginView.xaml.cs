@@ -32,10 +32,7 @@ namespace HyperBaseLiveWpf
         {
             UserName = "Username";           
             InitializeComponent();
-            this.DataContext = this;
-
-            
-          
+            this.DataContext = this;    
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
@@ -45,16 +42,14 @@ namespace HyperBaseLiveWpf
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-
-
-            HblAuthentication.Authenticate(UserName, Password);
-                LoginComplete();
-               
-            //}
-            //else
-            //{
-            //    ErrorMessage.Visibility = Visibility.Visible;
-            //}
+            if (CheckBoxes())
+            {
+                if(HblAuthentication.Authenticate(UserName, Password))
+                LoginComplete();               
+            }       
+            else           
+               ErrorMessage.Visibility = Visibility.Visible;
+            
         }
 
         private void PasswordBox1_GotFocus(object sender, RoutedEventArgs e)
@@ -107,6 +102,13 @@ namespace HyperBaseLiveWpf
         {
             if (Password.Equals(""))
                 PasswordCover.Visibility = Visibility.Visible;
+        }
+
+        private bool CheckBoxes()
+        {
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) || UserName.Equals("Username"))
+                return false;
+            return true;
         }
 
 
