@@ -100,14 +100,21 @@ Title="Login" Height="500" Width="450" Background="#FFECEAEA" MinHeight="500" Mi
             <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
             <Grid Background="#FF307196" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,100,0,-5" Height="3"></Grid>
         </Grid>
-        <Grid x:Name="UserNamePassForm" Width="Auto">
-            <Label x:Name="ErrorMessage" Content="Incorrect username or password" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,150" Foreground="#FFF70000" Visibility="Hidden"></Label>
+        <Grid x:Name="UserNamePassForm" Width="Auto">         
+            <Label x:Name="ErrorMessage" Content="Incorrect username or password" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,110,0,0" Foreground="#FFF70000" Visibility="Hidden"></Label>
+                    
             <TextBox Template="{StaticResource TextBoxBaseControlTemplate}"  x:Name="UserNameBox" HorizontalAlignment="Center" Height="33" TextWrapping="NoWrap" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" VerticalAlignment="Top" Width="400" Margin="0,150,0,0" FontSize="18" Background="White" GotFocus="UserNameBox_GotFocus" Foreground="Black" LostFocus="UserNameBox_LostFocus" BorderThickness="0"/>
             <PasswordBox x:Name="PasswordBox1" Template="{StaticResource PassWordBaseControlTemplate}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="33" Width="400" Margin="0,220,0,0" Background="White" Padding="5" FontSize="18" GotFocus="PasswordBox1_GotFocus" Foreground="Black" PreviewKeyDown="PasswordBox1_PreviewKeyDown" LostFocus="PasswordBox1_LostFocus" BorderThickness="0"></PasswordBox>
             <TextBlock x:Name="PasswordCover" Text="Password" Height="33" Width="200" Margin="20,220,0,0" Padding="5" FontSize="18" Foreground="Black" MouseLeftButtonDown="PasswordCover_MouseLeftButtonDown" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            
+            <Label Content="Note: You must be a platinum member at" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,260,0,0"></Label>
+            <Label HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="245,260,0,0" Foreground="#FF3C8DC8">
+                <TextBlock x:Name="HyperSpinLink" Text="www.HyperSpin-fe.com" TextDecorations="Underline" MouseLeftButtonDown="HyperSpinLink_MouseLeftButtonDown"></TextBlock>
+            </Label>
+            <Label Content="to use this service." HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,275,0,0"></Label>
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Background="White" >
                 <Button x:Name="SubmitButton" Content="Sign me in" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="400"  Background="#FF34485A" Height="32" Click="SubmitButton_Click" Foreground="White" BorderThickness="1"/>
-                <Label Content="I forgot my password" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="20,0,0,20" Foreground="#FF3C8DC8"></Label>
+                <Label Content="I forgot my password" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="20,0,0,20" Foreground="#FF3C8DC8" Visibility="Hidden"></Label>
             </Grid>
         </Grid>
     </Grid>

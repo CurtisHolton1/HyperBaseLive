@@ -35,9 +35,8 @@ namespace HyperBaseLiveWpf.Views
         {
             InitializeComponent();
             this.DataContext = this;
-            ClientNameText = "Client Name";
-            ServiceFolderBrowserText = "Install Location";
-            HyperSpinFolderBrowserText = "HyperSpin Directory";          
+            ClientNameText = "Client Name goes here";
+            ServiceFolderBrowserText = @"C:\Programs\HyperBaseLive\Services";
         }
 
         private void ServiceButton_Click(object sender, RoutedEventArgs e)
@@ -52,17 +51,7 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception ) { }
         }
 
-        private void ServiceFolderBrowserBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (ServiceFolderBrowserText.Equals("Install Location"))
-                ServiceFolderBrowserText = "";
-        }
-      
-        private void ServiceFolderBrowserBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (ServiceFolderBrowserText.Equals(""))
-                ServiceFolderBrowserText = "Install Location";
-        }
+        
       
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {

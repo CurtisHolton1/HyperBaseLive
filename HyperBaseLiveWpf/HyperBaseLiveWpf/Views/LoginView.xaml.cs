@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,17 +37,16 @@ namespace HyperBaseLiveWpf
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
+            ErrorMessage.Visibility = Visibility.Hidden;
             if (UserName.Equals("Username"))
            UserName ="";
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckBoxes())
-            {
-                if(HblAuthentication.Authenticate(UserName, Password))
-                LoginComplete();               
-            }       
+            ErrorMessage.Visibility = Visibility.Hidden;
+            if (CheckBoxes() && HblAuthentication.Authenticate(UserName, Password))         
+                LoginComplete();                                 
             else           
                ErrorMessage.Visibility = Visibility.Visible;
             
@@ -54,6 +54,7 @@ namespace HyperBaseLiveWpf
 
         private void PasswordBox1_GotFocus(object sender, RoutedEventArgs e)
         {
+            ErrorMessage.Visibility = Visibility.Hidden;
             PasswordCover.Visibility = Visibility.Hidden;
             PasswordBox1.Focus();
         }
@@ -109,6 +110,11 @@ namespace HyperBaseLiveWpf
             if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) || UserName.Equals("Username"))
                 return false;
             return true;
+        }
+
+        private void HyperSpinLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start("http://www.hyperspin-fe.com/");
         }
 
 
