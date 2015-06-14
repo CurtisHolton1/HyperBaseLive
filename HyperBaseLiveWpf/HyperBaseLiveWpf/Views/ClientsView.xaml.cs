@@ -52,10 +52,9 @@ namespace HyperBaseLiveWpf
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
         {
-            Window wnd = new AddClientView();
-            
+            Window wnd = new ValidateIDView();           
             wnd.Show();
-            this.Close();
+
         }
 
 

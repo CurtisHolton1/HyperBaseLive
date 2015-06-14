@@ -23,36 +23,52 @@ namespace HyperBaseLiveWpf.Views
     /// </summary>
     public partial class AddClientView : Window, INotifyPropertyChanged
     {
-        private string folderBrowserText;
-        public string FolderBrowserText { get { return folderBrowserText; } set { folderBrowserText = value; this.OnPropertyChanged("FolderBrowserText"); } }
+        private string serviceFolderBrowserText;
+        public string ServiceFolderBrowserText { get { return serviceFolderBrowserText; } set { serviceFolderBrowserText = value; this.OnPropertyChanged("ServiceFolderBrowserText"); } }
+        private string hyperSpinFolderBrowserText;
+        public string HyperSpinFolderBrowserText { get { return hyperSpinFolderBrowserText; } set { hyperSpinFolderBrowserText = value; this.OnPropertyChanged("HyperSpinFolderBrowserText"); } }
         private string clientNameText;
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
-        private string clientIDText;
-        public string ClientIDText { get { return clientIDText; } set { clientIDText = value; this.OnPropertyChanged("ClientIDText"); } }
+       
 
-        public AddClientView()
+        public AddClientView(string ClientName)
         {
             InitializeComponent();
             this.DataContext = this;
-            FolderBrowserText = "Install Location";
-            ClientNameText = "Client Name";
-            ClientIDText = "Client ID";
+            ClientNameText = ClientName.Substring(1,ClientName.Length-2);
+            HyperSpinFolderBrowserText = @"C:\HyperSpin";
+            ServiceFolderBrowserText = @"C:\Programs\HyperBaseLive\Services";
         }
 
-        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        private void ServiceButton_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             try
             {
                 DialogResult result = fbd.ShowDialog();
-                FolderBrowserText = fbd.SelectedPath;
+                ServiceFolderBrowserText = fbd.SelectedPath;
                 
             }
             catch (Exception ) { }
         }
+             
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {            
+            var wnd = new InstallServiceView();
+            wnd.Show();
+            this.Close();
+        }
 
-
-
+        private void HyperSpinButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            try
+            {
+                DialogResult result = fbd.ShowDialog();
+                HyperSpinFolderBrowserText = fbd.SelectedPath;
+            }
+            catch (Exception) { }
+        }
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,55 +80,7 @@ namespace HyperBaseLiveWpf.Views
         }
 
         #endregion
-
-        private void ClientNameBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (ClientNameText.Equals("Client Name"))           
-                ClientNameText = "";                     
-        }
-
-        private void FolderBrowserBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (FolderBrowserText.Equals("Install Location"))
-                FolderBrowserText = "";
-        }
-
-        private void ClientID_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (ClientIDText.Equals("Client ID"))
-                ClientIDText = "";
-        }
-
-        private void ClientNameBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (ClientNameText.Equals(""))
-                ClientNameText = "Client Name";
-        }
-
-        private void FolderBrowserBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (FolderBrowserText.Equals(""))
-                FolderBrowserText = "Install Location";
-        }
-
-        private void ClientID_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (ClientIDText.Equals(""))
-                ClientIDText = "Client ID";
-        }
-
-        private void NextButton_Click(object sender, RoutedEventArgs e)
-        {           
-            var wnd = new InstallServiceView();
-            wnd.Show();
-            this.Close();
-        }
-
-        private void Generate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ClientIDText = "GENERATED ID HERE";
-        }
-
+       
 
     }
 }

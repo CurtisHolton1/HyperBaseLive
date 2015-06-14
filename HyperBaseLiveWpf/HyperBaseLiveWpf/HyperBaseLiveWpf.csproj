@@ -41,6 +41,9 @@
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -65,7 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="APICaller.cs" />
+    <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Menu\Clients.cs" />
@@ -86,6 +89,9 @@
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValidateIDView.xaml.cs">
+      <DependentUpon>ValidateIDView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddClientView.xaml">
       <SubType>Designer</SubType>
@@ -113,6 +119,10 @@
     <Page Include="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ValidateIDView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

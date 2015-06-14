@@ -1,0 +1,15 @@
+﻿<Window x:Class="HyperBaseLiveWpf.Views.ValidateIDView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       Title="Validate ID" Height="500" Width="450" Background="#FF303030"  MinHeight="500" MinWidth="450" ResizeMode="CanMinimize">
+    <Grid>
+        <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,78,0,0"/>
+        <Grid>
+            <TextBlock Text="Client ID:" Margin="20,191,0,251" Foreground="White" Height="30" ></TextBlock>
+            <TextBox x:Name="ClientID" Text="{Binding ClientIDText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Center" Margin="0,0,0,0"></TextBox>
+            <Button x:Name="ValidateButton" Content="Validate" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100"  Background="#FFF7BC01" Height="32" Click="ValidateButton_Click"  />
+            <TextBlock x:Name="Generate" Text="Generate Here " TextDecorations="Underline" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="270,250,0,0" Foreground="White" MouseLeftButtonDown="Generate_MouseLeftButtonDown"></TextBlock>
+            <Label Content="{Binding ErrorMessage, UpdateSourceTrigger=PropertyChanged}" Margin="20,270,0,0" Height="50" Width="Auto" Foreground="#FFBF1B1B" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Top"></Label>
+        </Grid>
+    </Grid>
+</Window>

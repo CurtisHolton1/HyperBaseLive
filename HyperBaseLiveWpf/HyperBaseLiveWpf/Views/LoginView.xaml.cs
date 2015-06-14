@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,38 +33,28 @@ namespace HyperBaseLiveWpf
         {
             UserName = "Username";           
             InitializeComponent();
-            this.DataContext = this;
-
-            
-          
+            this.DataContext = this;    
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
+            ErrorMessage.Visibility = Visibility.Hidden;
             if (UserName.Equals("Username"))
            UserName ="";
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var kvp = new KeyValuePair<string,string>("username", UserName);
-            var kvp2 = new KeyValuePair<string,string>("password", Password);
-            var kvpList = new List<KeyValuePair<string,string>>();
-            kvpList.Add(kvp);
-            kvpList.Add(kvp2);
-            Configurer.UpdateConfig(kvpList);
-                APICaller.APIStart();
+            ErrorMessage.Visibility = Visibility.Hidden;
+            if (CheckBoxes() && HblApiCaller.Authenticate(UserName, Password))         
+                LoginComplete();                                 
+            else           
+               ErrorMessage.Visibility = Visibility.Visible;
             
-                LoginComplete();
-               
-            //}
-            //else
-            //{
-            //    ErrorMessage.Visibility = Visibility.Visible;
-            //}
         }
 
         private void PasswordBox1_GotFocus(object sender, RoutedEventArgs e)
         {
+            ErrorMessage.Visibility = Visibility.Hidden;
             PasswordCover.Visibility = Visibility.Hidden;
             PasswordBox1.Focus();
         }
@@ -112,6 +103,18 @@ namespace HyperBaseLiveWpf
         {
             if (Password.Equals(""))
                 PasswordCover.Visibility = Visibility.Visible;
+        }
+
+        private bool CheckBoxes()
+        {
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) || UserName.Equals("Username"))
+                return false;
+            return true;
+        }
+
+        private void HyperSpinLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start("http://www.hyperspin-fe.com/");
         }
 
 
