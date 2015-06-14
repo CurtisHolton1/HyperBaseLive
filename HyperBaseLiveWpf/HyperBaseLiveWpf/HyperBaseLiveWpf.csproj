@@ -70,7 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
-    <Compile Include="DataObject.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />

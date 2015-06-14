@@ -21,42 +21,54 @@ namespace HyperBaseLiveWpf
     /// </summary>
     public partial class ClientsView : Window, INotifyPropertyChanged
     {
-        private List<DataObject> dataList = new List<DataObject>();
-        public List<DataObject> DataList { get { return dataList; } set { dataList = value; } }
-          
+        private List<Client> dataList = new List<Client>();
+        public List<Client> DataList { get { return dataList; } set { dataList = value; } }
+
 
         public ClientsView()
         {
             InitializeComponent();
             this.DataContext = this;
-            DataList.Add(new DataObject { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
 
-            DataList.Add(new DataObject { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
-            DataList.Add(new DataObject { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
+            DataList.Add(new Client { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
 
 
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
         {
-            Window wnd = new ValidateIDView();           
-            wnd.Show();
-
+            bool flag = false;
+            foreach (Window w in App.Current.Windows)
+            {
+                if (w is ValidateIDView)
+                {
+                    flag = true;
+                    w.Show();
+                    w.Activate();
+                    break;
+                }
+            }
+            if (flag == false)
+            {
+                var wnd = new ValidateIDView();
+                wnd.Show();
+            }
         }
-
 
         #region INotifyPropertyChanged Members
 
@@ -70,7 +82,7 @@ namespace HyperBaseLiveWpf
 
         #endregion
 
-       
-        
+
+
     }
 }
