@@ -7,11 +7,11 @@ using System.Windows;
 
 namespace HyperBaseLiveWpf.Menu
 {
-   public  class Clients: IMenuItem
+    public class Clients : IMenuItem
     {
         private string name = "Clients";
         public string Name { get { return name; } set { name = value; } }
-        public void PerformAction()       
+        public void PerformAction()
         {
             bool flag = false;
             foreach (Window w in App.Current.Windows)

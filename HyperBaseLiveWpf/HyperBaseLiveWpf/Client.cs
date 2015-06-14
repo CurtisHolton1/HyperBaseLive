@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf
 {
-   public class DataObject
+   public class Client
     {
         public string Name { get; set; }
         public string Status { get; set; }
