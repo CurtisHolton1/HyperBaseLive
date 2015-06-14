@@ -45,7 +45,7 @@ namespace HyperBaseLiveWpf
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Visibility = Visibility.Hidden;
-            if (CheckBoxes() && HblAuthentication.Authenticate(UserName, Password))         
+            if (CheckBoxes() && HblApiCaller.Authenticate(UserName, Password))         
                 LoginComplete();                                 
             else           
                ErrorMessage.Visibility = Visibility.Visible;

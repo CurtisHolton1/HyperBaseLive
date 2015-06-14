@@ -68,7 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="HblAuthentication.cs" />
+    <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Menu\Clients.cs" />

@@ -54,7 +54,7 @@ namespace HyperBaseLiveWpf
         {
             Window wnd = new ValidateIDView();           
             wnd.Show();
-            this.Close();
+
         }
 
 

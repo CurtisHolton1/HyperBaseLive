@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,14 +29,12 @@ namespace HyperBaseLiveWpf.Views
         {
             this.DataContext = this;
             InitializeComponent();
-            
-        }
 
-    
+        }
 
         private void Generate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ClientIDText = "GENERATED ID HERE";
+            Process.Start("http://beta.hyperbase-live.com/ClientInstances");
         }
 
 
@@ -51,26 +50,29 @@ namespace HyperBaseLiveWpf.Views
 
         #endregion
 
-    
-        private bool ValidationCheck()
+
+
+        private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ClientIDText))
             {
                 ErrorMessage = "The ID field cannot be empty";
-                return false;
             }
-            //api call for further processing
-            return true;
+            else
+            {
+                var check = HblApiCaller.ValidateID(ClientIDText);
+                if (!string.IsNullOrEmpty(check))
+                {
+                    var wnd = new AddClientView(check);
+                    wnd.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    ErrorMessage = "Validation failed";
+                }
+            }
         }
 
-        private void ValidateButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ValidationCheck())
-            {
-                var wnd = new AddClientView();
-                wnd.Show();
-                this.Hide();
-            }
-        }
     }
 }

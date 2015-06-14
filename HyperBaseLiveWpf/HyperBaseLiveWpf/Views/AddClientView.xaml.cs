@@ -31,11 +31,12 @@ namespace HyperBaseLiveWpf.Views
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
        
 
-        public AddClientView()
+        public AddClientView(string ClientName)
         {
             InitializeComponent();
             this.DataContext = this;
-            ClientNameText = "Client Name goes here";
+            ClientNameText = ClientName.Substring(1,ClientName.Length-2);
+            HyperSpinFolderBrowserText = @"C:\HyperSpin";
             ServiceFolderBrowserText = @"C:\Programs\HyperBaseLive\Services";
         }
 
@@ -50,11 +51,9 @@ namespace HyperBaseLiveWpf.Views
             }
             catch (Exception ) { }
         }
-
-        
-      
+             
         private void NextButton_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             var wnd = new InstallServiceView();
             wnd.Show();
             this.Close();
