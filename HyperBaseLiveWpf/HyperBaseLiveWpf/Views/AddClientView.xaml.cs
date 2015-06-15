@@ -54,7 +54,7 @@ namespace HyperBaseLiveWpf.Views
              
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {            
-            var wnd = new InstallServiceView();
+            var wnd = new InstallServiceView(HyperSpinFolderBrowserText, ServiceFolderBrowserText);
             wnd.Show();
             this.Close();
         }

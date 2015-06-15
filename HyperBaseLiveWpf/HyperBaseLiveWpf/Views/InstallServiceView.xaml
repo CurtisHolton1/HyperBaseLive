@@ -7,7 +7,7 @@
         <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,78,0,0"/>
         <Grid>
             <Label x:Name="StatusLabel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50" Width="Auto" Height="Auto" Content="{Binding StatusLabelContent, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontSize="18"/>
-            <ProgressBar x:Name="InstallBar" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="153" MouseLeftButtonDown="InstallBar_MouseLeftButtonDown" Margin="0"/>
+            <ProgressBar x:Name="InstallBar" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="153" Margin="0"/>
             <Label x:Name="InstallCompleteLabel" Content="Hyperbase Live Install Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Visibility="Hidden" Height="Auto" Width="Auto" FontSize="18"/>
         </Grid>
         <TextBlock x:Name="Launch" Text="Launch HyperBase Live" TextDecorations="Underline" VerticalAlignment="Top" Margin="0,300,0,0" Foreground="White"  HorizontalAlignment="Center" FontSize="16" Visibility="Hidden" MouseDown="Launch_MouseDown"></TextBlock>

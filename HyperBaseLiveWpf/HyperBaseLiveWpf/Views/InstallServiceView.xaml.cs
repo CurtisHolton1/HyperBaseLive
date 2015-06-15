@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Forms;
+using System.Net;
 namespace HyperBaseLiveWpf.Views
 
 {
@@ -28,61 +29,66 @@ namespace HyperBaseLiveWpf.Views
         public string ButtonContent { get { return buttonContent; } set { buttonContent = value; this.OnPropertyChanged("ButtonContent"); } }
         private string statusLabelContent;
         public string StatusLabelContent { get { return statusLabelContent; } set { statusLabelContent = value; this.OnPropertyChanged("StatusLabelContent"); } }
-        public InstallServiceView()
+        private string hyperBaseFolder;
+        private string serviceFolder;
+        public InstallServiceView(string hyperBaseFolder, string serviceFolder)
         {
             this.DataContext = this;
             InitializeComponent();
             InstallBar.Maximum = 100;
             InstallBar.Value = 0;
+            this.hyperBaseFolder = hyperBaseFolder;
+            this.serviceFolder = serviceFolder;
             ButtonContent = "Cancel";
-            StatusLabelContent = "Installing...";
-            Wrapper();
+            StatusLabelContent = "Downloading...";
+            Download();
+           
         }
 
 
 
-        async Task<int> Worker(IProgress<int> progress, CancellationToken ct)
+        private void Download()
         {
-            int tempCount = 0;
-            int processCount = await Task.Run<int>(() =>
-            {
-                for (int i = 0; i <= 100; i++)
-                {
-                    Thread.Sleep(100);
-                    progress.Report(i);
-                    ct.ThrowIfCancellationRequested();
-                    tempCount++;
-                }
-
-                return tempCount;
-            }, ct);
-            return processCount;
-        }
-
-        private async void  Wrapper()
-        {
-            var progressIndicator = new Progress<int>(ReportProgress);
-            cts = new CancellationTokenSource();
             try
             {
-                var thing = await Worker(progressIndicator, cts.Token);
+                var client = new WebClient();
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                client.DownloadFileAsync(new Uri("http://q.hyperbase-live.com/hblsvc.zip"), "hblsvc.zip");
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Error downloading file: " + e.Message);
+            }
+        }
+        private void Install()
+        {
+            StatusLabelContent = "Unzipping...";
+            try
+            {
+                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", serviceFolder);
+                InstallBar.Value = 100;
                 InstallComplete();
             }
-            catch (OperationCanceledException ex)
-            {
-                OnCancel();
+            catch (Exception e) {
+                System.Windows.MessageBox.Show("Error Unzipping File:" + e.Message);
             }
         }
 
-        private  void InstallBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+      private void Completed(object sender, AsyncCompletedEventArgs e){
+          Install();
+          
+          
+      }
+
+
+        private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            
+            InstallBar.Value = (double)e.ProgressPercentage/1.5;
         }
 
-        void ReportProgress(int value)
-        {
-            InstallBar.Value = value;
-        }
+
+     
 
         private void BottomButton_Click(object sender, RoutedEventArgs e)
         {
