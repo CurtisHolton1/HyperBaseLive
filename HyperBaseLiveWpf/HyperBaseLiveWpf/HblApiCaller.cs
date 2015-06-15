@@ -31,7 +31,6 @@ namespace HyperBaseLiveWpf
                 {
                     outputStream.Write(bytes, 0, bytes.Length);
                 }
-
                 var webResponse = webRequest.GetResponse();
                 var serializer = new DataContractJsonSerializer(typeof(HBLToken));
                 //Get deserialized object from JSON stream
