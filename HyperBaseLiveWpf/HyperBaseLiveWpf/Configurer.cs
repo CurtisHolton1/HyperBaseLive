@@ -11,7 +11,7 @@ namespace HyperBaseLiveWpf
     {
      public static void UpdateConfig(KeyValuePair<string, string> kvp)
       {
-          string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+          string appPath = System.IO.Path.GetDirectoryName(ConfigInfo.FinalLoc);
 
           string configFile = System.IO.Path.Combine(appPath.Substring(0, appPath.LastIndexOf("HyperBaseLiveWpf") + "HyperBaseLiveWpf".Length), "App.config");
           ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
@@ -23,9 +23,9 @@ namespace HyperBaseLiveWpf
 
       public static void UpdateConfig(List<KeyValuePair<string, string>> kvpList)
       {
-          string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+          
 
-          string configFile = System.IO.Path.Combine(appPath.Substring(0, appPath.LastIndexOf("HyperBaseLiveWpf") + "HyperBaseLiveWpf".Length), "App.config");
+          string configFile = System.IO.Path.Combine(ConfigInfo.FinalLoc,"Hyperbase.Live.Client.exe.config");
           ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
           configFileMap.ExeConfigFilename = configFile;
           System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);       
