@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Forms;
 using System.Net;
+using System.Diagnostics;
 namespace HyperBaseLiveWpf.Views
 
 {
@@ -83,9 +84,7 @@ namespace HyperBaseLiveWpf.Views
                     configList.Add(new KeyValuePair<string, string>("HBLAssetDir", ConfigInfo.HBLAssetDir));
                     configList.Add(new KeyValuePair<string, string>("user", ConfigInfo.User));
                     configList.Add(new KeyValuePair<string, string>("pass", ConfigInfo.Password));
-                    Configurer.UpdateConfig(configList);
-
-                   
+                    Configurer.UpdateConfig(configList);                
                 }
                 catch (Exception ex)
                 {
@@ -93,7 +92,17 @@ namespace HyperBaseLiveWpf.Views
                 }
                 try
                 {
+                    var proc1 = new ProcessStartInfo();
                     
+                    proc1.UseShellExecute = false;
+
+                    proc1.WorkingDirectory = ConfigInfo.FinalLoc;
+
+                    proc1.FileName = @"C:\Windows\System32\cmd.exe";
+                    proc1.Verb = "runas";
+                    proc1.Arguments = "/k " + "Hyperbase.Live.Client /i";
+                    proc1.WindowStyle = ProcessWindowStyle.Normal;
+                    Process.Start(proc1);
                     InstallComplete();
                 }
                 catch (Exception exc)
@@ -119,7 +128,14 @@ namespace HyperBaseLiveWpf.Views
 
         private void BottomButton_Click(object sender, RoutedEventArgs e)
         {
-           //needs fixed
+            if (ButtonContent.Equals("Cancel"))
+            {
+
+            }
+              
+            else{
+                this.Close();
+            }
         }
 
         private void OnCancel()

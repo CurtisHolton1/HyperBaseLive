@@ -39,6 +39,7 @@ namespace HyperBaseLiveWpf
             }
             catch (Exception e)
             {
+                if (!e.Message.Equals("The remote server returned an error: (400) Bad Request."))
                 System.Windows.MessageBox.Show("Error Logging in, please check your internet connection");
                 return false;
 
