@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigInfo.cs" />
     <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
     <Compile Include="Client.cs" />

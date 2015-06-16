@@ -74,6 +74,8 @@ namespace HyperBaseLiveWpf
 
         private void LoginComplete()
         {
+            ConfigInfo.User = UserName;
+            ConfigInfo.Password = Password;
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();

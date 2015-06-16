@@ -31,14 +31,14 @@ namespace HyperBaseLiveWpf.Views
         public string StatusLabelContent { get { return statusLabelContent; } set { statusLabelContent = value; this.OnPropertyChanged("StatusLabelContent"); } }
         private string hyperBaseFolder;
         private string serviceFolder;
-        public InstallServiceView(string hyperBaseFolder, string serviceFolder)
+        private string clientID;
+        public InstallServiceView()
         {
             this.DataContext = this;
             InitializeComponent();
             InstallBar.Maximum = 100;
             InstallBar.Value = 0;
-            this.hyperBaseFolder = hyperBaseFolder;
-            this.serviceFolder = serviceFolder;
+
             ButtonContent = "Cancel";
             StatusLabelContent = "Downloading...";
             Download();
@@ -66,13 +66,40 @@ namespace HyperBaseLiveWpf.Views
             StatusLabelContent = "Unzipping...";
             try
             {
-                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", serviceFolder);
-                InstallBar.Value = 100;
-                InstallComplete();
+
+                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", ConfigInfo.FinalLoc);
+               
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 System.Windows.MessageBox.Show("Error Unzipping File:" + e.Message);
             }
+            statusLabelContent = "Configuring...";
+                try
+                {
+                    List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
+                    configList.Add(new KeyValuePair<string, string>("finalLoc", ConfigInfo.FinalLoc));
+                    configList.Add(new KeyValuePair<string, string>("instanceId", ConfigInfo.InstanceId));
+                    configList.Add(new KeyValuePair<string, string>("HBLAssetDir", ConfigInfo.HBLAssetDir));
+                    configList.Add(new KeyValuePair<string, string>("user", ConfigInfo.User));
+                    configList.Add(new KeyValuePair<string, string>("pass", ConfigInfo.Password));
+                    Configurer.UpdateConfig(configList);
+
+                   
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("Error Writing to File:" + ex.Message); 
+                }
+                try
+                {
+                    
+                    InstallComplete();
+                }
+                catch (Exception exc)
+                {
+
+                }
         }
 
       private void Completed(object sender, AsyncCompletedEventArgs e){
@@ -92,10 +119,7 @@ namespace HyperBaseLiveWpf.Views
 
         private void BottomButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ButtonContent.Equals("Cancel"))
-                cts.Cancel();
-            else
-                this.Close();
+           //needs fixed
         }
 
         private void OnCancel()

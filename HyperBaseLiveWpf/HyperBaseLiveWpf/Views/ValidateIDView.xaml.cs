@@ -60,10 +60,11 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
-                var check = HblApiCaller.ValidateID(ClientIDText);
-                if (!string.IsNullOrEmpty(check))
+                var clientName = HblApiCaller.ValidateID(ClientIDText);
+                if (!string.IsNullOrEmpty(clientName))
                 {
-                    var wnd = new AddClientView(check);
+                    ConfigInfo.InstanceId = ClientIDText;
+                    var wnd = new AddClientView(clientName);
                     wnd.Show();
                     this.Hide();
                 }

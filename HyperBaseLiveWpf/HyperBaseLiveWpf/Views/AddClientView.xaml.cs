@@ -29,15 +29,16 @@ namespace HyperBaseLiveWpf.Views
         public string HyperSpinFolderBrowserText { get { return hyperSpinFolderBrowserText; } set { hyperSpinFolderBrowserText = value; this.OnPropertyChanged("HyperSpinFolderBrowserText"); } }
         private string clientNameText;
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
-       
+      
 
-        public AddClientView(string ClientName)
+        public AddClientView(string clientName)
         {
             InitializeComponent();
             this.DataContext = this;
-            ClientNameText = ClientName.Substring(1,ClientName.Length-2);
+            ClientNameText = clientName.Substring(1,clientName.Length-2);
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
             ServiceFolderBrowserText = @"C:\Programs\HyperBaseLive\Services";
+           
         }
 
         private void ServiceButton_Click(object sender, RoutedEventArgs e)
@@ -53,8 +54,10 @@ namespace HyperBaseLiveWpf.Views
         }
              
         private void NextButton_Click(object sender, RoutedEventArgs e)
-        {            
-            var wnd = new InstallServiceView(HyperSpinFolderBrowserText, ServiceFolderBrowserText);
+        {
+            ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
+            ConfigInfo.FinalLoc = ServiceFolderBrowserText;
+            var wnd = new InstallServiceView();
             wnd.Show();
             this.Close();
         }
