@@ -37,7 +37,7 @@ namespace HyperBaseLiveWpf.Views
             this.DataContext = this;
             ClientNameText = clientName.Substring(1,clientName.Length-2);
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
-            ServiceFolderBrowserText = @"C:\Programs\HyperBaseLive\Services";
+            ServiceFolderBrowserText = @"C:\Program Files\HyperBaseLive\Services";
            
         }
 
@@ -57,6 +57,7 @@ namespace HyperBaseLiveWpf.Views
         {
             ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
             ConfigInfo.FinalLoc = ServiceFolderBrowserText;
+            ConfigInfo.ClientName = ClientNameText;
             var wnd = new InstallServiceView();
             wnd.Show();
             this.Close();

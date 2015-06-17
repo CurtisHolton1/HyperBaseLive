@@ -17,6 +17,7 @@ using System.Windows.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Diagnostics;
+using System.IO;
 namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
@@ -30,7 +31,6 @@ namespace HyperBaseLiveWpf.Views
         private string statusLabelContent;
         public string StatusLabelContent { get { return statusLabelContent; } set { statusLabelContent = value; this.OnPropertyChanged("StatusLabelContent"); } }
         private WebClient client;
-
         public InstallServiceView()
         {
             this.DataContext = this;
@@ -41,7 +41,7 @@ namespace HyperBaseLiveWpf.Views
             StatusLabelContent = "Downloading...";
             client = new WebClient();
             
-            Download();
+            Download(); // and install in turn
         }
 
 
@@ -58,6 +58,7 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show("Error downloading file: " + e.Message);
+                HandleException();
             }
         }
         private void Install()
@@ -72,6 +73,8 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show("Error Unzipping File:" + e.Message);
+                
+                HandleException();
                 return;
             }
             StatusLabelContent = "Configuring...";
@@ -89,6 +92,7 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Error Writing to File:" + ex.Message);
+                HandleException();
                 return;
             }
             try
@@ -102,22 +106,28 @@ namespace HyperBaseLiveWpf.Views
                 proc1.Arguments = "/k " + "Hyperbase.Live.Client /i";
                 proc1.WindowStyle = ProcessWindowStyle.Normal;
                 Process.Start(proc1);
+
                 InstallComplete();
             }
             catch (Exception exc)
             {
-
+                HandleException();
             }
+        }
+        private void HandleException()
+        {
+            System.IO.File.Delete(System.IO.Path.Combine(ConfigInfo.FinalLoc, "hblsvc.zip"));
+            InstallBar.Visibility = Visibility.Hidden;
+            StatusLabelContent = "Installation Cancelled";
+            ButtonContent = "Close";
+            WrapUp();
         }
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
-                System.IO.File.Delete(System.IO.Path.Combine(ConfigInfo.FinalLoc, "hblsvc.zip"));
-                InstallBar.Visibility = Visibility.Hidden;
-                StatusLabelContent = "Installation Cancelled";
-                ButtonContent = "Close";
+                HandleException();
             }
             else
             Install();
@@ -145,9 +155,43 @@ namespace HyperBaseLiveWpf.Views
             InstallCompleteLabel.Visibility = Visibility.Visible;
             StatusLabel.Visibility = Visibility.Hidden;
             Launch.Visibility = Visibility.Visible;
+            AddClientToFile();
             ButtonContent = "Finish";
+            WrapUp();
         }
 
+        private async void AddClientToFile()
+        {
+            string filePath = "../../Clients.txt";
+            string text = ConfigInfo.ClientName + "\t" + ConfigInfo.FinalLoc + "\n";
+            await WriteTextAsync(filePath, text);
+        }
+
+        private async Task WriteTextAsync(string filePath, string text)
+        {
+            
+                byte[] encodedText = Encoding.Default.GetBytes(text);
+                using (FileStream sourceStream = new FileStream(filePath,
+                    FileMode.Append, FileAccess.Write, FileShare.None,
+                    bufferSize: 4096, useAsync: true))
+                {
+                    await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+                };
+            
+        }
+
+        private void WrapUp()
+        {
+            foreach (Window w in App.Current.Windows)
+            {
+                if (w is ClientsView)
+                {
+                    (w as ClientsView).AddClientButton.IsEnabled = true;
+                    break;
+                }
+            }
+          
+        }
 
         #region INotifyPropertyChanged Members
 
