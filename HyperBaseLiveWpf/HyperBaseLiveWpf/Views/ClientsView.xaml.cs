@@ -31,9 +31,7 @@ namespace HyperBaseLiveWpf
         {
             InitializeComponent();
             this.DataContext = this;
-          var allText =  ParseClientFile();
-           allText = ValidateList(allText);
-          UpdateClientFile(allText);
+         
         }
 
         private string ParseClientFile()
@@ -124,8 +122,14 @@ namespace HyperBaseLiveWpf
             AddClientButton.IsEnabled = false;
         }
 
-       
-
+        public void DetermineClients()
+        {
+            RefreshButton.IsEnabled = false;
+            var allText = ParseClientFile();
+            allText = ValidateList(allText);
+            UpdateClientFile(allText);
+            RefreshButton.IsEnabled = true;
+        }
 
 
 
@@ -140,6 +144,13 @@ namespace HyperBaseLiveWpf
         }
 
         #endregion
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {          
+            DetermineClients();          
+        }
+
+      
 
 
 

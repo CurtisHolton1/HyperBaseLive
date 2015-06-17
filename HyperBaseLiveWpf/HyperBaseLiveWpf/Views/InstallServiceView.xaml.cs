@@ -187,6 +187,7 @@ namespace HyperBaseLiveWpf.Views
                 if (w is ClientsView)
                 {
                     (w as ClientsView).AddClientButton.IsEnabled = true;
+                    (w as ClientsView).DetermineClients();
                     break;
                 }
             }
