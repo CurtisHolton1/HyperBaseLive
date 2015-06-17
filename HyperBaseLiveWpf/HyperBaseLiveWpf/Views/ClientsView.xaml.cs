@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,46 +31,107 @@ namespace HyperBaseLiveWpf
         {
             InitializeComponent();
             this.DataContext = this;
-            DataList.Add(new Client { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
+         
+        }
 
-            DataList.Add(new Client { Name = "Client1", Status = "Client1Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client2", Status = "Client2Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client3", Status = "Client3Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client4", Status = "Client4Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client5", Status = "Client5Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client6", Status = "Client6Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client7", Status = "Client7Status", HBLStatus = "Live" });
-            DataList.Add(new Client { Name = "Client8", Status = "Client8Status", HBLStatus = "Live" });
+        private string ParseClientFile()
+        {
+            string line;
+            string filePath = "../../Clients.txt";
+            TextReader readerAll = File.OpenText(filePath);
+            string allText = readerAll.ReadToEnd();
+            TextReader reader = File.OpenText(filePath);
+            while ((line = reader.ReadLine()) !=null)
+            {
+                string [] a = line.Split('\t');
+                DataList.Add(new Client { Name = a[0], Location = a[1] });
+            }
+            readerAll.Close();
+            reader.Close();
+            
+            return allText;
+        }
 
+        private string ValidateList(string allText){
+            for(int i =0; i<DataList.Count; i++){
+                if (!IsServiceInstalled(DataList[i].Name))
+                {                
+                   string lineToRemove = DataList[i].Name + "\t" + DataList[i].Location + "\n";
+                  allText = allText.Replace(lineToRemove, "");
+                   DataList.Remove(DataList[i]);              
+                }
+            }
+            return allText;
+        }
+
+        private async void UpdateClientFile(string allText)
+        {
+            await WriteTextAsync("../../Clients.txt", allText);
+        }
+
+        private async Task WriteTextAsync(string filePath, string text)
+        {
+
+            byte[] encodedText = Encoding.Default.GetBytes(text);
+            using (FileStream sourceStream = new FileStream(filePath,
+                FileMode.Create, FileAccess.Write, FileShare.None,
+                bufferSize: 4096, useAsync: true))
+            {
+                await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+            };
 
         }
+       
+
+        public static bool IsServiceInstalled(string serviceName)
+        {
+            // get list of Windows services
+            ServiceController[] services = ServiceController.GetServices();
+
+            // try to find service name
+            foreach (ServiceController service in services)
+            {
+                if (service.ServiceName == serviceName)
+                    return true;
+            }
+            return false;
+        }
+
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
         {
-            bool flag = false;
-            foreach (Window w in App.Current.Windows)
-            {
-                if (w is ValidateIDView)
-                {
-                    flag = true;
-                    w.Show();
-                    w.Activate();
-                    break;
-                }
-            }
-            if (flag == false)
-            {
-                var wnd = new ValidateIDView();
-                wnd.Show();
-            }
+            //bool flag = false;
+            //foreach (Window w in App.Current.Windows)
+            //{
+            //    if (w is ValidateIDView)
+            //    {
+            //        flag = true;
+            //        w.Show();
+            //        w.Activate();
+            //        break;
+            //    }
+            //}
+            //if (flag == false)
+            //{
+            //    var wnd = new ValidateIDView();
+            //    wnd.Show();
+            //}
+            var w = new ValidateIDView();
+            w.Show();
+            w.Activate();
+            AddClientButton.IsEnabled = false;
         }
+
+        public void DetermineClients()
+        {
+            RefreshButton.IsEnabled = false;
+            var allText = ParseClientFile();
+            allText = ValidateList(allText);
+            UpdateClientFile(allText);
+            RefreshButton.IsEnabled = true;
+        }
+
+
 
         #region INotifyPropertyChanged Members
 
@@ -81,6 +144,13 @@ namespace HyperBaseLiveWpf
         }
 
         #endregion
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {          
+            DetermineClients();          
+        }
+
+      
 
 
 

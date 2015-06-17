@@ -13,5 +13,6 @@ namespace HyperBaseLiveWpf
         public static string HBLAssetDir { get; set; }
         public static string User { get; set; }
         public static string Password { get; set; }
+        public static string ClientName { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         <tb:TaskbarIcon IconSource="../Content/Game.ico">
             <tb:TaskbarIcon.TrayPopup>
                 <Grid>
-                    <Border x:Name="Main" Background="#FFECEAEA" BorderThickness="1" CornerRadius="5" Width="200" Height="300" SnapsToDevicePixels="True">
+                    <Border x:Name="Main" Background="#FF3C8DBC" BorderThickness="1" CornerRadius="5" Width="200" Height="300" SnapsToDevicePixels="True">
                         <Grid>
                             <Canvas x:Name="TopMenu">
                                 <!--<Border Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="198" CornerRadius="5"/>
@@ -33,7 +33,7 @@
                         </Grid>
                         
                     </Border>
-                    <Border  x:Name="CustomExpanderMenu" Background="#FFECEAEA" BorderThickness="1" CornerRadius="5" Width="200" Height="145" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="405,30,0,0" Visibility="Collapsed">
+                    <Border  x:Name="CustomExpanderMenu" Background="#FF3C8DBC" BorderThickness="1" CornerRadius="5" Width="200" Height="145" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="405,30,0,0" Visibility="Collapsed">
                         <Grid>
                             <!--<Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Top"/>
                             <Border Height="5" Width="198" Background="Gray" Margin="0,15,0,0" VerticalAlignment="Top" />-->
