@@ -33,7 +33,8 @@ namespace HyperBaseLiveWpf
         {
             UserName = "Username";           
             InitializeComponent();
-            this.DataContext = this;    
+            this.DataContext = this;
+            WindowWatcher.AddWindow(this);
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
@@ -117,6 +118,11 @@ namespace HyperBaseLiveWpf
         private void HyperSpinLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Process.Start("http://www.hyperspin-fe.com/");
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WindowWatcher.RemoveWindow(this);
         }
 
 

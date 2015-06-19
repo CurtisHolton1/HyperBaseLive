@@ -1,7 +1,7 @@
 ﻿<Window x:Class="HyperBaseLiveWpf.Views.AddClientView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AddClient"  Height="500" Width="450" MinHeight="500" MinWidth="450" ResizeMode="CanMinimize" Background="#FFECEAEA">
+        Title="AddClient"  Height="500" Width="450" MinHeight="500" MinWidth="450" ResizeMode="CanMinimize" Background="#FFECEAEA" Closed="Window_Closed">
    
         <Window.Resources>
             <Style TargetType="{x:Type Button}">
@@ -59,10 +59,12 @@
             <Label x:Name="ClientNameLabel" Content="{Binding ClientNameText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="45" Width="350" VerticalAlignment="Top" Margin="47,0" Foreground="Black" FontSize="18"></Label>
             <TextBlock Text="HyperSpin folder:" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="30,50,0,0" Foreground="Black"></TextBlock>
             <TextBox x:Name="HyperSpinFolderBox" Text="{Binding HyperSpinFolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,70,0,0"></TextBox>
+            <TextBlock x:Name="Error1" Text="" Visibility="Hidden" Foreground="Red" Margin="50,100,0,0" ></TextBlock>
             <Button x:Name="HyperSpinButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,102,0,0" Click="HyperSpinButton_Click" Foreground="White"></Button>
 
             <TextBlock Text="Installation folder:" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="30,130,0,0" Foreground="Black"></TextBlock>
             <TextBox x:Name="ServiceFolderBrowserBox" Text="{Binding ServiceFolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,150,0,0"></TextBox>
+            <TextBlock x:Name="Error2" Text="" Visibility="Hidden" Foreground="Red" Margin="50,180,0,0" ></TextBlock>
             <Button x:Name="ServiceButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,182,0,0" Click="ServiceButton_Click" Foreground="White" ></Button>
 
         </Grid>

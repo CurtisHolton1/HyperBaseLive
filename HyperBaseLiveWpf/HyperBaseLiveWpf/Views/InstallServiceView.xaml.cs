@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Windows.Forms;
 using System.Net;
 using System.Diagnostics;
 using System.IO;
+using System.Timers;
 namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
@@ -31,6 +24,8 @@ namespace HyperBaseLiveWpf.Views
         private string statusLabelContent;
         public string StatusLabelContent { get { return statusLabelContent; } set { statusLabelContent = value; this.OnPropertyChanged("StatusLabelContent"); } }
         private WebClient client;
+        private int timeoutCount;
+        System.Timers.Timer timeout;
         public InstallServiceView()
         {
             this.DataContext = this;
@@ -40,12 +35,35 @@ namespace HyperBaseLiveWpf.Views
             ButtonContent = "Cancel";
             StatusLabelContent = "Downloading...";
             client = new WebClient();
-            
+            timeout = new System.Timers.Timer(15000);
+            timeout.Elapsed += timeout_Elapsed;
+            timeoutCount = 0;
+            timeout.AutoReset = false;
+            timeout.Enabled = true;
+            WindowWatcher.AddWindow(this);
             Download(); // and install in turn
         }
 
 
-
+     private void timeout_Elapsed(object source, ElapsedEventArgs e){
+         try
+         {
+             timeout.Enabled = false;
+             timeout.Stop();
+             timeout.Dispose();
+             timeout = null;
+             if (WindowWatcher.Contains(this))
+             {
+                 System.Windows.MessageBox.Show("The connection has timed out. Please check your internet connection and try again.");
+                 client.CancelAsync();
+             }
+         }
+         catch (Exception ex)
+         {
+             Console.WriteLine("Error in Timeout method");
+         }
+         
+     }
         private void Download()
         {
             try
@@ -120,7 +138,7 @@ namespace HyperBaseLiveWpf.Views
             InstallBar.Visibility = Visibility.Hidden;
             StatusLabelContent = "Installation Cancelled";
             ButtonContent = "Close";
-            WrapUp();
+     
         }
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
@@ -135,7 +153,9 @@ namespace HyperBaseLiveWpf.Views
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {           
-            InstallBar.Value = (double)e.ProgressPercentage / 1.5; 
+            InstallBar.Value = (double)e.ProgressPercentage / 1.5;
+            timeout = new System.Timers.Timer(15000);
+            timeout.Enabled = true;
         }
         private void BottomButton_Click(object sender, RoutedEventArgs e)
         {
@@ -157,7 +177,7 @@ namespace HyperBaseLiveWpf.Views
             Launch.Visibility = Visibility.Visible;
             AddClientToFile();
             ButtonContent = "Finish";
-            WrapUp();
+         
         }
 
         private async void AddClientToFile()
@@ -180,19 +200,6 @@ namespace HyperBaseLiveWpf.Views
             
         }
 
-        private void WrapUp()
-        {
-            foreach (Window w in App.Current.Windows)
-            {
-                if (w is ClientsView)
-                {
-                    (w as ClientsView).AddClientButton.IsEnabled = true;
-                    (w as ClientsView).DetermineClients();
-                    break;
-                }
-            }
-          
-        }
 
         #region INotifyPropertyChanged Members
 
@@ -209,6 +216,16 @@ namespace HyperBaseLiveWpf.Views
         private void Launch_MouseDown(object sender, MouseButtonEventArgs e)
         {
             //Launch Application
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {           
+            client.CancelAsync();
+            timeout.Enabled = false;
+            timeout.Stop();
+            timeout.Dispose();
+            timeout = null;
+            WindowWatcher.RemoveWindow(this);
         }
     }
 }

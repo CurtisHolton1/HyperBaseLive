@@ -29,7 +29,7 @@ namespace HyperBaseLiveWpf.Views
         {
             this.DataContext = this;
             InitializeComponent();
-
+            WindowWatcher.AddWindow(this);
         }
 
         private void Generate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -66,13 +66,18 @@ namespace HyperBaseLiveWpf.Views
                     ConfigInfo.InstanceId = ClientIDText;
                     var wnd = new AddClientView(clientName);
                     wnd.Show();
-                    this.Hide();
+                    this.Close();
                 }
                 else
                 {
                     ErrorMessage = "Validation failed";
                 }
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WindowWatcher.RemoveWindow(this);
         }
 
     }

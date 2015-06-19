@@ -96,6 +96,7 @@
     <Compile Include="Views\ValidateIDView.xaml.cs">
       <DependentUpon>ValidateIDView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowWatcher.cs" />
     <Page Include="Views\AddClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
