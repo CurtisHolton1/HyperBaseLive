@@ -31,7 +31,7 @@ namespace HyperBaseLiveWpf
         {
             InitializeComponent();
             this.DataContext = this;
-         
+            WindowWatcher.AddWindow(this);
         }
 
         private string ParseClientFile()
@@ -148,6 +148,11 @@ namespace HyperBaseLiveWpf
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {          
             DetermineClients();          
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            WindowWatcher.RemoveWindow(this);
         }
 
       

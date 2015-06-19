@@ -29,7 +29,10 @@ namespace HyperBaseLiveWpf.Views
         public string HyperSpinFolderBrowserText { get { return hyperSpinFolderBrowserText; } set { hyperSpinFolderBrowserText = value; this.OnPropertyChanged("HyperSpinFolderBrowserText"); } }
         private string clientNameText;
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
-      
+        //private string error1;
+        //public string Error1 { get { return error1; } set { error1 = value; this.OnPropertyChanged("Error1"); } }
+        //private string error2;
+        //public string Error2 { get { return error2; } set { error2 = value; this.OnPropertyChanged("Error2"); } }
 
         public AddClientView(string clientName)
         {
@@ -38,7 +41,7 @@ namespace HyperBaseLiveWpf.Views
             ClientNameText = clientName.Substring(1,clientName.Length-2);
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
             ServiceFolderBrowserText = @"C:\Program Files\HyperBaseLive\Services";
-           
+            WindowWatcher.AddWindow(this);
         }
 
         private void ServiceButton_Click(object sender, RoutedEventArgs e)
@@ -47,6 +50,7 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 DialogResult result = fbd.ShowDialog();
+               
                 ServiceFolderBrowserText = fbd.SelectedPath;
                 
             }
@@ -55,12 +59,39 @@ namespace HyperBaseLiveWpf.Views
              
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
-            ConfigInfo.FinalLoc = ServiceFolderBrowserText;
-            ConfigInfo.ClientName = ClientNameText;
-            var wnd = new InstallServiceView();
-            wnd.Show();
-            this.Close();
+            if (Directory.Exists(hyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
+            {
+                ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
+                ConfigInfo.FinalLoc = ServiceFolderBrowserText;
+                ConfigInfo.ClientName = ClientNameText;
+                var wnd = new InstallServiceView();
+                wnd.Show();
+                this.Close();
+            }
+            else
+            {
+                if (!Directory.Exists(ServiceFolderBrowserText))
+                {
+                    Error2.Text = "Directory does not exist";
+                    Error2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Error2.Visibility = Visibility.Hidden;
+                }
+
+                if (!Directory.Exists(hyperSpinFolderBrowserText))
+                {                 
+                    Error1.Text = "Directory does not exist";
+                    Error1.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Error1.Visibility = Visibility.Hidden;
+                }
+               
+
+            }
         }
 
         private void HyperSpinButton_Click(object sender, RoutedEventArgs e)
@@ -84,6 +115,11 @@ namespace HyperBaseLiveWpf.Views
         }
 
         #endregion
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WindowWatcher.RemoveWindow(this);
+        }
        
 
     }

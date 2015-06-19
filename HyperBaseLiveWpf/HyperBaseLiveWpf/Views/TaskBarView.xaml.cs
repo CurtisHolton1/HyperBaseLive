@@ -28,7 +28,7 @@ namespace HyperBaseLiveWpf
         public int OutSideHeight { get; set; }
         public TaskBarView()
         {
-           
+            
             this.DataContext = this;
             UserImg = "../Content/profile.jpg";
             SyncHistory = new List<string>();
@@ -51,7 +51,7 @@ namespace HyperBaseLiveWpf
             MenuOptions.Add(MenuStaticClassFactory.GetUpdateClass());
             MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
             MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
-         
+            WindowWatcher.AddWindow(this);
         }
         
 
@@ -78,6 +78,11 @@ namespace HyperBaseLiveWpf
         {
             var item = (IMenuItem)Menu.SelectedItem;
             item.PerformAction();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WindowWatcher.RemoveWindow(this);
         }
 
 
