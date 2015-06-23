@@ -145,16 +145,24 @@ namespace HyperBaseLiveWpf.Views
         {
             if (e.Cancelled)
             {
+
                 HandleException();
             }
             else
-            Install();
+            {
+                timeout.Enabled = false;
+                timeout.Stop();
+                timeout.Dispose();
+                timeout = null;
+                Install();
+            }
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {           
             InstallBar.Value = (double)e.ProgressPercentage / 1.5;
-            timeout = new System.Timers.Timer(15000);
+            timeout.Stop();
+            timeout.Start();
             timeout.Enabled = true;
         }
         private void BottomButton_Click(object sender, RoutedEventArgs e)
@@ -219,12 +227,10 @@ namespace HyperBaseLiveWpf.Views
         }
 
         private void Window_Closed(object sender, EventArgs e)
-        {           
+        {    
+            
             client.CancelAsync();
-            timeout.Enabled = false;
-            timeout.Stop();
-            timeout.Dispose();
-            timeout = null;
+            
             WindowWatcher.RemoveWindow(this);
         }
     }
