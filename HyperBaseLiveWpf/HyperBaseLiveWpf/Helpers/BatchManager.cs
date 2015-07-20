@@ -19,6 +19,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 sw.WriteLine("cd " + path);
                 sw.WriteLine("hyperbase.live.client /i");
+                sw.WriteLine("pause");
 
             }
         }
@@ -27,6 +28,7 @@ namespace HyperBaseLiveWpf.Helpers
             using (StreamWriter sw = new StreamWriter("Start.bat"))
             {
                 sw.WriteLine("sc start \"" + serviceName + "\"");
+                sw.WriteLine("pause");
             }
         }
         public void WriteStop(string serviceName)
@@ -34,6 +36,7 @@ namespace HyperBaseLiveWpf.Helpers
             using (StreamWriter sw = new StreamWriter("Stop.bat"))
             {
                 sw.WriteLine("sc stop \"" + serviceName + "\"");
+                sw.WriteLine("pause");
             }
         }
         public void LaunchInstall()
@@ -50,6 +53,14 @@ namespace HyperBaseLiveWpf.Helpers
             var proc1 = new ProcessStartInfo();
             proc1.UseShellExecute = true;
             proc1.FileName = @"Start.bat";
+            proc1.Verb = "runas";
+            Process.Start(proc1);
+        }
+        public void LaunchStop()
+        {
+            var proc1 = new ProcessStartInfo();
+            proc1.UseShellExecute = true;
+            proc1.FileName = @"Stop.bat";
             proc1.Verb = "runas";
             Process.Start(proc1);
         }

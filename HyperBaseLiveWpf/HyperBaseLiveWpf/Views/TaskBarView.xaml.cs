@@ -1,4 +1,5 @@
-﻿using HyperBaseLiveWpf.Menu;
+﻿using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,13 +82,15 @@ namespace HyperBaseLiveWpf
         }
 
         private void MenuItemStart_Click(object sender, RoutedEventArgs e)
-        {
+        {  
             MenuStaticClassFactory.GetStartClass().PerformAction();
            
         }
 
         private void MenuItemStop_Click(object sender, RoutedEventArgs e)
-        {
+        {          
+
+           
             MenuStaticClassFactory.GetStopClass().PerformAction();
         }
 

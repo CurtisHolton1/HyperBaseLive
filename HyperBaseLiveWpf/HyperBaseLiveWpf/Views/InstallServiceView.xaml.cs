@@ -118,8 +118,7 @@ namespace HyperBaseLiveWpf.Views
                 InstallBar.Value = 100;
                 BatchManager bm = new BatchManager();
                 bm.WriteInstall(ConfigInfo.FinalLoc);
-                bm.WriteStart("HyperBase Client");
-                bm.WriteStop("HyperBase Client");
+
                 bm.LaunchInstall();            
                 InstallComplete();
             }

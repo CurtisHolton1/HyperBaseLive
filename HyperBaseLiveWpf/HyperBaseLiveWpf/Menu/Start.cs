@@ -13,7 +13,10 @@ namespace HyperBaseLiveWpf.Menu
        public string Name { get { return name; } set { name = value;  } }
 
         public void PerformAction(){
+
             BatchManager bm = new BatchManager();
+            bm.WriteStart("HyperBase Client");
+
             bm.LaunchStart();
         }
     }
