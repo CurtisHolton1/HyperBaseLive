@@ -4,14 +4,20 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
             Title="TaskBar" Height="300" Width="300" Visibility="Hidden" Closed="Window_Closed">
     <Grid>
-        <tb:TaskbarIcon IconSource="../Content/Game.ico">
-            <tb:TaskbarIcon.TrayPopup>
+        <tb:TaskbarIcon x:Name="TaskBarMainWindow" IconSource="../Content/Game.ico" >
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu x:Name="TaskBarContextMenu">
+                    <MenuItem Header="Start" Click="MenuItemStart_Click"></MenuItem>
+                    <MenuItem Header="Stop" Click="MenuItemStop_Click"></MenuItem>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+            <!--tb:TaskbarIcon.TrayPopup>
                 <Grid>
                     <Border x:Name="Main" Background="#FF3C8DBC" BorderThickness="1" CornerRadius="5" Width="200" Height="300" SnapsToDevicePixels="True">
                         <Grid>
                             <Canvas x:Name="TopMenu">
-                                <!--<Border Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="198" CornerRadius="5"/>
-                                <Border x:Name="BottomSoCornersArentRound" Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" Height="5" Width="198" Margin="0,15,0,0"/>-->
+                                --><!--<Border Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Width="198" CornerRadius="5"/>
+                                <Border x:Name="BottomSoCornersArentRound" Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" Height="5" Width="198" Margin="0,15,0,0"/>--><!--
                             </Canvas>
 
                             <Border x:Name="BehindImage" Background="White" Height="50" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,30,0,0">
@@ -28,15 +34,16 @@
                             <Button Content=">" x:Name="CustomExpanderButtom" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,10,0" Click="CustomExpanderButtom_Click"></Button>
                             <TextBlock x:Name="HyperSpinFolder" Text="Hyperspin Folder" TextDecorations="Underline" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,240,0,0" Foreground="Black"/>
                             <TextBlock x:Name="HBLApp" Text="HBL App" TextDecorations="Underline" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,240,10,0" Foreground="Black"/>
-                            <!--<Border Height="5" Width="198" Background="Gray" Margin="0,0,0,15" VerticalAlignment="Bottom"/>
-                            <Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>-->
+                            
+                            --><!--<Border Height="5" Width="198" Background="Gray" Margin="0,0,0,15" VerticalAlignment="Bottom"/>
+                            <Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>--><!--
                         </Grid>
                         
                     </Border>
                     <Border  x:Name="CustomExpanderMenu" Background="#FF3C8DBC" BorderThickness="1" CornerRadius="5" Width="200" Height="145" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="405,30,0,0" Visibility="Hidden">
                         <Grid>
-                            <!--<Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Top"/>
-                            <Border Height="5" Width="198" Background="Gray" Margin="0,15,0,0" VerticalAlignment="Top" />-->
+                            --><!--<Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Top"/>
+                            <Border Height="5" Width="198" Background="Gray" Margin="0,15,0,0" VerticalAlignment="Top" />--><!--
                             <ListView x:Name="Menu" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="200" ItemsSource="{Binding MenuOptions, UpdateSourceTrigger=PropertyChanged}" Margin="0,20,0,0" MouseDoubleClick="Menu_MouseDoubleClick" Background="#FFD1C8C8">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
@@ -49,12 +56,12 @@
                                 </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <!--<Border Height="5" Width="198" Background="Gray" Margin="0,0,0,15" VerticalAlignment="Bottom"/>
-                            <Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>-->               
+                            --><!--<Border Height="5" Width="198" Background="Gray" Margin="0,0,0,15" VerticalAlignment="Bottom"/>
+                            <Border Height="20" Width="198" Background="Gray" CornerRadius="5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>--><!--               
                         </Grid>
                     </Border>
                 </Grid>
-            </tb:TaskbarIcon.TrayPopup>
+            </tb:TaskbarIcon.TrayPopup>-->
         </tb:TaskbarIcon>
     </Grid>
 </Window>

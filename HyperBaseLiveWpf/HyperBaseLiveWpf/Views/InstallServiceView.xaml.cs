@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Net;
-using System.Diagnostics;
 using System.IO;
 using System.Timers;
+using HyperBaseLiveWpf.Helpers;
 namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
@@ -116,15 +116,10 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 InstallBar.Value = 100;
-                var proc1 = new ProcessStartInfo();
-                proc1.UseShellExecute = false;
-                proc1.WorkingDirectory = ConfigInfo.FinalLoc;
-                proc1.FileName = @"C:\Windows\System32\cmd.exe";
-                proc1.Verb = "runas";
-                proc1.Arguments = "/k " + "Hyperbase.Live.Client /i";
-                proc1.WindowStyle = ProcessWindowStyle.Normal;
-                Process.Start(proc1);
+                BatchManager bm = new BatchManager();
+                bm.WriteInstall(ConfigInfo.FinalLoc);
 
+                bm.LaunchInstall();            
                 InstallComplete();
             }
             catch (Exception exc)
@@ -161,9 +156,12 @@ namespace HyperBaseLiveWpf.Views
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {           
             InstallBar.Value = (double)e.ProgressPercentage / 1.5;
-            timeout.Stop();
-            timeout.Start();
-            timeout.Enabled = true;
+            if (timeout != null)
+            {
+                timeout.Stop();
+                timeout.Start();
+                timeout.Enabled = true;
+            }
         }
         private void BottomButton_Click(object sender, RoutedEventArgs e)
         {
@@ -185,7 +183,6 @@ namespace HyperBaseLiveWpf.Views
             Launch.Visibility = Visibility.Visible;
             AddClientToFile();
             ButtonContent = "Finish";
-         
         }
 
         private async void AddClientToFile()
