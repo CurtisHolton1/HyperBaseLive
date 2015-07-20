@@ -13,7 +13,7 @@ namespace HyperBaseLiveWpf.Menu
 
         public void PerformAction()
         {
-
+            //stop service
         }
     }
 }

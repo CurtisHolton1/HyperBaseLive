@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HyperBaseLiveWpf.Helpers;
 
 namespace HyperBaseLiveWpf.Menu
 {
@@ -12,7 +13,8 @@ namespace HyperBaseLiveWpf.Menu
        public string Name { get { return name; } set { name = value;  } }
 
         public void PerformAction(){
-            
+            BatchManager bm = new BatchManager();
+            bm.LaunchStart();
         }
     }
 }

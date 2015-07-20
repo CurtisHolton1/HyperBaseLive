@@ -74,6 +74,7 @@
     <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Helpers\BatchManager.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />
@@ -166,9 +167,7 @@
   <ItemGroup>
     <Resource Include="Content\logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tmp\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

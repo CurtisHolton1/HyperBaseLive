@@ -24,7 +24,7 @@ namespace HyperBaseLiveWpf
     public partial class ClientsView : Window, INotifyPropertyChanged
     {
         private List<Client> dataList = new List<Client>();
-        public List<Client> DataList { get { return dataList; } set { dataList = value; } }
+        public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList"); } }
 
 
         public ClientsView()
@@ -32,10 +32,12 @@ namespace HyperBaseLiveWpf
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
+            DetermineClients();
         }
 
         private string ParseClientFile()
         {
+            List<Client> tmpList = new List<Client>();
             string line;
             string filePath = "../../Clients.txt";
             TextReader readerAll = File.OpenText(filePath);
@@ -44,23 +46,27 @@ namespace HyperBaseLiveWpf
             while ((line = reader.ReadLine()) !=null)
             {
                 string [] a = line.Split('\t');
-                DataList.Add(new Client { Name = a[0], Location = a[1] });
+                tmpList.Add(new Client { Name = a[0], Location = a[1] });
             }
             readerAll.Close();
             reader.Close();
-            
+            DataList = tmpList;
             return allText;
         }
 
         private string ValidateList(string allText){
-            for(int i =0; i<DataList.Count; i++){
-                if (!IsServiceInstalled(DataList[i].Name))
-                {                
-                   string lineToRemove = DataList[i].Name + "\t" + DataList[i].Location + "\n";
+            List<Client> tmpList = DataList;
+            for (int i = 0; i < tmpList.Count; i++)
+            {
+                if (!IsServiceInstalled(tmpList[i].Name))
+                {
+                    string lineToRemove = tmpList[i].Name + "\t" + tmpList[i].Location + "\n";
                   allText = allText.Replace(lineToRemove, "");
-                   DataList.Remove(DataList[i]);              
+                  tmpList.Remove(tmpList[i]);              
                 }
             }
+            DataList = tmpList;
+
             return allText;
         }
 
@@ -91,7 +97,7 @@ namespace HyperBaseLiveWpf
             // try to find service name
             foreach (ServiceController service in services)
             {
-                if (service.ServiceName == serviceName)
+                if (service.ServiceName.Equals(serviceName))
                     return true;
             }
             return false;
@@ -126,7 +132,7 @@ namespace HyperBaseLiveWpf
         {
             RefreshButton.IsEnabled = false;
             var allText = ParseClientFile();
-            allText = ValidateList(allText);
+           // allText = ValidateList(allText);
             UpdateClientFile(allText);
             RefreshButton.IsEnabled = true;
         }
