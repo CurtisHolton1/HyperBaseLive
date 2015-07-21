@@ -46,10 +46,14 @@ namespace HyperBaseLiveWpf
         private async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Visibility = Visibility.Hidden;
-            if (CheckBoxes() && await Task.Run(()=>HblApiCaller.Authenticate(UserName, Password)))         
-                LoginComplete();                                 
-            else           
-               ErrorMessage.Visibility = Visibility.Visible;
+            SubmitButton.IsEnabled = false;
+            if (CheckBoxes() && await Task.Run(() => HblApiCaller.Authenticate(UserName, Password)))
+                LoginComplete();
+            else
+            {
+                ErrorMessage.Visibility = Visibility.Visible;
+                SubmitButton.IsEnabled = true;
+            }
             
         }
 

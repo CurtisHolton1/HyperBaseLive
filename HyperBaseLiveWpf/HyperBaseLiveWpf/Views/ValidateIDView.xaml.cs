@@ -54,6 +54,7 @@ namespace HyperBaseLiveWpf.Views
 
         private async void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
+            ValidateButton.IsEnabled = false;
             if (string.IsNullOrEmpty(ClientIDText))
             {
                 ErrorMessage = "The ID field cannot be empty";
@@ -71,6 +72,7 @@ namespace HyperBaseLiveWpf.Views
                 else
                 {
                     ErrorMessage = "Validation failed";
+                    ValidateButton.IsEnabled = true;
                 }
             }
         }
