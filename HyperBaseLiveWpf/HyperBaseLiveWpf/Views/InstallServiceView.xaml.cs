@@ -187,7 +187,7 @@ namespace HyperBaseLiveWpf.Views
 
         private async void AddClientToFile()
         {
-            string filePath = "../../Clients.txt";
+            string filePath = "Clients.txt";
             string text = ConfigInfo.ClientName + "\t" + ConfigInfo.FinalLoc + "\n";
             await WriteTextAsync(filePath, text);
         }
