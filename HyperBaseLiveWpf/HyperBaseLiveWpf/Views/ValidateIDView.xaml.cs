@@ -52,7 +52,7 @@ namespace HyperBaseLiveWpf.Views
 
 
 
-        private void ValidateButton_Click(object sender, RoutedEventArgs e)
+        private async void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ClientIDText))
             {
@@ -60,7 +60,7 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
-                var clientName = HblApiCaller.ValidateID(ClientIDText);
+                var clientName = await Task.Run(()=>HblApiCaller.ValidateID(ClientIDText));
                 if (!string.IsNullOrEmpty(clientName))
                 {
                     ConfigInfo.InstanceId = ClientIDText;

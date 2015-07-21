@@ -43,10 +43,10 @@ namespace HyperBaseLiveWpf
            UserName ="";
         }
 
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        private async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage.Visibility = Visibility.Hidden;
-            if (CheckBoxes() && HblApiCaller.Authenticate(UserName, Password))         
+            if (CheckBoxes() && await Task.Run(()=>HblApiCaller.Authenticate(UserName, Password)))         
                 LoginComplete();                                 
             else           
                ErrorMessage.Visibility = Visibility.Visible;

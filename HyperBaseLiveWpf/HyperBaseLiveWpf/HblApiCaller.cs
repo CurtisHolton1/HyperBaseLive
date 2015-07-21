@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using RestSharp;
+using System.Threading.Tasks;
 namespace HyperBaseLiveWpf
 {
      
     public static class HblApiCaller
     {
         public static HBLToken Token { get; set; }
-        public static bool Authenticate(string clientId, string clientSecret)
+        public static async Task<bool> Authenticate(string clientId, string clientSecret)
         {
             var HblApi = "https://api.hyperbase-live.com/token";
             var request = string.Format("grant_type=password&userName={0}&password={1}", HttpUtility.UrlEncode(clientId), HttpUtility.UrlEncode(clientSecret));
@@ -46,7 +47,7 @@ namespace HyperBaseLiveWpf
             }
         }
 
-        public static string ValidateID(string id)
+        public static async Task<string> ValidateID(string id)
         {
             try
             {
