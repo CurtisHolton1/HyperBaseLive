@@ -82,7 +82,7 @@ namespace HyperBaseLiveWpf
             return allText;
         }
 
-        private async void UpdateClientFile(string allText)
+        private void UpdateClientFile(string allText)
         {
            // await WriteTextAsync("Clients.txt", allText);
             try
