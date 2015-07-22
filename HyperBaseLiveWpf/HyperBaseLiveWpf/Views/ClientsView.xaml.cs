@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Timers;
 
 namespace HyperBaseLiveWpf
 {
@@ -26,7 +27,7 @@ namespace HyperBaseLiveWpf
     {
         private List<Client> dataList = new List<Client>();
         public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList"); } }
-
+        System.Timers.Timer timer1;
 
         public ClientsView()
         {
@@ -34,6 +35,15 @@ namespace HyperBaseLiveWpf
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
             DataList = ClientFileManager.DetermineClients();
+            timer1 = new System.Timers.Timer(2000);
+            timer1.Elapsed += timer1_Elapsed;           
+            timer1.AutoReset = true;
+            timer1.Enabled = true;
+        }
+
+        private void timer1_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            UpdateClientList();
         }
 
         public void UpdateClientList()
@@ -49,12 +59,12 @@ namespace HyperBaseLiveWpf
             w.Activate();          
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshButton.IsEnabled = false;   
-            DataList =  ClientFileManager.DetermineClients();
-            RefreshButton.IsEnabled = true;        
-        }
+        //private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    RefreshButton.IsEnabled = false;   
+        //    DataList =  ClientFileManager.DetermineClients();
+        //    RefreshButton.IsEnabled = true;        
+        //}
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {

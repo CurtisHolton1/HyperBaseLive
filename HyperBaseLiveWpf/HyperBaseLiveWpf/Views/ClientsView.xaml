@@ -64,7 +64,7 @@
             </Grid>
         </Grid>
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Background="White" >
-            <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Margin="0,0,10,0" Click="RefreshButton_Click" ></Button>
+            <!--<Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Margin="0,0,10,0" Click="RefreshButton_Click" ></Button>-->
             <Button x:Name="AddClientButton" Content="Add Client" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100" Height="32" Click="AddClientButton_Click" Background="White" Foreground="White"  />
         </Grid>
     </Grid>

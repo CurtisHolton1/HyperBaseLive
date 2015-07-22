@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Net;
-using System.IO;
 using System.Timers;
 using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Menu;
+
 namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
-    /// Interaction logic for InstallServiceView.xaml
+    /// Interaction logic for InstallClientView.xaml
     /// </summary>
-    public partial class InstallServiceView : Window, INotifyPropertyChanged
+    public partial class InstallClientView : Window, INotifyPropertyChanged
     {
         CancellationTokenSource cts;
         private string buttonContent;
@@ -27,7 +26,7 @@ namespace HyperBaseLiveWpf.Views
         private Client clientToInstall;
         private int timeoutCount;
         System.Timers.Timer timeout;
-        public InstallServiceView(Client clientToInstall)
+        public InstallClientView(Client clientToInstall)
         {
             this.DataContext = this;
             this.clientToInstall = clientToInstall;
@@ -72,7 +71,7 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 webClient1.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                webClient1.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                webClient1.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadCompleted);
                 webClient1.DownloadFileAsync(new Uri("http://q.hyperbase-live.com/hblsvc.zip"), "hblsvc.zip");            
             }
             catch (Exception e)
@@ -120,7 +119,6 @@ namespace HyperBaseLiveWpf.Views
                 InstallBar.Value = 100;
                 BatchManager bm = new BatchManager();
                 bm.WriteInstall(ConfigInfo.FinalLoc);
-
                 bm.LaunchInstall();            
                 InstallComplete();
             }
@@ -138,7 +136,7 @@ namespace HyperBaseLiveWpf.Views
      
         }
 
-        private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -182,7 +180,11 @@ namespace HyperBaseLiveWpf.Views
             InstallCompleteLabel.Visibility = Visibility.Visible;
             StatusLabel.Visibility = Visibility.Hidden;
             Launch.Visibility = Visibility.Visible;
-            await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));     
+            await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));
+            BatchManager bm = new BatchManager();
+            bm.WriteStart("HyperBase Client");
+            bm.LaunchStart();
+            
             ButtonContent = "Finish";
             return "";
         }

@@ -65,7 +65,7 @@ namespace HyperBaseLiveWpf.Views
                     ConfigInfo.FinalLoc = ServiceFolderBrowserText;
                     ConfigInfo.ClientName = ClientNameText;
                     Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText };
-                    var wnd = new InstallServiceView(clientToInstall);
+                    var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();
                     this.Close();
                 }
