@@ -1,4 +1,5 @@
-﻿using HyperBaseLiveWpf.Views;
+﻿using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Timers;
 
 namespace HyperBaseLiveWpf
 {
@@ -25,139 +27,49 @@ namespace HyperBaseLiveWpf
     {
         private List<Client> dataList = new List<Client>();
         public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList"); } }
-
+        System.Timers.Timer timer1;
 
         public ClientsView()
         {
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
-            DetermineClients();
+            DataList = ClientFileManager.DetermineClients();
+            timer1 = new System.Timers.Timer(2000);
+            timer1.Elapsed += timer1_Elapsed;           
+            timer1.AutoReset = true;
+            timer1.Enabled = true;
         }
 
-        private string ParseClientFile()
+        private void timer1_Elapsed(object sender, ElapsedEventArgs e)
         {
-            List<Client> tmpList = new List<Client>();
-            string line;
-            string filePath = "Clients.txt";
-            
-                if (!File.Exists(filePath))
-                {
-                    var f = File.Create(filePath);
-                    f.Close();
-                    f.Dispose();
-                    return "";
-                }
-                else
-                {
-                    TextReader readerAll = File.OpenText(filePath);
-                    string allText = readerAll.ReadToEnd();
-                    TextReader reader = File.OpenText(filePath);
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] a = line.Split('\t');
-                        tmpList.Add(new Client { Name = a[0], Location = a[1] });
-                    }
-                    readerAll.Close();
-                    reader.Close();
-                    DataList = tmpList;
-                
-                return allText;
-            }
+            UpdateClientList();
         }
 
-        private string ValidateList(string allText){
-            List<Client> tmpList = DataList;
-            for (int i = 0; i < tmpList.Count; i++)
-            {
-                if (!IsServiceInstalled(tmpList[i].Name))
-                {
-                    string lineToRemove = tmpList[i].Name + "\t" + tmpList[i].Location + "\n";
-                  allText = allText.Replace(lineToRemove, "");
-                  tmpList.Remove(tmpList[i]);              
-                }
-            }
-            DataList = tmpList;
-
-            return allText;
-        }
-
-        private void UpdateClientFile(string allText)
+        public void UpdateClientList()
         {
-           // await WriteTextAsync("Clients.txt", allText);
-            try
-            {
-                StreamWriter sw = new StreamWriter("Clients.txt");
-                sw.Write(allText);
-                sw.Close();
-                sw.Dispose();
-            }
-            catch { }
+            DataList = ClientFileManager.DetermineClients();
         }
-
-        private async Task WriteTextAsync(string filePath, string text)
-        {
-
-            //byte[] encodedText = Encoding.Default.GetBytes(text);
-            //using (FileStream sourceStream = new FileStream(filePath,
-            //    FileMode.Create, FileAccess.Write, FileShare.None,
-            //    bufferSize: 4096, useAsync: true))
-            //{
-            //    await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-            //};
-
-        }
-       
-
-        public static bool IsServiceInstalled(string serviceName)
-        {
-            // get list of Windows services
-            ServiceController[] services = ServiceController.GetServices();
-
-            // try to find service name
-            foreach (ServiceController service in services)
-            {
-                if (service.ServiceName.Equals(serviceName))
-                    return true;
-            }
-            return false;
-        }
-
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
         {
-            //bool flag = false;
-            //foreach (Window w in App.Current.Windows)
-            //{
-            //    if (w is ValidateIDView)
-            //    {
-            //        flag = true;
-            //        w.Show();
-            //        w.Activate();
-            //        break;
-            //    }
-            //}
-            //if (flag == false)
-            //{
-            //    var wnd = new ValidateIDView();
-            //    wnd.Show();
-            //}
+            AddClientButton.IsEnabled = false;
             var w = new ValidateIDView();
             w.Show();
-            w.Activate();
-            AddClientButton.IsEnabled = false;
+            w.Activate();          
         }
 
-        public void DetermineClients()
+        //private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    RefreshButton.IsEnabled = false;   
+        //    DataList =  ClientFileManager.DetermineClients();
+        //    RefreshButton.IsEnabled = true;        
+        //}
+
+        private void MainWindow_Closed(object sender, EventArgs e)
         {
-            RefreshButton.IsEnabled = false;
-            var allText = ParseClientFile();
-           // allText = ValidateList(allText);
-            UpdateClientFile(allText);
-            RefreshButton.IsEnabled = true;
+            WindowWatcher.RemoveWindow(this);
         }
-
-
 
         #region INotifyPropertyChanged Members
 
@@ -171,17 +83,6 @@ namespace HyperBaseLiveWpf
 
         #endregion
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {          
-            DetermineClients();          
-        }
-
-        private void MainWindow_Closed(object sender, EventArgs e)
-        {
-            WindowWatcher.RemoveWindow(this);
-        }
-
-      
 
 
 

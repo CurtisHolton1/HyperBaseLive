@@ -35,6 +35,7 @@ namespace HyperBaseLiveWpf
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
+            
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {

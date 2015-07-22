@@ -1,40 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Net;
-using System.IO;
 using System.Timers;
 using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Menu;
+
 namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
-    /// Interaction logic for InstallServiceView.xaml
+    /// Interaction logic for InstallClientView.xaml
     /// </summary>
-    public partial class InstallServiceView : Window, INotifyPropertyChanged
+    public partial class InstallClientView : Window, INotifyPropertyChanged
     {
         CancellationTokenSource cts;
         private string buttonContent;
         public string ButtonContent { get { return buttonContent; } set { buttonContent = value; this.OnPropertyChanged("ButtonContent"); } }
         private string statusLabelContent;
         public string StatusLabelContent { get { return statusLabelContent; } set { statusLabelContent = value; this.OnPropertyChanged("StatusLabelContent"); } }
-        private WebClient client;
+        private WebClient webClient1;
+        private Client clientToInstall;
         private int timeoutCount;
         System.Timers.Timer timeout;
-        public InstallServiceView()
+        public InstallClientView(Client clientToInstall)
         {
             this.DataContext = this;
+            this.clientToInstall = clientToInstall;
             InitializeComponent();
             InstallBar.Maximum = 100;
             InstallBar.Value = 0;
             ButtonContent = "Cancel";
             StatusLabelContent = "Downloading...";
-            client = new WebClient();
+            webClient1 = new WebClient();
             timeout = new System.Timers.Timer(15000);
             timeout.Elapsed += timeout_Elapsed;
             timeoutCount = 0;
@@ -48,6 +49,7 @@ namespace HyperBaseLiveWpf.Views
      private void timeout_Elapsed(object source, ElapsedEventArgs e){
          try
          {
+                
              timeout.Enabled = false;
              timeout.Stop();
              timeout.Dispose();
@@ -55,7 +57,7 @@ namespace HyperBaseLiveWpf.Views
              if (WindowWatcher.Contains(this))
              {
                  System.Windows.MessageBox.Show("The connection has timed out. Please check your internet connection and try again.");
-                 client.CancelAsync();
+                 webClient1.CancelAsync();
              }
          }
          catch (Exception ex)
@@ -68,10 +70,9 @@ namespace HyperBaseLiveWpf.Views
         {
             try
             {
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadFileAsync(new Uri("http://q.hyperbase-live.com/hblsvc.zip"), "hblsvc.zip");
-                
+                webClient1.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                webClient1.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadCompleted);
+                webClient1.DownloadFileAsync(new Uri("http://q.hyperbase-live.com/hblsvc.zip"), "hblsvc.zip");            
             }
             catch (Exception e)
             {
@@ -118,7 +119,6 @@ namespace HyperBaseLiveWpf.Views
                 InstallBar.Value = 100;
                 BatchManager bm = new BatchManager();
                 bm.WriteInstall(ConfigInfo.FinalLoc);
-
                 bm.LaunchInstall();            
                 InstallComplete();
             }
@@ -136,11 +136,10 @@ namespace HyperBaseLiveWpf.Views
      
         }
 
-        private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
-
                 HandleException();
             }
             else
@@ -167,7 +166,7 @@ namespace HyperBaseLiveWpf.Views
         {
             if (ButtonContent.Equals("Cancel"))
             {
-                client.CancelAsync();
+                webClient1.CancelAsync();
             }
             else
             {
@@ -175,36 +174,24 @@ namespace HyperBaseLiveWpf.Views
             }
         }
 
-        private void InstallComplete()
+        private async Task<string> InstallComplete()
         {
             InstallBar.Visibility = Visibility.Hidden;
             InstallCompleteLabel.Visibility = Visibility.Visible;
             StatusLabel.Visibility = Visibility.Hidden;
             Launch.Visibility = Visibility.Visible;
-            AddClientToFile();
+            await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));
+            BatchManager bm = new BatchManager();
+            bm.WriteStart("HyperBase Client");
+            bm.LaunchStart();
+            
             ButtonContent = "Finish";
+            return "";
         }
 
-        private async void AddClientToFile()
-        {
-            string filePath = "Clients.txt";
-            string text = ConfigInfo.ClientName + "\t" + ConfigInfo.FinalLoc + "\n";
-            await WriteTextAsync(filePath, text);
-        }
+      
 
-        private async Task WriteTextAsync(string filePath, string text)
-        {
-            
-                byte[] encodedText = Encoding.Default.GetBytes(text);
-                using (FileStream sourceStream = new FileStream(filePath,
-                    FileMode.Append, FileAccess.Write, FileShare.None,
-                    bufferSize: 4096, useAsync: true))
-                {
-                    await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-                };
-            
-        }
-
+  
 
         #region INotifyPropertyChanged Members
 
@@ -226,7 +213,7 @@ namespace HyperBaseLiveWpf.Views
         private void Window_Closed(object sender, EventArgs e)
         {    
             
-            client.CancelAsync();
+            webClient1.CancelAsync();
             
             WindowWatcher.RemoveWindow(this);
         }

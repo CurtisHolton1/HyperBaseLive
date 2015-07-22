@@ -78,6 +78,8 @@
     <Compile Include="Configurer.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Helpers\BatchManager.cs" />
+    <Compile Include="Helpers\ClientFileManager.cs" />
+    <Compile Include="Helpers\ClientManager.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />
@@ -88,8 +90,8 @@
     <Compile Include="Views\AddClientView.xaml.cs">
       <DependentUpon>AddClientView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\InstallServiceView.xaml.cs">
-      <DependentUpon>InstallServiceView.xaml</DependentUpon>
+    <Compile Include="Views\InstallClientView.xaml.cs">
+      <DependentUpon>InstallClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaskBarView.xaml.cs">
       <DependentUpon>TaskBarView.xaml</DependentUpon>
@@ -116,7 +118,7 @@
     <Compile Include="Views\ClientsView.xaml.cs">
       <DependentUpon>ClientsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\InstallServiceView.xaml">
+    <Page Include="Views\InstallClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

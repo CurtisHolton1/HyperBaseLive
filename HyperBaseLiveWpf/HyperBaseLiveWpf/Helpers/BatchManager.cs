@@ -19,7 +19,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 sw.WriteLine("cd " + path);
                 sw.WriteLine("hyperbase.live.client /i");
-                sw.WriteLine("pause");
+               // sw.WriteLine("pause");
 
             }
         }
@@ -28,7 +28,7 @@ namespace HyperBaseLiveWpf.Helpers
             using (StreamWriter sw = new StreamWriter("Start.bat"))
             {
                 sw.WriteLine("sc start \"" + serviceName + "\"");
-                sw.WriteLine("pause");
+               // sw.WriteLine("pause");
             }
         }
         public void WriteStop(string serviceName)
@@ -36,7 +36,7 @@ namespace HyperBaseLiveWpf.Helpers
             using (StreamWriter sw = new StreamWriter("Stop.bat"))
             {
                 sw.WriteLine("sc stop \"" + serviceName + "\"");
-                sw.WriteLine("pause");
+                //sw.WriteLine("pause");
             }
         }
         public void LaunchInstall()
@@ -45,7 +45,12 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.UseShellExecute = true;
             proc1.FileName = @"Install.bat";
             proc1.Verb = "runas";
-            Process.Start(proc1);
+            proc1.CreateNoWindow = true;
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            clientsViewWindow.AddClientButton.IsEnabled = true;
+            clientsViewWindow.UpdateClientList();
         }
 
         public void LaunchStart()
@@ -54,7 +59,11 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.UseShellExecute = true;
             proc1.FileName = @"Start.bat";
             proc1.Verb = "runas";
-            Process.Start(proc1);
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            clientsViewWindow.AddClientButton.IsEnabled = true;
+            clientsViewWindow.UpdateClientList();
         }
         public void LaunchStop()
         {
@@ -62,7 +71,12 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.UseShellExecute = true;
             proc1.FileName = @"Stop.bat";
             proc1.Verb = "runas";
-            Process.Start(proc1);
+            proc1.CreateNoWindow = true;           
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            clientsViewWindow.AddClientButton.IsEnabled = true;
+            clientsViewWindow.UpdateClientList();
         }
     }
 }

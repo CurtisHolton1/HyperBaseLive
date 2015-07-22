@@ -21,6 +21,25 @@ namespace HyperBaseLiveWpf
               config.AppSettings.Settings[kvp.Key].Value = kvp.Value; 
           }
           config.Save();
+           
       }
+
+        public static void UpdateAtlasSettings()
+        {
+            string configFile = System.IO.Path.Combine(ConfigInfo.FinalLoc, "Hyperbase.Live.Client.exe.config");
+            ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
+            configFileMap.ExeConfigFilename = configFile;
+            System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+            var sections = config.Sections;
+            var sectionKeys = sections.Keys;
+            string key = "";
+            int i = 0;
+            while (!key.Equals("atlas")){
+                key = sectionKeys.Get(i);
+                i++;
+            }
+           
+            string s = " ";
+        }
     }
 }
