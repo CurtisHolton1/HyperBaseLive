@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -59,40 +48,60 @@ namespace HyperBaseLiveWpf.Views
              
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Directory.Exists(hyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
-            {
-                ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
-                ConfigInfo.FinalLoc = ServiceFolderBrowserText;
-                ConfigInfo.ClientName = ClientNameText;
-                var wnd = new InstallServiceView();
-                wnd.Show();
-                this.Close();
-            }
-            else
+            try
             {
                 if (!Directory.Exists(ServiceFolderBrowserText))
                 {
-                    Error2.Text = "Directory does not exist";
-                    Error2.Visibility = Visibility.Visible;
+                    Directory.CreateDirectory(ServiceFolderBrowserText);
                 }
-                else
+                if (!Directory.Exists(HyperSpinFolderBrowserText))
                 {
-                    Error2.Visibility = Visibility.Hidden;
+                    Directory.CreateDirectory(HyperSpinFolderBrowserText);
                 }
 
-                if (!Directory.Exists(hyperSpinFolderBrowserText))
-                {                 
-                    Error1.Text = "Directory does not exist";
-                    Error1.Visibility = Visibility.Visible;
-                }
-                else
+                if (Directory.Exists(hyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
-                    Error1.Visibility = Visibility.Hidden;
+                    ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
+                    ConfigInfo.FinalLoc = ServiceFolderBrowserText;
+                    ConfigInfo.ClientName = ClientNameText;
+                    Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText };
+                    var wnd = new InstallServiceView(clientToInstall);
+                    wnd.Show();
+                    this.Close();
                 }
+            }
+            catch (Exception exce)
+            {
+                System.Windows.MessageBox.Show(exce.Message);
+                throw exce;
+            }
+            //else
+            //{
+            //    if (!Directory.Exists(ServiceFolderBrowserText))
+            //    {
+            //        //Error2.Text = "Directory does not exist";
+            //        //Error2.Visibility = Visibility.Visible;
+            //        Directory.CreateDirectory(ServiceFolderBrowserText);
+            //    }
+            //    else
+            //    {
+            //       // Error2.Visibility = Visibility.Hidden;
+            //    }
+
+            //    if (!Directory.Exists(HyperSpinFolderBrowserText))
+            //    {
+            //        Directory.CreateDirectory(HyperSpinFolderBrowserText);
+            //        //Error1.Text = "Directory does not exist";
+            //        //Error1.Visibility = Visibility.Visible;
+            //    }
+            //    else
+            //    {
+            //        //Error1.Visibility = Visibility.Hidden;
+            //    }
                
 
             }
-        }
+        
 
         private void HyperSpinButton_Click(object sender, RoutedEventArgs e)
         {

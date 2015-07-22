@@ -78,6 +78,8 @@
     <Compile Include="Configurer.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Helpers\BatchManager.cs" />
+    <Compile Include="Helpers\ClientFileManager.cs" />
+    <Compile Include="Helpers\ClientManager.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />

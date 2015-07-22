@@ -25,6 +25,7 @@ namespace HyperBaseLiveWpf
              {
                  var wnd = allWindows.Single<Window>(m => m is ClientsView);
                  (wnd as ClientsView).AddClientButton.IsEnabled = true;
+                (wnd as ClientsView).UpdateClientList();
              }
          }
          public static bool Contains(Window w)
