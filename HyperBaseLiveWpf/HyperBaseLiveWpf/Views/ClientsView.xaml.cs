@@ -34,21 +34,26 @@ namespace HyperBaseLiveWpf
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
-            DataList = ClientFileManager.DetermineClients();
+            UpdateClientList();
             timer1 = new System.Timers.Timer(2000);
             timer1.Elapsed += timer1_Elapsed;           
             timer1.AutoReset = true;
             timer1.Enabled = true;
+            ///////
+           
+            //////////
         }
+
+       
 
         private void timer1_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            UpdateClientList();
+        {           
+                UpdateClientList();         
         }
 
-        public void UpdateClientList()
+        public async void UpdateClientList()
         { 
-            DataList = ClientFileManager.DetermineClients();
+            DataList = await Task.Run(()=> ClientFileManager.DetermineClients());
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
@@ -82,9 +87,6 @@ namespace HyperBaseLiveWpf
         }
 
         #endregion
-
-
-
 
     }
 }

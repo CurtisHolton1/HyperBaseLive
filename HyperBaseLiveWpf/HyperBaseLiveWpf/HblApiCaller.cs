@@ -69,6 +69,23 @@ namespace HyperBaseLiveWpf
             }
         }
 
+        public static async Task<string> CheckStatus()
+        {
+            ///////////////////////////////ToDo
+            //try {
+            //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://api.hyperbase-live.com");
+
+            //    HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+            //    if (response == null || response.StatusCode != HttpStatusCode.OK)
+            //        return "Down";
+            //    return "UP";
+            //}
+            //catch ( Exception e)
+            //{
+            //    return "Down";
+            //}
+            return "UP";
+        }
       
 
     }

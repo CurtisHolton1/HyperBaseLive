@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf.Helpers
 {
@@ -37,14 +38,14 @@ namespace HyperBaseLiveWpf.Helpers
                         {
                             status = ClientManager.GetServiceStatus("HyperBase Client");
                         }
-                        toReturn.Add(new Client { Name = split[0], Location = split[1], Status = status });
+                        toReturn.Add(new Client { Name = split[0], Location = split[1], Status = status, HBLStatus = "Pending Check" });
                     }                   
                 }
             }
             return toReturn;
         }
 
-        public static List<Client> DetermineClients()
+        public static async Task<List<Client>> DetermineClients()
         {
             List<Client> toReturn = new List<Client>();
             foreach (var c in installedClients)
@@ -61,7 +62,7 @@ namespace HyperBaseLiveWpf.Helpers
                 {
                     status = ClientManager.GetServiceStatus("HyperBase Client");
                 }
-                toReturn.Add(new Client { Name = c.Name, Location = c.Location, Status = status });
+                toReturn.Add(new Client { Name = c.Name, Location = c.Location, Status = status, HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus()) });
             }
             var taskWnd = (TaskBarView)WindowWatcher.GetWindowOfType<TaskBarView>();
             ///////////////////////////
@@ -73,6 +74,7 @@ namespace HyperBaseLiveWpf.Helpers
             return toReturn;
         }
 
+       
 
         
 
