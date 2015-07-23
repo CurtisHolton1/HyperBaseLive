@@ -38,8 +38,7 @@ namespace HyperBaseLiveWpf.Views
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             try
             {
-                DialogResult result = fbd.ShowDialog();
-               
+                DialogResult result = fbd.ShowDialog();             
                 ServiceFolderBrowserText = fbd.SelectedPath;
                 
             }
@@ -59,9 +58,9 @@ namespace HyperBaseLiveWpf.Views
                     Directory.CreateDirectory(HyperSpinFolderBrowserText);
                 }
 
-                if (Directory.Exists(hyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
+                if (Directory.Exists(HyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
-                    ConfigInfo.HBLAssetDir = hyperSpinFolderBrowserText;
+                    ConfigInfo.HBLAssetDir = HyperSpinFolderBrowserText;
                     ConfigInfo.FinalLoc = ServiceFolderBrowserText;
                     ConfigInfo.ClientName = ClientNameText;
                     Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText };

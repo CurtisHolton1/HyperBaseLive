@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HyperBaseLiveWpf.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace HyperBaseLiveWpf.Menu
         public string Name { get { return name; } set { name = value; } }
         public void PerformAction(){
             Application.Current.Shutdown();
+            BatchManager bm = new BatchManager();
+            /////////////////////////
+            bm.WriteStop("HyperBase Client");
+            bm.LaunchStop();
+            //////////////////////////
         }
     }
 }

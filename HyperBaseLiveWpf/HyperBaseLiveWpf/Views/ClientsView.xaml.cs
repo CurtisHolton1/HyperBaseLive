@@ -47,7 +47,7 @@ namespace HyperBaseLiveWpf
         }
 
         public void UpdateClientList()
-        {
+        { 
             DataList = ClientFileManager.DetermineClients();
         }
 

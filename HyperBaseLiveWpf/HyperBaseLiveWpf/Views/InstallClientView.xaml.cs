@@ -183,8 +183,7 @@ namespace HyperBaseLiveWpf.Views
             await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));
             BatchManager bm = new BatchManager();
             bm.WriteStart("HyperBase Client");
-            bm.LaunchStart();
-            
+            bm.LaunchStart();          
             ButtonContent = "Finish";
             return "";
         }
