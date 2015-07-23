@@ -15,39 +15,58 @@ namespace HyperBaseLiveWpf
     /// </summary>
     public partial class TaskBarView : Window, INotifyPropertyChanged
     {
-        public string UserImg { get; set; }
-        public List<string> SyncHistory { get; set; }
-        public List<IMenuItem> MenuOptions { get; set; }
-        public int OutSideWidth { get; set; }
-        public int OutSideHeight { get; set; }
+        // public string UserImg { get; set; }
+        // public List<string> SyncHistory { get; set; }
+        //public List<IMenuItem> MenuOptions { get; set; }
+        // public int OutSideWidth { get; set; }
+        // public int OutSideHeight { get; set; }
+        private List<MenuItem> menu;
+        public List<MenuItem> Menu { get { return menu; } set { menu = value; this.OnPropertyChanged("Menu"); } }
      
+       /*
+        *uncomment all commented code for custom taskbar menu
+        */
         public TaskBarView()
         {                      
             this.DataContext = this;
            
-            UserImg = "../Content/profile.jpg";
-            SyncHistory = new List<string>();
-            MenuOptions = new List<IMenuItem>();
-            InitializeComponent();                            
-            SyncHistory.Add("Item1");
-            //SyncHistory.Add("Item2");
-            //SyncHistory.Add("Item3");
-            //SyncHistory.Add("Item3");
-            //SyncHistory.Add("Item4");
-            //SyncHistory.Add("Item5");
-            //SyncHistory.Add("Item6");
-            //SyncHistory.Add("Item7");
-            //SyncHistory.Add("Item8");
-            //SyncHistory.Add("Item9");
-            //SyncHistory.Add("Item10");
-            //SyncHistory.Add("Item11");
-            MenuOptions.Add(MenuStaticClassFactory.GetStartClass());
-            MenuOptions.Add(MenuStaticClassFactory.GetStopClass());
-            MenuOptions.Add(MenuStaticClassFactory.GetUpdateClass());
-            MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
-            MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
+           // UserImg = "../Content/profile.jpg";
+            //SyncHistory = new List<string>();
+           // MenuOptions = new List<IMenuItem>();
+            InitializeComponent();
+            //SyncHistory.Add("Item1");           
+            //MenuOptions.Add(MenuStaticClassFactory.GetStartClass());
+            //MenuOptions.Add(MenuStaticClassFactory.GetStopClass());
+            //MenuOptions.Add(MenuStaticClassFactory.GetUpdateClass());
+            //MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
+            //MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
+            Menu = new List<MenuItem>();
+            Menu.Add(new MenuItem { Header = "Start" });
+            Menu.Add(new MenuItem { Header = "Stop" });           
+            Menu.Add(new MenuItem { Header = "Clients" });
+            Menu.Add(new MenuItem { Header = "Exit" });
             WindowWatcher.AddWindow(this);
             
+        }
+
+        public void UpdateView(Client c)
+        {
+            if (c.Status.Equals("Stopped"))
+            {
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => StartMenuItem.IsEnabled = true);
+                    Dispatcher.Invoke(() => StopMenuItem.IsEnabled = false);                   
+                }              
+            }
+            else if(c.Status.Equals("Running") || c.Status.Equals("StartPending"))
+            {
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => StartMenuItem.IsEnabled = false);
+                    Dispatcher.Invoke(() => StopMenuItem.IsEnabled = true);
+                }
+            }
         }
 
 
@@ -81,24 +100,29 @@ namespace HyperBaseLiveWpf
             WindowWatcher.RemoveWindow(this);
         }
 
-        private void MenuItemStart_Click(object sender, RoutedEventArgs e)
+        private void StartMenuItem_Click(object sender, RoutedEventArgs e)
         {  
-            MenuStaticClassFactory.GetStartClass().PerformAction();
-           
+            MenuStaticClassFactory.GetStartClass().PerformAction();        
         }
 
-        private void MenuItemStop_Click(object sender, RoutedEventArgs e)
-        {          
-
-           
+        private void StopMenuItem_Click(object sender, RoutedEventArgs e)
+        {                    
             MenuStaticClassFactory.GetStopClass().PerformAction();
         }
 
-      
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetExitClass().PerformAction();
+        }
 
-    
+        private void ClientsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetClientsClass().PerformAction();
+        }
 
-
-
+        private void TaskBarContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
     }
 }

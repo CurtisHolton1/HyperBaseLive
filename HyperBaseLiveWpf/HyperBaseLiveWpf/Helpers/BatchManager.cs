@@ -46,6 +46,7 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.FileName = @"Install.bat";
             proc1.Verb = "runas";
             proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
             var p = Process.Start(proc1);
             p.WaitForExit();
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
@@ -59,6 +60,8 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.UseShellExecute = true;
             proc1.FileName = @"Start.bat";
             proc1.Verb = "runas";
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
             var p = Process.Start(proc1);
             p.WaitForExit();
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
@@ -71,7 +74,8 @@ namespace HyperBaseLiveWpf.Helpers
             proc1.UseShellExecute = true;
             proc1.FileName = @"Stop.bat";
             proc1.Verb = "runas";
-            proc1.CreateNoWindow = true;           
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
             var p = Process.Start(proc1);
             p.WaitForExit();
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();

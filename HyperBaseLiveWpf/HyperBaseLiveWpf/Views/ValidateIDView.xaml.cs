@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -58,10 +49,11 @@ namespace HyperBaseLiveWpf.Views
             if (string.IsNullOrEmpty(ClientIDText))
             {
                 ErrorMessage = "The ID field cannot be empty";
+                ValidateButton.IsEnabled = true;
             }
             else
             {
-                var clientName = await Task.Run(()=>HblApiCaller.ValidateID(ClientIDText));
+                var clientName = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
                 if (!string.IsNullOrEmpty(clientName))
                 {
                     ConfigInfo.InstanceId = ClientIDText;

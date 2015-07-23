@@ -38,10 +38,18 @@ namespace HyperBaseLiveWpf.Helpers
                         }
                         clientList.Add(new Client { Name = split[0], Location = split[1] ,Status = status});
                     }
+                   var taskWnd = (TaskBarView)WindowWatcher.GetWindowOfType<TaskBarView>();
+                    ///////////////////////////
+                    if (taskWnd != null && clientList.Count > 0)
+                    {
+                        taskWnd.UpdateView(clientList[0]);
+                    }
+                    /////////////////////////////
                 }
             }
             return clientList;
         }
+
 
 
         public static async void AddClientToFile(Client c)
