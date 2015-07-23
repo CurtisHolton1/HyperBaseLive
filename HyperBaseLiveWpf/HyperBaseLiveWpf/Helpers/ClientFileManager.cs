@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf.Helpers
 {
     public static class ClientFileManager
     {
-        public static List<Client> DetermineClients()
+        private static List<Client> installedClients = BuildClientListFromFile();
+        private static List<Client> BuildClientListFromFile()
         {
-            List<Client> clientList = new List<Client>();
+            List<Client> toReturn = new List<Client>();
             string filePath = "Clients.txt";
             if (!File.Exists(filePath))
             {
@@ -36,27 +38,54 @@ namespace HyperBaseLiveWpf.Helpers
                         {
                             status = ClientManager.GetServiceStatus("HyperBase Client");
                         }
-                        clientList.Add(new Client { Name = split[0], Location = split[1] ,Status = status});
-                    }
-                   var taskWnd = (TaskBarView)WindowWatcher.GetWindowOfType<TaskBarView>();
-                    ///////////////////////////
-                    if (taskWnd != null && clientList.Count > 0)
-                    {
-                        taskWnd.UpdateView(clientList[0]);
-                    }
-                    /////////////////////////////
+                        toReturn.Add(new Client { Name = split[0], Location = split[1], Status = status, HBLStatus = "Pending Check" });
+                    }                   
                 }
             }
-            return clientList;
+            return toReturn;
         }
 
+        public static async Task<List<Client>> DetermineClients()
+        {
+            List<Client> toReturn = new List<Client>();
+            foreach (var c in installedClients)
+            {
+                string status = "ERROR";
+                /////////////////////////////////////////////////////////////////////
+                //what needs to be used when client name is used
+                ////////////////////////////////////////////////////////////////////
+                //if (ClientManager.IsClientInstalled(c.Name))
+                //{
+                //    status = ClientManager.GetServiceStatus(c.Name);
+                //}
+                if (ClientManager.IsClientInstalled("HyperBase Client"))
+                {
+                    status = ClientManager.GetServiceStatus("HyperBase Client");
+                }
+                toReturn.Add(new Client { Name = c.Name, Location = c.Location, Status = status, HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus()) });
+            }
+            var taskWnd = (TaskBarView)WindowWatcher.GetWindowOfType<TaskBarView>();
+            ///////////////////////////
+            if (taskWnd != null && toReturn.Count > 0)
+            {
+                taskWnd.UpdateView(toReturn[0]);
+            }
+            /////////////////////////////
+            return toReturn;
+        }
+
+       
+
+        
 
 
-        public static async void AddClientToFile(Client c)
+
+public static async void AddClientToFile(Client c)
         {
             string filePath = "Clients.txt";
             var text = File.ReadAllText(filePath) + c.Name + "\t" + c.Location + Environment.NewLine;
             File.WriteAllText(filePath, text);
+            installedClients =  BuildClientListFromFile();
         }
     }
 }

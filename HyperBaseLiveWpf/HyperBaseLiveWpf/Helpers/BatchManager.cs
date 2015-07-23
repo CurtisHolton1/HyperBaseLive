@@ -65,8 +65,11 @@ namespace HyperBaseLiveWpf.Helpers
             var p = Process.Start(proc1);
             p.WaitForExit();
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
-            clientsViewWindow.AddClientButton.IsEnabled = true;
-            clientsViewWindow.UpdateClientList();
+            if (clientsViewWindow != null)
+            {
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+                clientsViewWindow.UpdateClientList();
+            }
         }
         public void LaunchStop()
         {
@@ -79,8 +82,11 @@ namespace HyperBaseLiveWpf.Helpers
             var p = Process.Start(proc1);
             p.WaitForExit();
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
-            clientsViewWindow.AddClientButton.IsEnabled = true;
-            clientsViewWindow.UpdateClientList();
+            if (clientsViewWindow != null)
+            {
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+                clientsViewWindow.UpdateClientList();
+            }          
         }
     }
 }

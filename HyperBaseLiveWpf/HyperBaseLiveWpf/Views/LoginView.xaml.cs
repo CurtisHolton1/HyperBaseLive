@@ -1,4 +1,5 @@
-﻿using HyperBaseLiveWpf.Views;
+﻿using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,6 +83,14 @@ namespace HyperBaseLiveWpf
         {
             ConfigInfo.User = UserName;
             ConfigInfo.Password = Password;
+            ////////////////////////////////////////////////////
+            if (ClientManager.IsClientInstalled("HyperBase Client"))
+            {
+                BatchManager bm = new BatchManager();
+                bm.WriteStart("HyperBase Client");
+                bm.LaunchStart();
+            }
+            /////////////////////////////////////////////////////
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();
