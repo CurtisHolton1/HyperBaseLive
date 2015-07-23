@@ -7,8 +7,10 @@
         <tb:TaskbarIcon x:Name="TaskBarMainWindow" IconSource="../Content/Game.ico" >
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu x:Name="TaskBarContextMenu">
-                    <MenuItem Header="Start" Click="MenuItemStart_Click"></MenuItem>
-                    <MenuItem Header="Stop" Click="MenuItemStop_Click"></MenuItem>
+                    <MenuItem x:Name="StartMenuItem" Header="Start" Click="StartMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="StopMenuItem" Header="Stop" Click="StopMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click"></MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <!--tb:TaskbarIcon.TrayPopup>

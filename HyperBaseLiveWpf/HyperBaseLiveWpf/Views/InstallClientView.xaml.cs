@@ -189,10 +189,6 @@ namespace HyperBaseLiveWpf.Views
             return "";
         }
 
-      
-
-  
-
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

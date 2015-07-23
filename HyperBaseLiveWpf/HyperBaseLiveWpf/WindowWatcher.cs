@@ -21,8 +21,12 @@ namespace HyperBaseLiveWpf
          }
          public static void RemoveWindow(Window w){
              allWindows.Remove(w);
-             
-         }
+            if (allWindows.Count == 2)
+            {
+                ClientsView clientsViewWindow = (ClientsView)GetWindowOfType<ClientsView>();
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+            }
+        }
          public static bool Contains(Window w)
          {
              return allWindows.Contains(w);             
