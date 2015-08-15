@@ -56,24 +56,27 @@ namespace HyperBaseLiveWpf
             using (StreamWriter sw = new StreamWriter(Location +"\\Install.bat"))
             { 
                 sw.WriteLine("hyperbase.live.client /i");
-                // sw.WriteLine("pause");
-
             }
         }
         private void WriteStart()
         {
             using (StreamWriter sw = new StreamWriter(Location + "\\Start.bat"))
-            {
-                sw.WriteLine("sc start \"" + Name + "\"");
-                // sw.WriteLine("pause");
+            {//////////////////////////////////
+                sw.WriteLine("sc start \"HyperBase Client\"");
+                //////////////////////////
+                ///what will be used
+                //sw.WriteLine("sc start \"" + Name + "\"");
+                
             }
         }
         private void WriteStop()
         {
             using (StreamWriter sw = new StreamWriter(Location +"\\Stop.bat"))
-            {
-                sw.WriteLine("sc stop \"" + Name + "\"");
-                //sw.WriteLine("pause");
+            {/////////////////////////////////
+                sw.WriteLine("sc stop \"HyperBase Client\"");
+                ////////////////////////
+                //sw.WriteLine("sc stop \"" + Name + "\"");
+
             }
         }
         public void Install()
@@ -82,6 +85,7 @@ namespace HyperBaseLiveWpf
                 WriteInstall();
             var proc1 = new ProcessStartInfo();
             proc1.UseShellExecute = true;
+            proc1.WorkingDirectory = Location;
             proc1.FileName = Location + "\\Install.bat";
             proc1.Verb = "runas";
             proc1.CreateNoWindow = true;
@@ -91,6 +95,7 @@ namespace HyperBaseLiveWpf
             ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
             clientsViewWindow.AddClientButton.IsEnabled = true;
             clientsViewWindow.UpdateClientList();
+
         }
 
         public void Start()
@@ -101,6 +106,7 @@ namespace HyperBaseLiveWpf
             proc1.UseShellExecute = true;
             proc1.FileName = Location + "\\Start.bat";
             proc1.Verb = "runas";
+            proc1.WorkingDirectory = Location;
             proc1.CreateNoWindow = true;
             proc1.WindowStyle = ProcessWindowStyle.Hidden;
             var p = Process.Start(proc1);
@@ -120,6 +126,7 @@ namespace HyperBaseLiveWpf
             proc1.UseShellExecute = true;
             proc1.FileName = Location + "\\Stop.bat";
             proc1.Verb = "runas";
+            proc1.WorkingDirectory = Location;
             proc1.CreateNoWindow = true;
             proc1.WindowStyle = ProcessWindowStyle.Hidden;
             var p = Process.Start(proc1);
