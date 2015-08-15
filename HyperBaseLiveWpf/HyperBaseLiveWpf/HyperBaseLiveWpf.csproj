@@ -77,7 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="HblApiCaller.cs" />
+    <Compile Include="Helpers\HblApiCaller.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Helpers\BatchManager.cs" />
     <Compile Include="Helpers\ClientFileManager.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="Views\ValidateIDView.xaml.cs">
       <DependentUpon>ValidateIDView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowWatcher.cs" />
+    <Compile Include="Helpers\WindowWatcher.cs" />
     <Page Include="Views\AddClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,7 +177,9 @@
   <ItemGroup>
     <Resource Include="Content\logo.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Content\hblIcon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
