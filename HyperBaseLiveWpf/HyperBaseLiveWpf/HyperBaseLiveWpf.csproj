@@ -79,7 +79,6 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\HblApiCaller.cs" />
     <Compile Include="Models\Client.cs" />
-    <Compile Include="Helpers\BatchManager.cs" />
     <Compile Include="Helpers\ClientFileManager.cs" />
     <Compile Include="Helpers\ClientManager.cs" />
     <Compile Include="Helpers\Updater.cs" />

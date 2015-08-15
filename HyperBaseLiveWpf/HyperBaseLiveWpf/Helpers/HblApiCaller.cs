@@ -32,13 +32,11 @@ namespace HyperBaseLiveWpf
 
                 Console.WriteLine("ERROR: "  + e.Message);
                 return false;
-
             }
-
         }
+
         private static HBLToken HttpPost(string datamarketAccessUri, string requestDetails)
         {
-
             //Prepare OAuth request 
             var webRequest = WebRequest.Create(datamarketAccessUri);
             webRequest.ContentType = "application/x-www-form-urlencoded";
@@ -98,27 +96,25 @@ namespace HyperBaseLiveWpf
             //}
             return "UP";
         }
-
-        
-      
+   
         public static async Task<ServiceVersionsResponse> GetServiceVersions()
         {
             try
             {
                 var HblApi = "https://api.hyperbase-live.com/api";
-                var client = new RestClient(HblApi);
-               
+                var client = new RestClient(HblApi);         
                 var request = new RestRequest("/ServiceVersions", Method.GET);
-                ///////////////////////////////////////
-                request.AddHeader("apikey", "7a4901de-eb4c-48ba-9be3-aa36f0cda888");
-               //////////////////////////////////////////
+                request.AddHeader("apikey",ConfigurationManager.AppSettings["apikey"]);
                 var response = client.Execute(request);
                 if (!string.IsNullOrEmpty(response.ErrorMessage))
                 {
                     System.Windows.MessageBox.Show("Error in GetServiceVersions");
                 }
-                return JsonConvert.DeserializeObject<ServiceVersionsResponse>(response.Content);
-
+                ////////////////////////////////
+                if (response.ContentLength > 2)
+                    return JsonConvert.DeserializeObject<ServiceVersionsResponse>(response.Content);
+                ////////////////////////////////////
+                else return null;
             }
             catch (Exception e)
             {
@@ -126,10 +122,8 @@ namespace HyperBaseLiveWpf
                 return null;
             }
         }
-
-
-
     }
+
     [DataContract]
     public class HBLToken
     {
@@ -141,5 +135,5 @@ namespace HyperBaseLiveWpf
         public string expires_in { get; set; }
         [DataMember]
         public string scope { get; set; }
-               }
+    }
 }

@@ -15,9 +15,7 @@ namespace HyperBaseLiveWpf.Menu
         public void PerformAction()
         {
 
-            BatchManager bm = new BatchManager();
-            bm.WriteStop("HyperBase Client");
-            bm.LaunchStop();
+          
 
         }
     }

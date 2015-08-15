@@ -116,9 +116,7 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 InstallBar.Value = 100;
-                BatchManager bm = new BatchManager();
-                bm.WriteInstall(clientToInstall.Location);
-                bm.LaunchInstall();            
+                clientToInstall.Install();      
                 InstallComplete();
             }
             catch (Exception exc)
@@ -180,9 +178,7 @@ namespace HyperBaseLiveWpf.Views
             StatusLabel.Visibility = Visibility.Hidden;
             Launch.Visibility = Visibility.Visible;
             await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));
-            BatchManager bm = new BatchManager();
-            bm.WriteStart("HyperBase Client");
-            bm.LaunchStart();          
+            clientToInstall.Start();      
             ButtonContent = "Finish";
             return "";
         }

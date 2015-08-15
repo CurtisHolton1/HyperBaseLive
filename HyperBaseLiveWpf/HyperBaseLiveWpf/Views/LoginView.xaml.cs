@@ -35,8 +35,7 @@ namespace HyperBaseLiveWpf
             UserName = "Username";           
             InitializeComponent();
             this.DataContext = this;
-            WindowWatcher.AddWindow(this);
-            //HblApiCaller.GetServiceVersions();
+            WindowWatcher.AddWindow(this);            
             
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
@@ -84,14 +83,7 @@ namespace HyperBaseLiveWpf
         {
             //ConfigInfo.User = UserName;
             //ConfigInfo.Password = Password;
-            ////////////////////////////////////////////////////
-            if (ClientManager.IsClientInstalled("HyperBase Client"))
-            {
-                BatchManager bm = new BatchManager();
-                bm.WriteStart("HyperBase Client");
-                bm.LaunchStart();
-            }
-            /////////////////////////////////////////////////////
+          
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();

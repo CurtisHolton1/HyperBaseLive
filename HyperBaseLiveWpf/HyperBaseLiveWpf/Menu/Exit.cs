@@ -13,12 +13,8 @@ namespace HyperBaseLiveWpf.Menu
         private string name = "Exit";
         public string Name { get { return name; } set { name = value; } }
         public void PerformAction(){
-            Application.Current.Shutdown();
-            BatchManager bm = new BatchManager();
-            /////////////////////////
-            bm.WriteStop("HyperBase Client");
-            bm.LaunchStop();
-            //////////////////////////
+        Application.Current.Shutdown();
+
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 
 namespace HyperBaseLiveWpf
 {
@@ -49,20 +51,87 @@ namespace HyperBaseLiveWpf
 
             string s = " ";
         }
-        /// /////////////////////////////////////////////
-        public bool Start()
+        private void WriteInstall()
         {
-            return true;
+            using (StreamWriter sw = new StreamWriter(Location +"\\Install.bat"))
+            { 
+                sw.WriteLine("hyperbase.live.client /i");
+                // sw.WriteLine("pause");
+
+            }
         }
-        public bool Stop()
+        private void WriteStart()
         {
-            return true;
+            using (StreamWriter sw = new StreamWriter(Location + "\\Start.bat"))
+            {
+                sw.WriteLine("sc start \"" + Name + "\"");
+                // sw.WriteLine("pause");
+            }
         }
-        public bool Update()
+        private void WriteStop()
         {
-            return true;
+            using (StreamWriter sw = new StreamWriter(Location +"\\Stop.bat"))
+            {
+                sw.WriteLine("sc stop \"" + Name + "\"");
+                //sw.WriteLine("pause");
+            }
         }
-        ///////////////////////////////////////////////
+        public void Install()
+        {
+            if (!File.Exists(Location + "\\Install.bat"))
+                WriteInstall();
+            var proc1 = new ProcessStartInfo();
+            proc1.UseShellExecute = true;
+            proc1.FileName = Location + "\\Install.bat";
+            proc1.Verb = "runas";
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            clientsViewWindow.AddClientButton.IsEnabled = true;
+            clientsViewWindow.UpdateClientList();
+        }
+
+        public void Start()
+        {
+            if (!File.Exists(Location + "\\Start.bat"))
+                WriteStart();
+            var proc1 = new ProcessStartInfo();
+            proc1.UseShellExecute = true;
+            proc1.FileName = Location + "\\Start.bat";
+            proc1.Verb = "runas";
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            if (clientsViewWindow != null)
+            {
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+                clientsViewWindow.UpdateClientList();
+            }
+        }
+        public void Stop()
+        {
+            if (!File.Exists(Location + "\\Stop.bat"))
+                WriteStop();
+            var proc1 = new ProcessStartInfo();
+            proc1.UseShellExecute = true;
+            proc1.FileName = Location + "\\Stop.bat";
+            proc1.Verb = "runas";
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            if (clientsViewWindow != null)
+            {
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+                clientsViewWindow.UpdateClientList();
+            }
+        }
     }
-}
+    }
+
 
