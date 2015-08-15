@@ -49,6 +49,20 @@ namespace HyperBaseLiveWpf
 
             string s = " ";
         }
+        /// /////////////////////////////////////////////
+        public bool Start()
+        {
+            return true;
+        }
+        public bool Stop()
+        {
+            return true;
+        }
+        public bool Update()
+        {
+            return true;
+        }
+        ///////////////////////////////////////////////
     }
 }
 

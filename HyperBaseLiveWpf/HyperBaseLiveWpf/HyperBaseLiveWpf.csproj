@@ -169,9 +169,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Content\Game.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Content\profile.jpg" />
   </ItemGroup>
   <ItemGroup>
