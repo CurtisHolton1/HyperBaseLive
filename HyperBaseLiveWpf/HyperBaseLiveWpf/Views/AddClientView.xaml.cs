@@ -63,7 +63,7 @@ namespace HyperBaseLiveWpf.Views
                     ConfigInfo.HBLAssetDir = HyperSpinFolderBrowserText;
                     ConfigInfo.FinalLoc = ServiceFolderBrowserText;
                     ConfigInfo.ClientName = ClientNameText;
-                    Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText };
+                    Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText, InstanceID = ConfigInfo.InstanceId, Version = Convert.ToInt32(ConfigInfo.Version) };
                     var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();
                     this.Close();

@@ -11,6 +11,7 @@
                     <MenuItem x:Name="StopMenuItem" Header="Stop" Click="StopMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="UpdateMenuItem" Header="Update" Click="UpdateMenuItem_Click"></MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <!--tb:TaskbarIcon.TrayPopup>

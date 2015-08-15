@@ -39,16 +39,15 @@ namespace HyperBaseLiveWpf
             timer1.Elapsed += timer1_Elapsed;           
             timer1.AutoReset = true;
             timer1.Enabled = true;
-            ///////
-           
-            //////////
         }
 
-       
+        
 
-        private void timer1_Elapsed(object sender, ElapsedEventArgs e)
+        private async void timer1_Elapsed(object sender, ElapsedEventArgs e)
         {           
-                UpdateClientList();         
+                
+                UpdateClientList();  
+                   
         }
 
         public async void UpdateClientList()

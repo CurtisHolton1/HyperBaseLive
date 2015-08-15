@@ -104,8 +104,7 @@ namespace HyperBaseLiveWpf.Views
                 configList.Add(new KeyValuePair<string, string>("finalLoc", ConfigInfo.FinalLoc));
                 configList.Add(new KeyValuePair<string, string>("instanceId", ConfigInfo.InstanceId));
                 configList.Add(new KeyValuePair<string, string>("HBLAssetDir", ConfigInfo.HBLAssetDir));
-                configList.Add(new KeyValuePair<string, string>("user", ConfigInfo.User));
-                configList.Add(new KeyValuePair<string, string>("pass", ConfigInfo.Password));
+                //configList.Add(new KeyValuePair<string, string>("id", ConfigInfo.Id));
                 Configurer.UpdateConfig(configList);
             }
             catch (Exception ex)

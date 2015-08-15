@@ -16,7 +16,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 var f = File.Create(filePath);
                 f.Close();
-                f.Dispose();
+                f.Dispose(); 
             }
             else
             {
@@ -38,8 +38,8 @@ namespace HyperBaseLiveWpf.Helpers
                         {
                             status = ClientManager.GetServiceStatus("HyperBase Client");
                         }
-                        toReturn.Add(new Client { Name = split[0], Location = split[1], Status = status, HBLStatus = "Pending Check" });
-                    }                   
+                        toReturn.Add(new Client { Name = split[0], Location = split[1], Status = status, HBLStatus = "Pending Check", InstanceID = split[3], Version = Convert.ToInt32(split[4]) });
+                    }
                 }
             }
             return toReturn;
@@ -62,7 +62,7 @@ namespace HyperBaseLiveWpf.Helpers
                 {
                     status = ClientManager.GetServiceStatus("HyperBase Client");
                 }
-                toReturn.Add(new Client { Name = c.Name, Location = c.Location, Status = status, HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus()) });
+                toReturn.Add(new Client { Name = c.Name, Location = c.Location, Status = status, HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus()), Version = c.Version, InstanceID = c.InstanceID, Id = c.Id });
             }
             var taskWnd = (TaskBarView)WindowWatcher.GetWindowOfType<TaskBarView>();
             ///////////////////////////
@@ -73,19 +73,16 @@ namespace HyperBaseLiveWpf.Helpers
             /////////////////////////////
             return toReturn;
         }
-
-       
-
-        
-
-
-
-public static async void AddClientToFile(Client c)
+        public static async void AddClientToFile(Client c)
         {
+         
             string filePath = "Clients.txt";
-            var text = File.ReadAllText(filePath) + c.Name + "\t" + c.Location + Environment.NewLine;
-            File.WriteAllText(filePath, text);
-            installedClients =  BuildClientListFromFile();
+            if (File.Exists(filePath))
+            {
+                var text = File.ReadAllText(filePath) + c.Name + "\t" + c.Location + "\t" + c.InstanceID + "\t" + c.Version + "\t" + c.Id + Environment.NewLine;
+                File.WriteAllText(filePath, text);
+                installedClients = BuildClientListFromFile();
+            }
         }
     }
 }

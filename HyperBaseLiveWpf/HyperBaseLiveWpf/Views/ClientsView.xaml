@@ -58,7 +58,16 @@
             
             <Label Content="Installed Clients:" Foreground="Black" d:IsHidden="True"/>
             <Grid Margin="10,26,10,105" d:IsHidden="True">
-                <DataGrid x:Name="DataGrid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" ItemsSource="{Binding DataList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AlternatingRowBackground="LightBlue" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" IsReadOnly="True" SnapsToDevicePixels="True" GridLinesVisibility="Vertical"/>
+                <DataGrid x:Name="DataGrid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" AutoGenerateColumns="False" ItemsSource="{Binding DataList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AlternatingRowBackground="LightBlue" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" IsReadOnly="True" SnapsToDevicePixels="True" GridLinesVisibility="Vertical">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Location" Binding="{Binding Location}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="HBLStatus" Binding="{Binding HBLStatus}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                  
+                </DataGrid>
+
             </Grid>
         </Grid>
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Background="White" >

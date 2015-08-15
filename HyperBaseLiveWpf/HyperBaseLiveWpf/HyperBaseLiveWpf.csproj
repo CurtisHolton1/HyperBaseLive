@@ -43,6 +43,10 @@
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
@@ -76,10 +80,11 @@
     <Compile Include="ConfigInfo.cs" />
     <Compile Include="HblApiCaller.cs" />
     <Compile Include="Configurer.cs" />
-    <Compile Include="Client.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Helpers\BatchManager.cs" />
     <Compile Include="Helpers\ClientFileManager.cs" />
     <Compile Include="Helpers\ClientManager.cs" />
+    <Compile Include="Helpers\Updater.cs" />
     <Compile Include="Menu\Clients.cs" />
     <Compile Include="Menu\Exit.cs" />
     <Compile Include="Menu\IMenuItem.cs" />
@@ -87,6 +92,7 @@
     <Compile Include="Menu\Start.cs" />
     <Compile Include="Menu\Stop.cs" />
     <Compile Include="Menu\Update.cs" />
+    <Compile Include="Models\ServiceVersionsResponse.cs" />
     <Compile Include="Views\AddClientView.xaml.cs">
       <DependentUpon>AddClientView.xaml</DependentUpon>
     </Compile>

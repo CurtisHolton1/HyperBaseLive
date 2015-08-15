@@ -45,6 +45,7 @@ namespace HyperBaseLiveWpf
             Menu.Add(new MenuItem { Header = "Stop" });           
             Menu.Add(new MenuItem { Header = "Clients" });
             Menu.Add(new MenuItem { Header = "Exit" });
+            Menu.Add(new MenuItem { Header = "Update" });
             WindowWatcher.AddWindow(this);
             
         }
@@ -120,9 +121,16 @@ namespace HyperBaseLiveWpf
             MenuStaticClassFactory.GetClientsClass().PerformAction();
         }
 
+        private void UpdateMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetUpdateClass().PerformAction();
+        }
+
         private void TaskBarContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             
         }
+
+     
     }
 }
