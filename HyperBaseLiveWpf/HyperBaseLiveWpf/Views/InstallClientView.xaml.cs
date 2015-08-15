@@ -86,7 +86,7 @@ namespace HyperBaseLiveWpf.Views
             try
             {
 
-                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", ConfigInfo.FinalLoc);
+                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", clientToInstall.Location);
 
             }
             catch (Exception e)
@@ -101,11 +101,11 @@ namespace HyperBaseLiveWpf.Views
             {
                 InstallBar.Value += 10;
                 List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
-                configList.Add(new KeyValuePair<string, string>("finalLoc", ConfigInfo.FinalLoc));
-                configList.Add(new KeyValuePair<string, string>("instanceId", ConfigInfo.InstanceId));
-                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", ConfigInfo.HBLAssetDir));
+                configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.Location));
+                configList.Add(new KeyValuePair<string, string>("instanceId", clientToInstall.InstanceID));
+                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", clientToInstall.HBLAssetDir));
                 //configList.Add(new KeyValuePair<string, string>("id", ConfigInfo.Id));
-                Configurer.UpdateConfig(configList);
+                clientToInstall.UpdateConfig(configList);
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace HyperBaseLiveWpf.Views
             {
                 InstallBar.Value = 100;
                 BatchManager bm = new BatchManager();
-                bm.WriteInstall(ConfigInfo.FinalLoc);
+                bm.WriteInstall(clientToInstall.Location);
                 bm.LaunchInstall();            
                 InstallComplete();
             }
@@ -128,7 +128,7 @@ namespace HyperBaseLiveWpf.Views
         }
         private void HandleException()
         {
-            System.IO.File.Delete(System.IO.Path.Combine(ConfigInfo.FinalLoc, "hblsvc.zip"));
+            System.IO.File.Delete(System.IO.Path.Combine(clientToInstall.Location, "hblsvc.zip"));
             InstallBar.Visibility = Visibility.Hidden;
             StatusLabelContent = "Installation Cancelled";
             ButtonContent = "Close";

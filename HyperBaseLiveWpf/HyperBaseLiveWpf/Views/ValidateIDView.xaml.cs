@@ -53,11 +53,13 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
-                var clientName = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
-                if (!string.IsNullOrEmpty(clientName))
+                Client clientToInstall = new Client();
+                clientToInstall.Name = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
+                clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
+                if (!string.IsNullOrEmpty(clientToInstall.Name))
                 {
-                    ConfigInfo.InstanceId = ClientIDText;
-                    var wnd = new AddClientView(clientName);
+                    clientToInstall.InstanceID = clientIDText;
+                    var wnd = new AddClientView(clientToInstall);
                     wnd.Show();
                     this.Close();
                 }

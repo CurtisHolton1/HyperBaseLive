@@ -77,9 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConfigInfo.cs" />
     <Compile Include="HblApiCaller.cs" />
-    <Compile Include="Configurer.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Helpers\BatchManager.cs" />
     <Compile Include="Helpers\ClientFileManager.cs" />

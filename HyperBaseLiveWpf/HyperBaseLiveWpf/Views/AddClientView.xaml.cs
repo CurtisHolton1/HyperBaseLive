@@ -18,16 +18,18 @@ namespace HyperBaseLiveWpf.Views
         public string HyperSpinFolderBrowserText { get { return hyperSpinFolderBrowserText; } set { hyperSpinFolderBrowserText = value; this.OnPropertyChanged("HyperSpinFolderBrowserText"); } }
         private string clientNameText;
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
+        private Client clientToInstall;
         //private string error1;
         //public string Error1 { get { return error1; } set { error1 = value; this.OnPropertyChanged("Error1"); } }
         //private string error2;
         //public string Error2 { get { return error2; } set { error2 = value; this.OnPropertyChanged("Error2"); } }
 
-        public AddClientView(string clientName)
+        public AddClientView(Client clientToInstall)
         {
+            this.clientToInstall = clientToInstall;
             InitializeComponent();
             this.DataContext = this;
-            ClientNameText = clientName.Substring(1,clientName.Length-2);
+            ClientNameText = clientToInstall.Name;
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
             ServiceFolderBrowserText = @"C:\Program Files\HyperBaseLive\Services";
             WindowWatcher.AddWindow(this);
@@ -60,10 +62,8 @@ namespace HyperBaseLiveWpf.Views
 
                 if (Directory.Exists(HyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
-                    ConfigInfo.HBLAssetDir = HyperSpinFolderBrowserText;
-                    ConfigInfo.FinalLoc = ServiceFolderBrowserText;
-                    ConfigInfo.ClientName = ClientNameText;
-                    Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText, InstanceID = ConfigInfo.InstanceId, Version = Convert.ToInt32(ConfigInfo.Version) };
+                    clientToInstall.Location = serviceFolderBrowserText;
+                    clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
                     var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();
                     this.Close();
