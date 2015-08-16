@@ -36,8 +36,8 @@ namespace HyperBaseLiveWpf
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
-            DbManager d = new DbManager();
-            d.CreateDB();
+            DbManager dbM = new DbManager();
+            dbM.CreateDB();
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
@@ -80,11 +80,12 @@ namespace HyperBaseLiveWpf
                 SubmitButton_Click(sender, e);
         }
 
-        private void LoginComplete()
+        private async void LoginComplete()
         {
-            //ConfigInfo.User = UserName;
-            //ConfigInfo.Password = Password;
-          
+            DbManager dbM = new DbManager();
+            foreach (var c in await Task.Run(() => dbM.GetAllClients())){
+                c.Start();
+            }
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();

@@ -91,7 +91,6 @@ namespace HyperBaseLiveWpf
             clientsViewWindow.UpdateClientList();
 
         }
-
         public void Start()
         {
             if (!File.Exists(Location + "\\Start.bat"))

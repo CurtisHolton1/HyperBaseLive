@@ -57,8 +57,6 @@ namespace HyperBaseLiveWpf
                 /////////////////////////////
                 c.Status = ClientManager.GetServiceStatus(c.Name);
                 /////////////////////////////////
-                c.Version = "1.0";
-                await Task.Run(() => dbM.AddOrUpdateClient(c));
             }
         }
 

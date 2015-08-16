@@ -40,12 +40,6 @@ namespace HyperBaseLiveWpf
             //MenuOptions.Add(MenuStaticClassFactory.GetUpdateClass());
             //MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
             //MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
-            //Menu = new List<MenuItem>();
-            //Menu.Add(new MenuItem { Header = "Start" });
-            //Menu.Add(new MenuItem { Header = "Stop" });           
-            //Menu.Add(new MenuItem { Header = "Clients" });
-            //Menu.Add(new MenuItem { Header = "Exit" });
-            //Menu.Add(new MenuItem { Header = "Update" });
             WindowWatcher.AddWindow(this);
             
         }
