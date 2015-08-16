@@ -4,13 +4,14 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
             Title="TaskBar" Height="300" Width="300" Visibility="Hidden" Closed="Window_Closed">
     <Grid>
-        <tb:TaskbarIcon x:Name="TaskBarMainWindow" IconSource="../Content/Game.ico" >
+        <tb:TaskbarIcon x:Name="TaskBarMainWindow" IconSource="../Content/hblIcon.ico" >
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu x:Name="TaskBarContextMenu">
-                    <MenuItem x:Name="StartMenuItem" Header="Start" Click="StartMenuItem_Click"></MenuItem>
-                    <MenuItem x:Name="StopMenuItem" Header="Stop" Click="StopMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="StartMenuItem" Header="Start All" Click="StartMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="StopMenuItem" Header="Stop All" Click="StopMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="UpdateMenuItem" Header="Update All" Click="UpdateMenuItem_Click"></MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <!--tb:TaskbarIcon.TrayPopup>

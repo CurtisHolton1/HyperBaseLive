@@ -1,5 +1,6 @@
 ﻿using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Menu;
+using HyperBaseLiveWpf.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,11 +41,6 @@ namespace HyperBaseLiveWpf
             //MenuOptions.Add(MenuStaticClassFactory.GetUpdateClass());
             //MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
             //MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
-            Menu = new List<MenuItem>();
-            Menu.Add(new MenuItem { Header = "Start" });
-            Menu.Add(new MenuItem { Header = "Stop" });           
-            Menu.Add(new MenuItem { Header = "Clients" });
-            Menu.Add(new MenuItem { Header = "Exit" });
             WindowWatcher.AddWindow(this);
             
         }
@@ -120,9 +116,16 @@ namespace HyperBaseLiveWpf
             MenuStaticClassFactory.GetClientsClass().PerformAction();
         }
 
+        private void UpdateMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetUpdateClass().PerformAction();
+        }
+
         private void TaskBarContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             
         }
+
+     
     }
 }

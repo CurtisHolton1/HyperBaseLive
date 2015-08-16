@@ -3,7 +3,9 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.ComponentModel;
-
+using HyperBaseLiveWpf.Helpers;
+using System.Threading.Tasks;
+using HyperBaseLiveWpf.Models;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -18,16 +20,18 @@ namespace HyperBaseLiveWpf.Views
         public string HyperSpinFolderBrowserText { get { return hyperSpinFolderBrowserText; } set { hyperSpinFolderBrowserText = value; this.OnPropertyChanged("HyperSpinFolderBrowserText"); } }
         private string clientNameText;
         public string ClientNameText { get { return clientNameText; } set { clientNameText = value; this.OnPropertyChanged("ClientNameText"); } }
+        private Client clientToInstall;
         //private string error1;
         //public string Error1 { get { return error1; } set { error1 = value; this.OnPropertyChanged("Error1"); } }
         //private string error2;
         //public string Error2 { get { return error2; } set { error2 = value; this.OnPropertyChanged("Error2"); } }
 
-        public AddClientView(string clientName)
+        public AddClientView(Client clientToInstall)
         {
+            this.clientToInstall = clientToInstall;
             InitializeComponent();
             this.DataContext = this;
-            ClientNameText = clientName.Substring(1,clientName.Length-2);
+            ClientNameText = clientToInstall.Name;
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
             ServiceFolderBrowserText = @"C:\Program Files\HyperBaseLive\Services";
             WindowWatcher.AddWindow(this);
@@ -45,7 +49,7 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception ) { }
         }
              
-        private void NextButton_Click(object sender, RoutedEventArgs e)
+        private async void NextButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -60,10 +64,15 @@ namespace HyperBaseLiveWpf.Views
 
                 if (Directory.Exists(HyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
-                    ConfigInfo.HBLAssetDir = HyperSpinFolderBrowserText;
-                    ConfigInfo.FinalLoc = ServiceFolderBrowserText;
-                    ConfigInfo.ClientName = ClientNameText;
-                    Client clientToInstall = new Client { Name = ClientNameText, Location = ServiceFolderBrowserText };
+                    this.NextButton.IsEnabled = false;
+                    clientToInstall.Location = serviceFolderBrowserText;
+                    clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
+                    /////////////////////////////////////////////////////
+                    //  TODO REPLACE
+                    clientToInstall.Name = "HyperBase Client";
+                    var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
+                    clientToInstall.Version = versionResponse.Version;
+                    ///////////////////////////
                     var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();
                     this.Close();

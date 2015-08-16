@@ -9,6 +9,7 @@ using System.Net;
 using System.Timers;
 using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Menu;
+using HyperBaseLiveWpf.Models;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -86,7 +87,7 @@ namespace HyperBaseLiveWpf.Views
             try
             {
 
-                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", ConfigInfo.FinalLoc);
+                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", clientToInstall.Location);
 
             }
             catch (Exception e)
@@ -99,14 +100,12 @@ namespace HyperBaseLiveWpf.Views
             StatusLabelContent = "Configuring...";
             try
             {
-                InstallBar.Value += 10;
                 List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
-                configList.Add(new KeyValuePair<string, string>("finalLoc", ConfigInfo.FinalLoc));
-                configList.Add(new KeyValuePair<string, string>("instanceId", ConfigInfo.InstanceId));
-                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", ConfigInfo.HBLAssetDir));
-                configList.Add(new KeyValuePair<string, string>("user", ConfigInfo.User));
-                configList.Add(new KeyValuePair<string, string>("pass", ConfigInfo.Password));
-                Configurer.UpdateConfig(configList);
+                configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.Location));
+                configList.Add(new KeyValuePair<string, string>("instanceId", clientToInstall.InstanceID));
+                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", clientToInstall.HBLAssetDir));
+                //configList.Add(new KeyValuePair<string, string>("id", ConfigInfo.Id));
+                clientToInstall.UpdateConfig(configList);
             }
             catch (Exception ex)
             {
@@ -116,10 +115,7 @@ namespace HyperBaseLiveWpf.Views
             }
             try
             {
-                InstallBar.Value = 100;
-                BatchManager bm = new BatchManager();
-                bm.WriteInstall(ConfigInfo.FinalLoc);
-                bm.LaunchInstall();            
+                clientToInstall.Install();      
                 InstallComplete();
             }
             catch (Exception exc)
@@ -129,7 +125,7 @@ namespace HyperBaseLiveWpf.Views
         }
         private void HandleException()
         {
-            System.IO.File.Delete(System.IO.Path.Combine(ConfigInfo.FinalLoc, "hblsvc.zip"));
+            System.IO.File.Delete(System.IO.Path.Combine(clientToInstall.Location, "hblsvc.zip"));
             InstallBar.Visibility = Visibility.Hidden;
             StatusLabelContent = "Installation Cancelled";
             ButtonContent = "Close";
@@ -154,7 +150,7 @@ namespace HyperBaseLiveWpf.Views
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {           
-            InstallBar.Value = (double)e.ProgressPercentage / 1.5;
+            InstallBar.Value = (double)e.ProgressPercentage;
             if (timeout != null)
             {
                 timeout.Stop();
@@ -180,10 +176,11 @@ namespace HyperBaseLiveWpf.Views
             InstallCompleteLabel.Visibility = Visibility.Visible;
             StatusLabel.Visibility = Visibility.Hidden;
             Launch.Visibility = Visibility.Visible;
-            await Task.Run(()=>ClientFileManager.AddClientToFile(clientToInstall));
-            BatchManager bm = new BatchManager();
-            bm.WriteStart("HyperBase Client");
-            bm.LaunchStart();          
+            DbManager d = new DbManager();
+            await Task.Run(() => d.AddOrUpdateClient(clientToInstall));
+            clientToInstall.Start();
+            var w = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            w.DataList = await Task.Run(()=> d.GetAllClients());
             ButtonContent = "Finish";
             return "";
         }

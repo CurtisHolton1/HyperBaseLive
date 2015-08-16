@@ -12,11 +12,13 @@ namespace HyperBaseLiveWpf.Menu
        private string name = "Start";
        public string Name { get { return name; } set { name = value;  } }
 
-        public void PerformAction(){
-
-            BatchManager bm = new BatchManager();
-            bm.WriteStart("HyperBase Client");
-            bm.LaunchStart();
+        public async void PerformAction(){
+            DbManager dbM = new DbManager();
+           foreach(var c in await Task.Run(() => dbM.GetAllClients()))
+            {
+                c.Start();
+            }
+        
         }
     }
 }
