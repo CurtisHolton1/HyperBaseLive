@@ -29,7 +29,6 @@ namespace HyperBaseLiveWpf.Models
         {
 
         }
-
         public void UpdateConfig(List<KeyValuePair<string, string>> kvpList)
         {
             string configFile = System.IO.Path.Combine(Location, "Hyperbase.Live.Client.exe.config");
@@ -177,6 +176,11 @@ namespace HyperBaseLiveWpf.Models
                 File.WriteAllBytes(Location + "\\hblservice.zip", response.Bytes);
                 System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", this.Location);
                 this.Version = response.Version;
+                List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
+                configList.Add(new KeyValuePair<string, string>("finalLoc", this.Location));
+                configList.Add(new KeyValuePair<string, string>("instanceId", this.InstanceID));
+                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", this.HBLAssetDir));
+                UpdateConfig(configList);
                 this.Install();
                 this.Start();
             }
