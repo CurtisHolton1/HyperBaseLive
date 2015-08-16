@@ -29,7 +29,6 @@ namespace HyperBaseLiveWpf.Helpers
             }
             catch (Exception e)
             {
-
                 Console.WriteLine("ERROR: "  + e.Message);
                 return false;
             }
@@ -62,7 +61,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 var HblApi = "https://api.hyperbase-live.com/api";
                 var client = new RestClient(HblApi);
-                var request = new RestRequest("/ClientInstances", Method.GET);
+                var request = new RestRequest("/GetClientInstances", Method.GET);
                 request.AddParameter("instanceId", id);              
                 var response = client.Execute(request);
                 if (!string.IsNullOrEmpty(response.ErrorMessage))

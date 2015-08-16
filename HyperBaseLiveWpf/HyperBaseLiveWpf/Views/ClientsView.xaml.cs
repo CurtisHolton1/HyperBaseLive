@@ -3,19 +3,8 @@ using HyperBaseLiveWpf.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Timers;
 using HyperBaseLiveWpf.Models;
 
@@ -33,16 +22,23 @@ namespace HyperBaseLiveWpf
         public ClientsView()
         {
             InitializeComponent();
-            this.DataContext = this;
+            this.DataContext = this;         
             WindowWatcher.AddWindow(this);
-            UpdateClientList();
+            AsyncWrapper();
             timer1 = new System.Timers.Timer(2000);
-            timer1.Elapsed += timer1_Elapsed;           
+            timer1.Elapsed += timer1_Elapsed;
             timer1.AutoReset = true;
             timer1.Enabled = true;
         }
-
-        
+        private async void AsyncWrapper()
+        {
+            DbManager dbM = new DbManager();        
+            DataList = await Task.Run(() => dbM.GetAllClients());
+            foreach (var c in DataList)
+            {
+                c.Status = ClientManager.GetServiceStatus(c.Name);
+            }
+        }
 
         private async void timer1_Elapsed(object sender, ElapsedEventArgs e)
         {                           
@@ -50,15 +46,12 @@ namespace HyperBaseLiveWpf
         }
 
         public async void UpdateClientList()
-        {
-            DbManager dbM = new DbManager();
-            DataList = await Task.Run(() => dbM.GetAllClients());
+        {                    
             foreach(var c in DataList)
             {
-                /////////////////////////////
                 c.Status = ClientManager.GetServiceStatus(c.Name);
-                /////////////////////////////////
             }
+
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
@@ -93,5 +86,13 @@ namespace HyperBaseLiveWpf
 
         #endregion
 
+        private async void MainWindow_Activated(object sender, EventArgs e)
+        {
+          var HBLStatus =  await Task.Run(()=>HblApiCaller.CheckStatus());
+            foreach(var c in DataList)
+            {
+                c.HBLStatus = HBLStatus;
+            }
+        }
     }
 }

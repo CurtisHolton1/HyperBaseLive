@@ -2,6 +2,7 @@
 using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Models;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -9,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf.Models
 {
-    public class Client
+    public class Client: INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Status { get; set; }
-        public string HBLStatus { get; set; }
-        public string Location { get; set; }
+        private string name;
+        public string Name { get { return name; } set { name = value; this.OnPropertyChanged("Name"); } }
+        private string status;
+        public string Status { get { return status; } set { status = value; this.OnPropertyChanged("Status"); } }
+        private string hblStatus;
+        public string HBLStatus { get { return hblStatus;  } set { hblStatus = value; this.OnPropertyChanged("HBLStatus"); } }
+        private string location;
+        public string Location { get { return location; } set { location = value; this.OnPropertyChanged("Location"); } }
         public int ID { get; set; }
         public string Version { get; set; }
         public string InstanceID { get; set; }
@@ -170,8 +175,21 @@ namespace HyperBaseLiveWpf.Models
             this.Version = response.Version;
             DbManager dbM = new DbManager();
             await Task.Run(()=>dbM.AddOrUpdateClient(this));
-        }       
+        }
+
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
-    }
+}
 
 
