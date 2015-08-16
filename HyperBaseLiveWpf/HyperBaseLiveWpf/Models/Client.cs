@@ -6,18 +6,19 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf.Models
 {
-    public class Client: INotifyPropertyChanged
+    public class Client : INotifyPropertyChanged
     {
         private string name;
         public string Name { get { return name; } set { name = value; this.OnPropertyChanged("Name"); } }
         private string status;
         public string Status { get { return status; } set { status = value; this.OnPropertyChanged("Status"); } }
         private string hblStatus;
-        public string HBLStatus { get { return hblStatus;  } set { hblStatus = value; this.OnPropertyChanged("HBLStatus"); } }
+        public string HBLStatus { get { return hblStatus; } set { hblStatus = value; this.OnPropertyChanged("HBLStatus"); } }
         private string location;
         public string Location { get { return location; } set { location = value; this.OnPropertyChanged("Location"); } }
         public int ID { get; set; }
@@ -61,22 +62,22 @@ namespace HyperBaseLiveWpf.Models
         }
         private void WriteInstall()
         {
-            using (StreamWriter sw = new StreamWriter(Location +"\\Install.bat"))
-            { 
+            using (StreamWriter sw = new StreamWriter(Location + "\\Install.bat"))
+            {
                 sw.WriteLine("hyperbase.live.client /i");
             }
         }
         private void WriteStart()
         {
             using (StreamWriter sw = new StreamWriter(Location + "\\Start.bat"))
-            {            
-                sw.WriteLine("sc start \"" + Name + "\"");               
+            {
+                sw.WriteLine("sc start \"" + Name + "\"");
             }
         }
         private void WriteStop()
         {
-            using (StreamWriter sw = new StreamWriter(Location +"\\Stop.bat"))
-            {   
+            using (StreamWriter sw = new StreamWriter(Location + "\\Stop.bat"))
+            {
                 sw.WriteLine("sc stop \"" + Name + "\"");
             }
         }
@@ -148,7 +149,7 @@ namespace HyperBaseLiveWpf.Models
         public void Delete()
         {
             if (!File.Exists(Location + "\\Delete.bat"))
-                WriteStop();
+                WriteDelete();
             var proc1 = new ProcessStartInfo();
             proc1.UseShellExecute = true;
             proc1.FileName = Location + "\\Delete.bat";
@@ -169,25 +170,31 @@ namespace HyperBaseLiveWpf.Models
         {
             this.Stop();
             this.Delete();
-            Directory.Delete(Location);
-            Directory.CreateDirectory(Location);           
-            File.WriteAllBytes(Location, response.Bytes);
-            this.Version = response.Version;
+            try
+            {
+                Directory.Delete(Location, true);
+                Directory.CreateDirectory(Location);           
+                File.WriteAllBytes(Location + "\\hblservice.zip", response.Bytes);
+                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", this.Location);
+                this.Version = response.Version;
+                this.Install();
+                this.Start();
+            }
+            catch
+            {
+
+            }
             DbManager dbM = new DbManager();
-            await Task.Run(()=>dbM.AddOrUpdateClient(this));
+            await Task.Run(() => dbM.AddOrUpdateClient(this));
         }
 
-
         #region INotifyPropertyChanged Members
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
         #endregion
     }
 }

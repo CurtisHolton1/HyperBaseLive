@@ -64,6 +64,7 @@ namespace HyperBaseLiveWpf.Views
 
                 if (Directory.Exists(HyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
+                    this.NextButton.IsEnabled = false;
                     clientToInstall.Location = serviceFolderBrowserText;
                     clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
                     /////////////////////////////////////////////////////

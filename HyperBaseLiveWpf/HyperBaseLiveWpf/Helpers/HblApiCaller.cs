@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using HyperBaseLiveWpf.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HyperBaseLiveWpf.Helpers
 {
@@ -61,7 +62,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 var HblApi = "https://api.hyperbase-live.com/api";
                 var client = new RestClient(HblApi);
-                var request = new RestRequest("/GetClientInstances", Method.GET);
+                var request = new RestRequest("/ClientInstances/GetClientInstance", Method.GET);
                 request.AddParameter("instanceId", id);              
                 var response = client.Execute(request);
                 if (!string.IsNullOrEmpty(response.ErrorMessage))
@@ -81,7 +82,6 @@ namespace HyperBaseLiveWpf.Helpers
 
         public static async Task<string> CheckStatus()
         {
-            ///////////////////////////////ToDo
             try
             {
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://api.hyperbase-live.com");
@@ -102,7 +102,7 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 var HblApi = "https://api.hyperbase-live.com/api/ServiceVersions";
                 var client = new RestClient(HblApi);         
-                var request = new RestRequest("/GetServiceVersion", Method.GET);
+                var request = new RestRequest("/GetServiceVersions", Method.GET);
                 request.AddHeader("apikey",ConfigurationManager.AppSettings["apikey"]);
                 var response = client.Execute(request);
                 if (!string.IsNullOrEmpty(response.ErrorMessage))
@@ -110,7 +110,8 @@ namespace HyperBaseLiveWpf.Helpers
                     System.Windows.MessageBox.Show("Error in GetServiceVersions");
                 }
                 else {
-                    return JsonConvert.DeserializeObject<GetServiceVersionResponse>(response.Content);
+                   List<GetServiceVersionResponse> serviceVersions = JsonConvert.DeserializeObject<List<GetServiceVersionResponse>>(response.Content);
+                    return serviceVersions.OrderByDescending(x => x.Id).First();
                 }
                 return null;
             }

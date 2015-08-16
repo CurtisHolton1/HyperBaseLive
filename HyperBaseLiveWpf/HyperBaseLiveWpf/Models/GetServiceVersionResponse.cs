@@ -11,6 +11,6 @@ namespace HyperBaseLiveWpf.Models
             public int Id { get; set; }
             public string Version { get; set; }
             public string Path { get; set; }
-            public byte[]  Bytes { get; set; }
+            public byte[] Bytes { get; set; }
     }
 }

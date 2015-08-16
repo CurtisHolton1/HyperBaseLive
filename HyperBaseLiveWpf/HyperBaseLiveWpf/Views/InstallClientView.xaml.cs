@@ -178,7 +178,9 @@ namespace HyperBaseLiveWpf.Views
             Launch.Visibility = Visibility.Visible;
             DbManager d = new DbManager();
             await Task.Run(() => d.AddOrUpdateClient(clientToInstall));
-            clientToInstall.Start();      
+            clientToInstall.Start();
+            var w = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            w.DataList = await Task.Run(()=> d.GetAllClients());
             ButtonContent = "Finish";
             return "";
         }
