@@ -14,7 +14,7 @@ using HyperBaseLiveWpf.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace HyperBaseLiveWpf
+namespace HyperBaseLiveWpf.Helpers
 {
      
     public static class HblApiCaller
@@ -83,19 +83,18 @@ namespace HyperBaseLiveWpf
         public static async Task<string> CheckStatus()
         {
             ///////////////////////////////ToDo
-            //try {
-            //    HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://api.hyperbase-live.com");
-
-            //    HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-            //    if (response == null || response.StatusCode != HttpStatusCode.OK)
-            //        return "Down";
-            //    return "UP";
-            //}
-            //catch ( Exception e)
-            //{
-            //    return "Down";
-            //}
-            return "UP";
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://api.hyperbase-live.com");
+                HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+                if (response == null || response.StatusCode != HttpStatusCode.OK)
+                    return "Down";
+                return "UP";
+            }
+            catch (Exception e)
+            {
+                return "Down";
+            }
         }
    
         public static async Task<GetServiceVersionResponse> GetServiceVersion()

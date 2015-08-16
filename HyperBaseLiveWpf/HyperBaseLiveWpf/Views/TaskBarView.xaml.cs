@@ -1,5 +1,6 @@
 ﻿using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Menu;
+using HyperBaseLiveWpf.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

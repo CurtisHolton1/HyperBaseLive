@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace HyperBaseLiveWpf
+namespace HyperBaseLiveWpf.Models
 {
     public class Client
     {

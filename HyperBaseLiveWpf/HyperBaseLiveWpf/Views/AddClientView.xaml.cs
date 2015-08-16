@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using HyperBaseLiveWpf.Helpers;
 using System.Threading.Tasks;
+using HyperBaseLiveWpf.Models;
 
 namespace HyperBaseLiveWpf.Views
 {

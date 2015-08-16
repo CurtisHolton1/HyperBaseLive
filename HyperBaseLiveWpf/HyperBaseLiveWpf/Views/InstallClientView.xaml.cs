@@ -9,6 +9,7 @@ using System.Net;
 using System.Timers;
 using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Menu;
+using HyperBaseLiveWpf.Models;
 
 namespace HyperBaseLiveWpf.Views
 {
