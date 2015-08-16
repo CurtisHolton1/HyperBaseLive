@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Models;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -38,10 +40,7 @@ namespace HyperBaseLiveWpf.Views
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
         #endregion
-
-
 
         private async void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -53,11 +52,13 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
-                var clientName = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
-                if (!string.IsNullOrEmpty(clientName))
+                Client clientToInstall = new Client();
+                clientToInstall.Name = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
+                clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
+                if (!string.IsNullOrEmpty(clientToInstall.Name))
                 {
-                    ConfigInfo.InstanceId = ClientIDText;
-                    var wnd = new AddClientView(clientName);
+                    clientToInstall.InstanceID = clientIDText;
+                    var wnd = new AddClientView(clientToInstall);
                     wnd.Show();
                     this.Close();
                 }

@@ -36,7 +36,8 @@ namespace HyperBaseLiveWpf
             InitializeComponent();
             this.DataContext = this;
             WindowWatcher.AddWindow(this);
-            
+            DbManager dbM = new DbManager();
+            dbM.CreateDB();
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
@@ -79,18 +80,13 @@ namespace HyperBaseLiveWpf
                 SubmitButton_Click(sender, e);
         }
 
-        private void LoginComplete()
+        private async void LoginComplete()
         {
-            ConfigInfo.User = UserName;
-            ConfigInfo.Password = Password;
-            ////////////////////////////////////////////////////
-            if (ClientManager.IsClientInstalled("HyperBase Client"))
-            {
-                BatchManager bm = new BatchManager();
-                bm.WriteStart("HyperBase Client");
-                bm.LaunchStart();
+            DbManager dbM = new DbManager();
+            foreach (var c in await Task.Run(() => dbM.GetAllClients())){
+                c.Start();
             }
-            /////////////////////////////////////////////////////
+            Updater.UpdateAllClients();
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();
