@@ -98,24 +98,23 @@ namespace HyperBaseLiveWpf
             return "UP";
         }
    
-        public static async Task<ServiceVersionsResponse> GetServiceVersions()
+        public static async Task<GetServiceVersionResponse> GetServiceVersion()
         {
             try
             {
-                var HblApi = "https://api.hyperbase-live.com/api";
+                var HblApi = "https://api.hyperbase-live.com/api/ServiceVersions";
                 var client = new RestClient(HblApi);         
-                var request = new RestRequest("/ServiceVersions", Method.GET);
+                var request = new RestRequest("/GetServiceVersion", Method.GET);
                 request.AddHeader("apikey",ConfigurationManager.AppSettings["apikey"]);
                 var response = client.Execute(request);
                 if (!string.IsNullOrEmpty(response.ErrorMessage))
                 {
                     System.Windows.MessageBox.Show("Error in GetServiceVersions");
                 }
-                ////////////////////////////////
-                if (response.ContentLength > 2)
-                    return JsonConvert.DeserializeObject<ServiceVersionsResponse>(response.Content);
-                ////////////////////////////////////
-                else return null;
+                else {
+                    return JsonConvert.DeserializeObject<GetServiceVersionResponse>(response.Content);
+                }
+                return null;
             }
             catch (Exception e)
             {

@@ -1,8 +1,11 @@
 ﻿
+using HyperBaseLiveWpf.Helpers;
+using HyperBaseLiveWpf.Models;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf
 {
@@ -70,7 +73,13 @@ namespace HyperBaseLiveWpf
             using (StreamWriter sw = new StreamWriter(Location +"\\Stop.bat"))
             {   
                 sw.WriteLine("sc stop \"" + Name + "\"");
-
+            }
+        }
+        private void WriteDelete()
+        {
+            using (StreamWriter sw = new StreamWriter(Location + "\\Delete.bat"))
+            {
+                sw.WriteLine("sc delete \"" + Name + "\"");
             }
         }
         public void Install()
@@ -131,10 +140,37 @@ namespace HyperBaseLiveWpf
                 clientsViewWindow.UpdateClientList();
             }
         }
-        public void Update()
+        public void Delete()
         {
-
+            if (!File.Exists(Location + "\\Delete.bat"))
+                WriteStop();
+            var proc1 = new ProcessStartInfo();
+            proc1.UseShellExecute = true;
+            proc1.FileName = Location + "\\Delete.bat";
+            proc1.Verb = "runas";
+            proc1.WorkingDirectory = Location;
+            proc1.CreateNoWindow = true;
+            proc1.WindowStyle = ProcessWindowStyle.Hidden;
+            var p = Process.Start(proc1);
+            p.WaitForExit();
+            ClientsView clientsViewWindow = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            if (clientsViewWindow != null)
+            {
+                clientsViewWindow.AddClientButton.IsEnabled = true;
+                clientsViewWindow.UpdateClientList();
+            }
         }
+        public async void Update(GetServiceVersionResponse response)
+        {
+            this.Stop();
+            this.Delete();
+            Directory.Delete(Location);
+            Directory.CreateDirectory(Location);           
+            File.WriteAllBytes(Location, response.Bytes);
+            this.Version = response.Version;
+            DbManager dbM = new DbManager();
+            await Task.Run(()=>dbM.AddOrUpdateClient(this));
+        }       
     }
     }
 

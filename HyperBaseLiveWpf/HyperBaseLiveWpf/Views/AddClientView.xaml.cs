@@ -3,7 +3,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.ComponentModel;
-
+using HyperBaseLiveWpf.Helpers;
+using System.Threading.Tasks;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -47,7 +48,7 @@ namespace HyperBaseLiveWpf.Views
             catch (Exception ) { }
         }
              
-        private void NextButton_Click(object sender, RoutedEventArgs e)
+        private async void NextButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -67,6 +68,8 @@ namespace HyperBaseLiveWpf.Views
                     /////////////////////////////////////////////////////
                     //  TODO REPLACE
                     clientToInstall.Name = "HyperBase Client";
+                    var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
+                    clientToInstall.Version = versionResponse.Version;
                     ///////////////////////////
                     var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();

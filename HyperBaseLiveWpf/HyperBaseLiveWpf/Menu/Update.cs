@@ -14,9 +14,7 @@ namespace HyperBaseLiveWpf.Menu
 
         public void PerformAction()
         {
-
-          
-
+            Updater.UpdateAllClients();
         }
     }
 }

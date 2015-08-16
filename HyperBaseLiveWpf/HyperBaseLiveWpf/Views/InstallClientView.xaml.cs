@@ -99,7 +99,6 @@ namespace HyperBaseLiveWpf.Views
             StatusLabelContent = "Configuring...";
             try
             {
-                InstallBar.Value += 10;
                 List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
                 configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.Location));
                 configList.Add(new KeyValuePair<string, string>("instanceId", clientToInstall.InstanceID));
@@ -115,7 +114,6 @@ namespace HyperBaseLiveWpf.Views
             }
             try
             {
-                InstallBar.Value = 100;
                 clientToInstall.Install();      
                 InstallComplete();
             }
@@ -151,7 +149,7 @@ namespace HyperBaseLiveWpf.Views
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {           
-            InstallBar.Value = (double)e.ProgressPercentage / 1.5;
+            InstallBar.Value = (double)e.ProgressPercentage;
             if (timeout != null)
             {
                 timeout.Stop();
