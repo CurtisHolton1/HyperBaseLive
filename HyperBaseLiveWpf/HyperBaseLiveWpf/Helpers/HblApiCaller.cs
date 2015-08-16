@@ -72,7 +72,8 @@ namespace HyperBaseLiveWpf
                 //client name
                 return response.Content;
             }
-            catch (Exception e)
+            catch
+            (Exception e)
             {
                 System.Windows.MessageBox.Show("Error Validating ID, please check your internet connection");
                 return null;

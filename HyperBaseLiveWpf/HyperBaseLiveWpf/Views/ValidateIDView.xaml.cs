@@ -38,10 +38,7 @@ namespace HyperBaseLiveWpf.Views
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
         #endregion
-
-
 
         private async void ValidateButton_Click(object sender, RoutedEventArgs e)
         {

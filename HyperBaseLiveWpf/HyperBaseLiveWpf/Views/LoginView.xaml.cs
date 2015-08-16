@@ -35,8 +35,9 @@ namespace HyperBaseLiveWpf
             UserName = "Username";           
             InitializeComponent();
             this.DataContext = this;
-            WindowWatcher.AddWindow(this);            
-            
+            WindowWatcher.AddWindow(this);
+            DbManager d = new DbManager();
+            d.CreateDB();
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {

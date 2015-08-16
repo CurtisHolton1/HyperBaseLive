@@ -44,15 +44,22 @@ namespace HyperBaseLiveWpf
         
 
         private async void timer1_Elapsed(object sender, ElapsedEventArgs e)
-        {           
-                
-                UpdateClientList();  
-                   
+        {                           
+                UpdateClientList();                     
         }
 
         public async void UpdateClientList()
-        { 
-            DataList = await Task.Run(()=> ClientFileManager.DetermineClients());
+        {
+            DbManager dbM = new DbManager();
+            DataList = await Task.Run(() => dbM.GetAllClients());
+            foreach(var c in DataList)
+            {
+                /////////////////////////////
+                c.Status = ClientManager.GetServiceStatus(c.Name);
+                /////////////////////////////////
+                c.Version = "1.0";
+                await Task.Run(() => dbM.AddOrUpdateClient(c));
+            }
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)

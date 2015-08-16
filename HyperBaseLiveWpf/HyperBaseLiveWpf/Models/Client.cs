@@ -12,14 +12,15 @@ namespace HyperBaseLiveWpf
         public string Status { get; set; }
         public string HBLStatus { get; set; }
         public string Location { get; set; }
-        public int Id { get; set; }
-        public int Version { get; set; }
+        public int ID { get; set; }
+        public string Version { get; set; }
         public string InstanceID { get; set; }
         public string HBLAssetDir { get; set; }
         public Client()
         {
 
         }
+
         public void UpdateConfig(List<KeyValuePair<string, string>> kvpList)
         {
             string configFile = System.IO.Path.Combine(Location, "Hyperbase.Live.Client.exe.config");
@@ -32,7 +33,6 @@ namespace HyperBaseLiveWpf
             }
             config.Save();
         }
-
         public void UpdateAtlasSettings()
         {
             string configFile = System.IO.Path.Combine(Location, "Hyperbase.Live.Client.exe.config");
@@ -61,21 +61,15 @@ namespace HyperBaseLiveWpf
         private void WriteStart()
         {
             using (StreamWriter sw = new StreamWriter(Location + "\\Start.bat"))
-            {//////////////////////////////////
-                sw.WriteLine("sc start \"HyperBase Client\"");
-                //////////////////////////
-                ///what will be used
-                //sw.WriteLine("sc start \"" + Name + "\"");
-                
+            {            
+                sw.WriteLine("sc start \"" + Name + "\"");               
             }
         }
         private void WriteStop()
         {
             using (StreamWriter sw = new StreamWriter(Location +"\\Stop.bat"))
-            {/////////////////////////////////
-                sw.WriteLine("sc stop \"HyperBase Client\"");
-                ////////////////////////
-                //sw.WriteLine("sc stop \"" + Name + "\"");
+            {   
+                sw.WriteLine("sc stop \"" + Name + "\"");
 
             }
         }
@@ -137,6 +131,10 @@ namespace HyperBaseLiveWpf
                 clientsViewWindow.AddClientButton.IsEnabled = true;
                 clientsViewWindow.UpdateClientList();
             }
+        }
+        public void Update()
+        {
+
         }
     }
     }

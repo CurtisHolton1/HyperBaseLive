@@ -64,6 +64,10 @@ namespace HyperBaseLiveWpf.Views
                 {
                     clientToInstall.Location = serviceFolderBrowserText;
                     clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
+                    /////////////////////////////////////////////////////
+                    //  TODO REPLACE
+                    clientToInstall.Name = "HyperBase Client";
+                    ///////////////////////////
                     var wnd = new InstallClientView(clientToInstall);
                     wnd.Show();
                     this.Close();
