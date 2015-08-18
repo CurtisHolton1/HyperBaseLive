@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Timers;
 using HyperBaseLiveWpf.Models;
+using System.Windows.Threading;
 
 namespace HyperBaseLiveWpf
 {
@@ -16,13 +17,13 @@ namespace HyperBaseLiveWpf
     public partial class ClientsView : Window, INotifyPropertyChanged
     {
         private List<Client> dataList = new List<Client>();
-        public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList"); } }
+        public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList");  } }
         System.Timers.Timer timer1;
         private static DateTime lastHBLStatusCheck;
         public ClientsView()
         {
             InitializeComponent();
-            this.DataContext = this;         
+            this.DataContext = this;
             WindowWatcher.AddWindow(this);
             AsyncWrapper();
             timer1 = new System.Timers.Timer(2000);
@@ -32,7 +33,7 @@ namespace HyperBaseLiveWpf
         }
         private async void AsyncWrapper()
         {
-            DbManager dbM = new DbManager();        
+            DbManager dbM = new DbManager();
             DataList = await Task.Run(() => dbM.GetAllClients());
             foreach (var c in DataList)
             {
@@ -41,16 +42,26 @@ namespace HyperBaseLiveWpf
         }
 
         private async void timer1_Elapsed(object sender, ElapsedEventArgs e)
-        {                           
-                UpdateClientList();                     
+        {
+            UpdateClientList();
         }
 
         public async void UpdateClientList()
-        {                    
-            foreach(var c in DataList)
+        {
+            foreach (var c in DataList)
             {
                 c.Status = ClientManager.GetServiceStatus(c.Name);
             }
+            if (DataList.Count > 0)
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => this.ContextMenu1.Visibility = Visibility.Visible, DispatcherPriority.Normal);
+                }
+                else
+                {
+                    this.ContextMenu1.Visibility = Visibility.Visible;
+                }
+            
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
@@ -58,7 +69,7 @@ namespace HyperBaseLiveWpf
             AddClientButton.IsEnabled = false;
             var w = new ValidateIDView();
             w.Show();
-            w.Activate();          
+            w.Activate();
         }
 
         //private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -86,8 +97,8 @@ namespace HyperBaseLiveWpf
         #endregion
 
         private async void MainWindow_Activated(object sender, EventArgs e)
-        {          
-            if (lastHBLStatusCheck == null || (DateTime.Now - lastHBLStatusCheck).Minutes > 5 )
+        {
+            if (lastHBLStatusCheck == null || (DateTime.Now - lastHBLStatusCheck).Minutes > 5)
             {
                 lastHBLStatusCheck = DateTime.Now;
                 var HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus());
@@ -98,29 +109,29 @@ namespace HyperBaseLiveWpf
             }
         }
 
-        private void ContextMenu_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
         private void StartItem_Click(object sender, RoutedEventArgs e)
         {
-          var c =  (Client)this.DataGrid1.SelectedItem;
-            c.Start();
+            var c = (Client)this.DataGrid1.SelectedItem;
+            if (c != null)
+                c.Start();
         }
 
         private void StopItem_Click(object sender, RoutedEventArgs e)
         {
             var c = (Client)this.DataGrid1.SelectedItem;
-            c.Stop();
+            if (c != null)
+                c.Stop();
         }
 
         private async void UpdateItem_Click(object sender, RoutedEventArgs e)
         {
             var c = (Client)this.DataGrid1.SelectedItem;
-            var response = await Task.Run(()=> HblApiCaller.GetServiceVersion());
-            if(response != null)
-             c.Update(response);
+            if (c != null)
+            {
+                var response = await Task.Run(() => HblApiCaller.GetServiceVersion());
+                if (response != null)
+                    c.Update(response);
+            }
         }
     }
 }

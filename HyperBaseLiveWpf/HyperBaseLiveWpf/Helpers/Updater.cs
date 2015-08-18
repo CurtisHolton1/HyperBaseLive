@@ -28,7 +28,6 @@ namespace HyperBaseLiveWpf.Helpers
                 DbManager dbM = new DbManager();
                 foreach (var c in await Task.Run(() => dbM.GetAllClients()))
                 {
-                    if (c.Version.CompareTo(latestVersion) < 0)
                         c.Update(response);
                 }
             }

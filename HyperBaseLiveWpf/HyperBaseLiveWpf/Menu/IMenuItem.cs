@@ -9,6 +9,6 @@ namespace HyperBaseLiveWpf.Menu
     public interface IMenuItem
     {
         string Name { get; set; }
-       void PerformAction();
+        void PerformAction();
     }
 }

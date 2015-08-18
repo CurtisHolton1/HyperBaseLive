@@ -167,29 +167,32 @@ namespace HyperBaseLiveWpf.Models
         }
         public async void Update(GetServiceVersionResponse response)
         {
-            this.Stop();
-            this.Delete();
-            try
+            if (this.Version.CompareTo(response.Version) < 0)
             {
-                Directory.Delete(Location, true);
-                Directory.CreateDirectory(Location);           
-                File.WriteAllBytes(Location + "\\hblservice.zip", response.Bytes);
-                System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", this.Location);
-                this.Version = response.Version;
-                List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
-                configList.Add(new KeyValuePair<string, string>("finalLoc", this.Location));
-                configList.Add(new KeyValuePair<string, string>("instanceId", this.InstanceID));
-                configList.Add(new KeyValuePair<string, string>("HBLAssetDir", this.HBLAssetDir));
-                UpdateConfig(configList);
-                this.Install();
-                this.Start();
-            }
-            catch
-            {
+                this.Stop();
+                this.Delete();
+                try
+                {
+                    Directory.Delete(Location, true);
+                    Directory.CreateDirectory(Location);
+                    File.WriteAllBytes(Location + "\\hblservice.zip", response.Bytes);
+                    System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", this.Location);
+                    this.Version = response.Version;
+                    List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
+                    configList.Add(new KeyValuePair<string, string>("finalLoc", this.Location));
+                    configList.Add(new KeyValuePair<string, string>("instanceId", this.InstanceID));
+                    configList.Add(new KeyValuePair<string, string>("HBLAssetDir", this.HBLAssetDir));
+                    UpdateConfig(configList);
+                    this.Install();
+                    this.Start();
+                }
+                catch
+                {
 
+                }
+                DbManager dbM = new DbManager();
+                await Task.Run(() => dbM.AddOrUpdateClient(this));
             }
-            DbManager dbM = new DbManager();
-            await Task.Run(() => dbM.AddOrUpdateClient(this));
         }
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
