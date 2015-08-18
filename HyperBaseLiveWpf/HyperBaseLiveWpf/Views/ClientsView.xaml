@@ -54,20 +54,26 @@
                 <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
                 <Grid Background="#FF307196" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,100,0,-5" Height="3"></Grid>
             </Grid>
-            <Grid Margin="0,163,0,0">
-            
+        <Grid Margin="0,163,0,0">
             <Label Content="Installed Clients:" Foreground="Black" d:IsHidden="True"/>
             <Grid Margin="10,26,10,105" d:IsHidden="True">
                 <DataGrid x:Name="DataGrid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" AutoGenerateColumns="False" ItemsSource="{Binding DataList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AlternatingRowBackground="LightBlue" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" IsReadOnly="True" SnapsToDevicePixels="True" GridLinesVisibility="Vertical">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Start" Click="StartItem_Click"/>
+                            <MenuItem Header="Stop" Click="StopItem_Click"/>
+                            <MenuItem Header="Update" Click="UpdateItem_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Status" Binding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Location" Binding="{Binding Location, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                         <DataGridTextColumn Header="HBLStatus" Binding="{Binding HBLStatus, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                     </DataGrid.Columns>
-                  
+                    
+                    
                 </DataGrid>
-
             </Grid>
         </Grid>
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Background="White" >

@@ -51,7 +51,6 @@ namespace HyperBaseLiveWpf
             {
                 c.Status = ClientManager.GetServiceStatus(c.Name);
             }
-
         }
 
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
@@ -97,6 +96,31 @@ namespace HyperBaseLiveWpf
                     c.HBLStatus = HBLStatus;
                 }
             }
+        }
+
+        private void ContextMenu_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void StartItem_Click(object sender, RoutedEventArgs e)
+        {
+          var c =  (Client)this.DataGrid1.SelectedItem;
+            c.Start();
+        }
+
+        private void StopItem_Click(object sender, RoutedEventArgs e)
+        {
+            var c = (Client)this.DataGrid1.SelectedItem;
+            c.Stop();
+        }
+
+        private async void UpdateItem_Click(object sender, RoutedEventArgs e)
+        {
+            var c = (Client)this.DataGrid1.SelectedItem;
+            var response = await Task.Run(()=> HblApiCaller.GetServiceVersion());
+            if(response != null)
+             c.Update(response);
         }
     }
 }
