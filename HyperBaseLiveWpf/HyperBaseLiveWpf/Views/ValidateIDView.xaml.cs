@@ -53,7 +53,12 @@ namespace HyperBaseLiveWpf.Views
             else
             {
                 Client clientToInstall = new Client();
-                clientToInstall.Name = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
+
+                clientToInstall.Name =  await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
+                if (string.IsNullOrEmpty(clientToInstall.Name)) {                    
+                    ValidateButton.IsEnabled = true;
+                    return;
+                }
                 clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
                 if (!string.IsNullOrEmpty(clientToInstall.Name))
                 {

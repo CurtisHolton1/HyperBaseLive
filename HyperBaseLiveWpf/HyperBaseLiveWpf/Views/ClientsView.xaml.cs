@@ -18,7 +18,7 @@ namespace HyperBaseLiveWpf
         private List<Client> dataList = new List<Client>();
         public List<Client> DataList { get { return dataList; } set { dataList = value; this.OnPropertyChanged("DataList"); } }
         System.Timers.Timer timer1;
-
+        private static DateTime lastHBLStatusCheck;
         public ClientsView()
         {
             InitializeComponent();
@@ -87,11 +87,15 @@ namespace HyperBaseLiveWpf
         #endregion
 
         private async void MainWindow_Activated(object sender, EventArgs e)
-        {
-          var HBLStatus =  await Task.Run(()=>HblApiCaller.CheckStatus());
-            foreach(var c in DataList)
+        {          
+            if (lastHBLStatusCheck == null || (DateTime.Now - lastHBLStatusCheck).Minutes > 5 )
             {
-                c.HBLStatus = HBLStatus;
+                lastHBLStatusCheck = DateTime.Now;
+                var HBLStatus = await Task.Run(() => HblApiCaller.CheckStatus());
+                foreach (var c in DataList)
+                {
+                    c.HBLStatus = HBLStatus;
+                }
             }
         }
     }

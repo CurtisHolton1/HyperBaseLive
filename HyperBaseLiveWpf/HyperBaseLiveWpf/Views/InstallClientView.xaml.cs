@@ -166,6 +166,8 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
+                var w = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+                w.Show();
                 this.Close();
             }
         }

@@ -42,13 +42,13 @@ namespace HyperBaseLiveWpf.Views
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             try
             {
-                DialogResult result = fbd.ShowDialog();             
+                DialogResult result = fbd.ShowDialog();
                 ServiceFolderBrowserText = fbd.SelectedPath;
-                
+
             }
-            catch (Exception ) { }
+            catch (Exception) { }
         }
-             
+
         private async void NextButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -71,11 +71,14 @@ namespace HyperBaseLiveWpf.Views
                     //  TODO REPLACE
                     clientToInstall.Name = "HyperBase Client";
                     var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
-                    clientToInstall.Version = versionResponse.Version;
-                    ///////////////////////////
-                    var wnd = new InstallClientView(clientToInstall);
-                    wnd.Show();
-                    this.Close();
+                    if (versionResponse != null)
+                    {
+                        clientToInstall.Version = versionResponse.Version;
+                        ///////////////////////////
+                        var wnd = new InstallClientView(clientToInstall);
+                        wnd.Show();
+                        this.Close();
+                    }
                 }
             }
             catch (Exception exce)
@@ -83,33 +86,8 @@ namespace HyperBaseLiveWpf.Views
                 System.Windows.MessageBox.Show(exce.Message);
                 throw exce;
             }
-            //else
-            //{
-            //    if (!Directory.Exists(ServiceFolderBrowserText))
-            //    {
-            //        //Error2.Text = "Directory does not exist";
-            //        //Error2.Visibility = Visibility.Visible;
-            //        Directory.CreateDirectory(ServiceFolderBrowserText);
-            //    }
-            //    else
-            //    {
-            //       // Error2.Visibility = Visibility.Hidden;
-            //    }
+        }
 
-            //    if (!Directory.Exists(HyperSpinFolderBrowserText))
-            //    {
-            //        Directory.CreateDirectory(HyperSpinFolderBrowserText);
-            //        //Error1.Text = "Directory does not exist";
-            //        //Error1.Visibility = Visibility.Visible;
-            //    }
-            //    else
-            //    {
-            //        //Error1.Visibility = Visibility.Hidden;
-            //    }
-               
-
-            }
-        
 
         private void HyperSpinButton_Click(object sender, RoutedEventArgs e)
         {
@@ -137,7 +115,7 @@ namespace HyperBaseLiveWpf.Views
         {
             WindowWatcher.RemoveWindow(this);
         }
-       
+
 
     }
 }
