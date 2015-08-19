@@ -44,6 +44,7 @@ namespace HyperBaseLiveWpf.Views
 
         private async void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
+            ErrorMessage = "";
             ValidateButton.IsEnabled = false;
             if (string.IsNullOrEmpty(ClientIDText))
             {
@@ -53,15 +54,15 @@ namespace HyperBaseLiveWpf.Views
             else
             {
                 Client clientToInstall = new Client();
-
                 clientToInstall.Name =  await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
-                if (string.IsNullOrEmpty(clientToInstall.Name)) {                    
+                if (string.IsNullOrEmpty(clientToInstall.Name)) {
+                    ErrorMessage = "Validation failed";
                     ValidateButton.IsEnabled = true;
                     return;
-                }
-                clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
+                }             
                 if (!string.IsNullOrEmpty(clientToInstall.Name))
                 {
+                    clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
                     clientToInstall.InstanceID = clientIDText;
                     var wnd = new AddClientView(clientToInstall);
                     wnd.Show();
