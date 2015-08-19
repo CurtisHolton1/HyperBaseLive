@@ -6,6 +6,7 @@ using System.ComponentModel;
 using HyperBaseLiveWpf.Helpers;
 using System.Threading.Tasks;
 using HyperBaseLiveWpf.Models;
+using System.Linq;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -43,7 +44,8 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 DialogResult result = fbd.ShowDialog();
-                ServiceFolderBrowserText = fbd.SelectedPath;
+                if (result.ToString().Equals("OK"))
+                    ServiceFolderBrowserText = fbd.SelectedPath;
 
             }
             catch (Exception) { }
@@ -51,6 +53,8 @@ namespace HyperBaseLiveWpf.Views
 
         private async void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Error1.Visibility = Visibility.Hidden;
+            this.Error2.Visibility = Visibility.Hidden;
             try
             {
                 if (!Directory.Exists(ServiceFolderBrowserText))
@@ -64,20 +68,28 @@ namespace HyperBaseLiveWpf.Views
 
                 if (Directory.Exists(HyperSpinFolderBrowserText) && Directory.Exists(ServiceFolderBrowserText))
                 {
-                    this.NextButton.IsEnabled = false;
-                    clientToInstall.Location = serviceFolderBrowserText;
-                    clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
-                    /////////////////////////////////////////////////////
-                    //  TODO REPLACE
-                    clientToInstall.Name = "HyperBase Client";
-                    var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
-                    if (versionResponse != null)
+                    if (IsDirectoryEmpty(ServiceFolderBrowserText))
                     {
-                        clientToInstall.Version = versionResponse.Version;
-                        ///////////////////////////
-                        var wnd = new InstallClientView(clientToInstall);
-                        wnd.Show();
-                        this.Close();
+                        this.NextButton.IsEnabled = false;
+                        clientToInstall.Location = serviceFolderBrowserText;
+                        clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
+                        /////////////////////////////////////////////////////
+                        //  TODO REPLACE
+                        clientToInstall.Name = "HyperBase Client";
+                        var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
+                        if (versionResponse != null)
+                        {
+                            clientToInstall.Version = versionResponse.Version;
+                            ///////////////////////////
+                            var wnd = new InstallClientView(clientToInstall);
+                            wnd.Show();
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        this.Error2.Text = "Folder Must Be empty";
+                        this.Error2.Visibility = Visibility.Visible;
                     }
                 }
             }
@@ -88,7 +100,10 @@ namespace HyperBaseLiveWpf.Views
             }
         }
 
-
+        private bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
         private void HyperSpinButton_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();

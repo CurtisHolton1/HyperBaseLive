@@ -59,7 +59,7 @@
             <Label x:Name="ClientNameLabel" Content="{Binding ClientNameText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="45" Width="350" VerticalAlignment="Top" Margin="47,0" Foreground="Black" FontSize="18"></Label>
             <TextBlock Text="HyperSpin folder:" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="30,50,0,0" Foreground="Black"></TextBlock>
             <TextBox x:Name="HyperSpinFolderBox" Text="{Binding HyperSpinFolderBrowserText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Top" Margin="0,70,0,0"></TextBox>
-            <TextBlock x:Name="Error1" Text="" Visibility="Hidden" Foreground="Red" Margin="50,100,0,0" ></TextBlock>
+            <TextBlock x:Name="Error1"  Visibility="Visible" Foreground="Red" Margin="50,100,0,0" ></TextBlock>
             <Button x:Name="HyperSpinButton" Content="Browse" Height="25" Width="60" VerticalAlignment="Top" Margin="291,102,0,0" Click="HyperSpinButton_Click" Foreground="White"></Button>
 
             <TextBlock Text="Installation folder:" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="30,130,0,0" Foreground="Black"></TextBlock>

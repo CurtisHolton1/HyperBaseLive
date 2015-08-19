@@ -21,19 +21,19 @@ namespace HyperBaseLiveWpf.Helpers
 
         public static async void UpdateAllClients()
         {
-            var response = await Task.Run(() => HblApiCaller.GetServiceVersion());
-            if (response != null)
+            DbManager dbM = new DbManager();
+            var clients = await Task.Run(() => dbM.GetAllClients());
+            if (clients.Count > 0)
             {
-                var latestVersion = response.Version;
-                DbManager dbM = new DbManager();
-                foreach (var c in await Task.Run(() => dbM.GetAllClients()))
+                var response = await Task.Run(() => HblApiCaller.GetServiceVersion());
+                if (response != null)
                 {
+                    var latestVersion = response.Version;
+                    foreach (var c in clients)
+                    {
                         c.Update(response);
+                    }
                 }
-            }
-            else
-            {
-               
             }
         }
     }

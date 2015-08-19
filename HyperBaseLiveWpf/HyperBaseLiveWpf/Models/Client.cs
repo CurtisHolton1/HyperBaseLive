@@ -1,6 +1,7 @@
 ﻿
 using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -28,7 +29,7 @@ namespace HyperBaseLiveWpf.Models
         public Client()
         {
 
-        }        
+        }
         private void WriteInstall()
         {
             using (StreamWriter sw = new StreamWriter(Location + "\\Install.bat"))
@@ -167,16 +168,18 @@ namespace HyperBaseLiveWpf.Models
         }
         public async void Update(GetServiceVersionResponse response)
         {
-            if (this.Version.CompareTo(response.Version) < 0)
+            if (this.Version.CompareTo(response.Version) < 0 && response.Bytes != null)
             {
-                this.Stop();
-                this.Delete();
                 try
                 {
+                    this.Status = "Updating";
+                    this.Stop();
+                    this.Delete();
                     Directory.Delete(Location, true);
                     Directory.CreateDirectory(Location);
                     File.WriteAllBytes(Location + "\\hblservice.zip", response.Bytes);
                     System.IO.Compression.ZipFile.ExtractToDirectory("hblsvc.zip", this.Location);
+                    File.Delete(Location + "\\hblservice.zip");
                     this.Version = response.Version;
                     List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
                     configList.Add(new KeyValuePair<string, string>("finalLoc", this.Location));
@@ -186,9 +189,9 @@ namespace HyperBaseLiveWpf.Models
                     this.Install();
                     this.Start();
                 }
-                catch
+                catch (Exception e)
                 {
-
+                    System.Windows.MessageBox.Show("Exception in client.update: " + e.Message);
                 }
                 DbManager dbM = new DbManager();
                 await Task.Run(() => dbM.AddOrUpdateClient(this));
