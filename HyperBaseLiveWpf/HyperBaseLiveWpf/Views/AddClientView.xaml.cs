@@ -37,7 +37,7 @@ namespace HyperBaseLiveWpf.Views
             if(Directory.Exists(@"C:\Program Files(x86)"))
                 ServiceFolderBrowserText = @"C:\Program Files (x86)\Hyperbase\Hyperbase Live";
             else
-                ServiceFolderBrowserText = @"C:\Program Files\Hyperbase\Hyperbase Live";
+                ServiceFolderBrowserText = @"C:\Program Files\Hyperbase\Hyperbase Live\Services";
             WindowWatcher.AddWindow(this);
         }
 
