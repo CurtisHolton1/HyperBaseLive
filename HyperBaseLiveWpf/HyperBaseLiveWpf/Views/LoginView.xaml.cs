@@ -86,7 +86,7 @@ namespace HyperBaseLiveWpf
             foreach (var c in await Task.Run(() => dbM.GetAllClients())){
                 c.Start();
             }
-            Updater.UpdateAllClients();
+            //Updater.UpdateAllClients();
             Window win = new ClientsView();
             win.Show();
             win = new TaskBarView();

@@ -101,10 +101,10 @@ namespace HyperBaseLiveWpf.Views
             try
             {
                 List<KeyValuePair<string, string>> configList = new List<KeyValuePair<string, string>>();
-                configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.Location));
+                configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.HBLAssetDir + "\\media"));
                 configList.Add(new KeyValuePair<string, string>("instanceId", clientToInstall.InstanceID));
                 configList.Add(new KeyValuePair<string, string>("HBLAssetDir", clientToInstall.HBLAssetDir));
-                //configList.Add(new KeyValuePair<string, string>("id", ConfigInfo.Id));
+                
                 clientToInstall.UpdateConfig(configList);
             }
             catch (Exception ex)
