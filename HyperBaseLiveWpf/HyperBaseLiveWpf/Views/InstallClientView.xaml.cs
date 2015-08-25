@@ -104,7 +104,8 @@ namespace HyperBaseLiveWpf.Views
                 configList.Add(new KeyValuePair<string, string>("finalLoc", clientToInstall.HBLAssetDir + "\\media"));
                 configList.Add(new KeyValuePair<string, string>("instanceId", clientToInstall.InstanceID));
                 configList.Add(new KeyValuePair<string, string>("HBLAssetDir", clientToInstall.HBLAssetDir));
-                
+                configList.Add(new KeyValuePair<string, string>("user", Properties.Settings.Default.UserName));
+                configList.Add(new KeyValuePair<string, string>("pass", Properties.Settings.Default.Password));
                 clientToInstall.UpdateConfig(configList);
             }
             catch (Exception ex)

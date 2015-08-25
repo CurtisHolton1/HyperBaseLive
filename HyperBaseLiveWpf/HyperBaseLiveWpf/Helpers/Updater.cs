@@ -16,7 +16,7 @@ namespace HyperBaseLiveWpf.Helpers
             var HblHubProxy = hubConnection.CreateHubProxy("HyperbaseServer");
             HblHubProxy.On("DoUpdate", UpdateAllClients);
             ServicePointManager.DefaultConnectionLimit = 10;
-            hubConnection.Start().Wait();
+            hubConnection.Start();
         }
 
         public static async void UpdateAllClients()
