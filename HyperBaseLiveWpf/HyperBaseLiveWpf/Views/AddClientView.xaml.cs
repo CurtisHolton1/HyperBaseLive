@@ -34,10 +34,10 @@ namespace HyperBaseLiveWpf.Views
             this.DataContext = this;
             ClientNameText = clientToInstall.Name;
             HyperSpinFolderBrowserText = @"C:\HyperSpin";
-            if(Directory.Exists(@"C:\Program Files(x86)"))
-                ServiceFolderBrowserText = @"C:\Program Files (x86)\Hyperbase\Hyperbase Live";
+            if(Directory.Exists(@"C:\Program Files (x86)"))
+                ServiceFolderBrowserText = @"C:\Program Files (x86)\Hyperbase\Hyperbase Live\Services\" + clientToInstall.Name;
             else
-                ServiceFolderBrowserText = @"C:\Program Files\Hyperbase\Hyperbase Live\Services";
+                ServiceFolderBrowserText = @"C:\Program Files\Hyperbase\Hyperbase Live\Services\" + clientToInstall.Name;
             WindowWatcher.AddWindow(this);
         }
 
