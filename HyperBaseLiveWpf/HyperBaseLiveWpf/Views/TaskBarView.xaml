@@ -9,7 +9,7 @@
                 <ContextMenu x:Name="TaskBarContextMenu">
                     <MenuItem x:Name="StartMenuItem" Header="Start All" Click="StartMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="StopMenuItem" Header="Stop All" Click="StopMenuItem_Click"></MenuItem>
-                    <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click" FontWeight="Bold"/>
                     <MenuItem x:Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="UpdateMenuItem" Header="Update All" Click="UpdateMenuItem_Click"></MenuItem>
                 </ContextMenu>

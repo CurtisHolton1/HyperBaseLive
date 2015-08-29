@@ -48,20 +48,23 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     
     
     <Grid>
+       
+
         <Grid Background="#FF3C8DBC" Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
             <Grid Background="#FF307196" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,100,0,-5" Height="3"></Grid>
         </Grid>
-        <Grid>
+        <Grid x:Name="MainForm">
             <TextBlock Text="Client ID:" Margin="20,191,0,251" Foreground="Black" Height="30" ></TextBlock>
             <TextBox x:Name="ClientID" Text="{Binding ClientIDText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="30" Width="350" VerticalAlignment="Center" Margin="0,0,0,0"></TextBox>
             <Button x:Name="ValidateButton" Content="Validate" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100" Height="32" Click="ValidateButton_Click" Foreground="White" />
             <TextBlock x:Name="Generate" Text="Generate Here " TextDecorations="Underline" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="270,250,0,0" Foreground="Black" MouseLeftButtonDown="Generate_MouseLeftButtonDown"></TextBlock>
             <Label Content="{Binding ErrorMessage, UpdateSourceTrigger=PropertyChanged}" Margin="20,270,0,0" Height="50" Width="Auto" Foreground="#FFBF1B1B" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Top"></Label>
         </Grid>
+        
     </Grid>
 </Window>

@@ -78,6 +78,8 @@ namespace HyperBaseLiveWpf.Views
                         clientToInstall.HBLAssetDir = hyperSpinFolderBrowserText;
                         /////////////////////////////////////////////////////
                         //  TODO REPLACE
+                        MainForm.Visibility = Visibility.Hidden;
+                        LoadingImg.Visibility = Visibility.Visible;
                         clientToInstall.Name = "HyperBase Client";
                         var versionResponse = await Task.Run(() => HblApiCaller.GetServiceVersion());
                         if (versionResponse != null)
