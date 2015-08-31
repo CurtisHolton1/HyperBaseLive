@@ -62,12 +62,17 @@ namespace HyperBaseLiveWpf.Helpers
             {
                 var HblApi = "https://api.hyperbase-live.com/api";
                 var client = new RestClient(HblApi);
+                client.Timeout = 15000;
                 var request = new RestRequest("/ClientInstances/GetClientInstance", Method.GET);
                 request.AddParameter("instanceId", id);          
                 var response = client.Execute(request);
-                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                if (response.StatusCode.ToString().Equals("NotFound"))
                 {
-                    System.Windows.MessageBox.Show("Error Validating ID, please check your internet connection");
+                    return response.StatusCode.ToString();
+                }      
+                if (!string.IsNullOrEmpty(response.ErrorMessage) && response.ErrorMessage.Equals("The operation has timed out"))
+                {
+                    return response.ErrorMessage;
                 }
                 //client name
                 return response.Content;
@@ -75,7 +80,7 @@ namespace HyperBaseLiveWpf.Helpers
             catch
             (Exception e)
             {
-                System.Windows.MessageBox.Show("Error Validating ID, please check your internet connection");
+
                 return null;
             }
         }

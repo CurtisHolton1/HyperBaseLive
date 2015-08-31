@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,11 @@ namespace HyperBaseLiveWpf.Helpers
         {
             try
             {
-                SQLiteConnection.CreateFile(_dbLocation);
-                await Task.Run(() => CreateClientInstancesTable());
+                if (!File.Exists("Clients.Sqlite"))
+                {
+                    SQLiteConnection.CreateFile(_dbLocation);
+                    await Task.Run(() => CreateClientInstancesTable());
+                }
                 return true;
             }
             catch (Exception e)

@@ -44,6 +44,8 @@ namespace HyperBaseLiveWpf
             if (allWindows.Count == 2)
             {
                 ClientsView clientsViewWindow = (ClientsView)GetWindowOfType<ClientsView>();
+                if (clientsViewWindow == null)
+                    clientsViewWindow = new ClientsView();
                 clientsViewWindow.AddClientButton.IsEnabled = true;
             }
         }

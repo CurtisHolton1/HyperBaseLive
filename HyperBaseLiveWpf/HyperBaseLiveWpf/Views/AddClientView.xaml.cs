@@ -90,9 +90,13 @@ namespace HyperBaseLiveWpf.Views
                             wnd.Show();
                             this.Close();
                         }
+                        MainForm.Visibility = Visibility.Visible;
+                        LoadingImg.Visibility = Visibility.Hidden;
                     }
                     else
                     {
+                        MainForm.Visibility = Visibility.Visible;
+                        LoadingImg.Visibility = Visibility.Hidden;
                         this.Error2.Text = "Folder Must Be empty";
                         this.Error2.Visibility = Visibility.Visible;
                     }

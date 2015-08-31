@@ -183,6 +183,8 @@ namespace HyperBaseLiveWpf.Views
             await Task.Run(() => d.AddOrUpdateClient(clientToInstall));
             clientToInstall.Start();
             var w = (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();
+            if (w == null)
+                w = new ClientsView();
             w.DataList = await Task.Run(()=> d.GetAllClients());
             ButtonContent = "Finish";
             return "";

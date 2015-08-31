@@ -53,25 +53,42 @@ namespace HyperBaseLiveWpf.Views
             }
             else
             {
+                MainForm.Visibility = Visibility.Hidden;
+                LoadingImg.Visibility = Visibility.Visible;
                 Client clientToInstall = new Client();
-                clientToInstall.Name =  await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
-                if (string.IsNullOrEmpty(clientToInstall.Name)) {
-                    ErrorMessage = "Validation failed";
-                    ValidateButton.IsEnabled = true;
-                    return;
-                }             
-                if (!string.IsNullOrEmpty(clientToInstall.Name))
+                var status = await Task.Run(() => HblApiCaller.ValidateID(ClientIDText));
+                MainForm.Visibility = Visibility.Visible;
+                LoadingImg.Visibility = Visibility.Hidden;
+                if(!string.IsNullOrEmpty(status))
                 {
-                    clientToInstall.Name = clientToInstall.Name.Substring(1, clientToInstall.Name.Length - 2);
-                    clientToInstall.InstanceID = clientIDText;
-                    var wnd = new AddClientView(clientToInstall);
-                    wnd.Show();
-                    this.Close();
+                    switch (status)
+                    {
+                        case "The operation has timed out":
+                            {
+                                ErrorMessage = status;
+                                break;
+                            }
+                        case "NotFound":
+                            {
+                                ErrorMessage = "Validation Failed";
+                                break;
+                            }
+                        default:
+                            {
+                                clientToInstall.Name = status.Substring(1, status.Length - 2);
+                                clientToInstall.InstanceID = clientIDText;
+                                var wnd = new AddClientView(clientToInstall);
+                                wnd.Show();
+                                this.Close();
+                                break;
+                            }
+                    }
+                    ValidateButton.IsEnabled = true;
                 }
                 else
                 {
-                    ErrorMessage = "Validation failed";
                     ValidateButton.IsEnabled = true;
+                    ErrorMessage = "An unexpected problem has occurred";
                 }
             }
         }
