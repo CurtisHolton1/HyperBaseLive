@@ -120,9 +120,14 @@ namespace HyperBaseLiveWpf.Views
         {
             MenuStaticClassFactory.GetUpdateClass().PerformAction();
         }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            MenuStaticClassFactory.GetClientsClass().PerformAction();
+        }
     }
 
-        public class ShowClientsCommand : ICommand
+    public class ShowClientsCommand : ICommand
         {
             public void Execute(object parameter)
             {

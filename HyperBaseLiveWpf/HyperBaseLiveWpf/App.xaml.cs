@@ -19,7 +19,7 @@ namespace HyperBaseLiveWpf
         public static void Main()
         {
             if (SingleInstance<App>.InitializeAsFirstInstance(Unique))
-            {
+            {              
                 var application = new App();
 
                 application.InitializeComponent();
@@ -28,10 +28,6 @@ namespace HyperBaseLiveWpf
                 // Allow single instance code to perform cleanup operations
                 SingleInstance<App>.Cleanup();
             }
-            else
-            {
-
-            }
         }
 
         
@@ -39,9 +35,13 @@ namespace HyperBaseLiveWpf
 
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
-            // handle command line arguments of second instance
-            // …
-
+            for (int i = 0; i<this.Windows.Count; i++){
+                if (this.Windows[i].WindowState == WindowState.Minimized)
+                {
+                    this.Windows[i].WindowState = WindowState.Normal;
+                }               
+                this.Windows[i].Activate();
+            }
             return true;
         }
 

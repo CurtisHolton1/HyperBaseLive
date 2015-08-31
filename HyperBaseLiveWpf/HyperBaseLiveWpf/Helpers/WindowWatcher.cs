@@ -29,7 +29,6 @@ namespace HyperBaseLiveWpf
             var procId = Process.GetCurrentProcess().Id;
             int activeProcId;
             GetWindowThreadProcessId(activatedHandle, out activeProcId);
-
             return activeProcId == procId;
         }
 
