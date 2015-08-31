@@ -55,6 +55,7 @@
                 <Image x:Name="BannerImage" Source="../Content/logo.png" Height="85" Width="270" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
                 <Grid Background="#FF307196" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,100,0,-5" Height="3"></Grid>
             </Grid>
+        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Margin="0,105,10,0" Click="CloseButton_Click"></Button>
         <Grid Margin="0,163,0,0">
             <Label Content="Installed Clients:" Foreground="Black" d:IsHidden="True"/>
             <Grid Margin="10,26,10,105" d:IsHidden="True">
@@ -77,6 +78,7 @@
         </Grid>
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100" Background="White" >
             <!--<Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Margin="0,0,10,0" Click="RefreshButton_Click" ></Button>-->
+            
             <Button x:Name="AddClientButton" Content="Add Client" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Width="100" Height="32" Click="AddClientButton_Click" Background="White" Foreground="White"  />
         </Grid>
     </Grid>

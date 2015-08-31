@@ -8,6 +8,7 @@ using System.Windows;
 using System.Timers;
 using HyperBaseLiveWpf.Models;
 using System.Windows.Threading;
+using HyperBaseLiveWpf.Menu;
 
 namespace HyperBaseLiveWpf.Views
 {
@@ -132,6 +133,11 @@ namespace HyperBaseLiveWpf.Views
                 if (response != null)
                     c.Update(response);
             }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetExitClass().PerformAction();
         }
     }
 }
