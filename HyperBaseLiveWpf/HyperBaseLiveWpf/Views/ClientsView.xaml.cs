@@ -9,7 +9,7 @@ using System.Timers;
 using HyperBaseLiveWpf.Models;
 using System.Windows.Threading;
 
-namespace HyperBaseLiveWpf
+namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
     /// Interaction logic for Clients.xaml

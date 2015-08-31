@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HyperBaseLiveWpf.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +14,17 @@ namespace HyperBaseLiveWpf.Menu
         public string Name { get { return name; } set { name = value; } }
         public void PerformAction()
         {
-            bool flag = false;
-            foreach (Window w in App.Current.Windows)
-            {
-                if (w is ClientsView)
-                {
-                    flag = true;
-                    w.Show();
-                    w.Activate();
-                    break;
-                }
-            }
-            if (flag == false)
-            {
-                var wnd = new ClientsView();
-                wnd.Show();
-            }
+            var w =  (ClientsView)WindowWatcher.GetWindowOfType<ClientsView>();          
+            if (w == null)
+                w = new ClientsView();
+            if (!w.IsVisible)
+                w.Show();
+            if (w.WindowState == WindowState.Minimized)
+                w.WindowState = WindowState.Normal;
+            w.Activate();
+            w.Topmost = true;  
+            w.Topmost = false;
+            w.Focus();
         }
-
-
     }
 }

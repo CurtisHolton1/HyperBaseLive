@@ -1,6 +1,7 @@
 ﻿
 using HyperBaseLiveWpf.Helpers;
 using HyperBaseLiveWpf.Models;
+using HyperBaseLiveWpf.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace HyperBaseLiveWpf
+namespace HyperBaseLiveWpf.Views
 {
     /// <summary>
     /// Interaction logic for TaskBar.xaml
@@ -23,17 +23,17 @@ namespace HyperBaseLiveWpf
         // public int OutSideHeight { get; set; }
         private List<MenuItem> menu;
         public List<MenuItem> Menu { get { return menu; } set { menu = value; this.OnPropertyChanged("Menu"); } }
-     
-       /*
-        *uncomment all commented code for custom taskbar menu
-        */
+
+        /*
+         *uncomment all commented code for custom taskbar menu
+         */
         public TaskBarView()
-        {                      
+        {
             this.DataContext = this;
-           
-           // UserImg = "../Content/profile.jpg";
+
+            // UserImg = "../Content/profile.jpg";
             //SyncHistory = new List<string>();
-           // MenuOptions = new List<IMenuItem>();
+            // MenuOptions = new List<IMenuItem>();
             InitializeComponent();
             //SyncHistory.Add("Item1");           
             //MenuOptions.Add(MenuStaticClassFactory.GetStartClass());
@@ -42,7 +42,7 @@ namespace HyperBaseLiveWpf
             //MenuOptions.Add(MenuStaticClassFactory.GetClientsClass());
             //MenuOptions.Add(MenuStaticClassFactory.GetExitClass());
             WindowWatcher.AddWindow(this);
-            
+
         }
 
         public void UpdateView(Client c)
@@ -52,10 +52,10 @@ namespace HyperBaseLiveWpf
                 if (!Dispatcher.CheckAccess())
                 {
                     Dispatcher.Invoke(() => StartMenuItem.IsEnabled = true);
-                    Dispatcher.Invoke(() => StopMenuItem.IsEnabled = false);                   
-                }              
+                    Dispatcher.Invoke(() => StopMenuItem.IsEnabled = false);
+                }
             }
-            else if(c.Status.Equals("Running") || c.Status.Equals("StartPending"))
+            else if (c.Status.Equals("Running") || c.Status.Equals("StartPending"))
             {
                 if (!Dispatcher.CheckAccess())
                 {
@@ -87,8 +87,8 @@ namespace HyperBaseLiveWpf
 
         private void Menu_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           // var item = (IMenuItem)Menu.SelectedItem;
-           // item.PerformAction();
+            // var item = (IMenuItem)Menu.SelectedItem;
+            // item.PerformAction();
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -97,12 +97,12 @@ namespace HyperBaseLiveWpf
         }
 
         private void StartMenuItem_Click(object sender, RoutedEventArgs e)
-        {  
-            MenuStaticClassFactory.GetStartClass().PerformAction();        
+        {
+            MenuStaticClassFactory.GetStartClass().PerformAction();
         }
 
         private void StopMenuItem_Click(object sender, RoutedEventArgs e)
-        {                    
+        {
             MenuStaticClassFactory.GetStopClass().PerformAction();
         }
 
@@ -120,12 +120,21 @@ namespace HyperBaseLiveWpf
         {
             MenuStaticClassFactory.GetUpdateClass().PerformAction();
         }
-
-        private void TaskBarContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
-
-     
     }
+
+        public class ShowClientsCommand : ICommand
+        {
+            public void Execute(object parameter)
+            {
+            MenuStaticClassFactory.GetClientsClass().PerformAction();
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public event EventHandler CanExecuteChanged;
+        }
+    
 }
