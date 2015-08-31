@@ -25,7 +25,8 @@ namespace HyperBaseLiveWpf.Models
         public string Location { get { return location; } set { location = value; this.OnPropertyChanged("Location"); } }
         public int ID { get; set; }
         public string Version { get; set; }
-        public string InstanceID { get; set; }
+        private string instanceID;
+        public string InstanceID { get { return instanceID; } set { instanceID = value; this.OnPropertyChanged("InstanceID"); } }
         public string HBLAssetDir { get; set; }
         public Client()
         {

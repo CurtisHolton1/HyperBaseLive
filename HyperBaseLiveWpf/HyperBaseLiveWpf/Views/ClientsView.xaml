@@ -72,6 +72,7 @@
                         <DataGridTextColumn Header="Status" Binding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Location" Binding="{Binding Location, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                         <DataGridTextColumn Header="HBLStatus" Binding="{Binding HBLStatus, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Instance ID" Binding="{Binding InstanceID, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
