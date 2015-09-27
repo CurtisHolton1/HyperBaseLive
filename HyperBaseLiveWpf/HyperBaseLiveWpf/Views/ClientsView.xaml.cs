@@ -139,5 +139,15 @@ namespace HyperBaseLiveWpf.Views
         {
             MenuStaticClassFactory.GetExitClass().PerformAction();
         }
+
+        private void EditItem_Click(object sender, RoutedEventArgs e)
+        {
+            var c = (Client)this.DataGrid1.SelectedItem;
+            if (c != null)
+            {
+                EditClientView editWindow = new EditClientView(c);
+                editWindow.Show();
+            }
+        }
     }
 }

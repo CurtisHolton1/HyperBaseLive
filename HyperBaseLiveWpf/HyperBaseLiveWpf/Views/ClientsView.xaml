@@ -65,6 +65,7 @@
                             <MenuItem Header="Start" Click="StartItem_Click"/>
                             <MenuItem Header="Stop" Click="StopItem_Click"/>
                             <MenuItem Header="Update" Click="UpdateItem_Click"/>
+                            <MenuItem Header="Edit" Click="EditItem_Click"></MenuItem>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>

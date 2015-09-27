@@ -28,6 +28,7 @@ namespace HyperBaseLiveWpf.Models
         private string instanceID;
         public string InstanceID { get { return instanceID; } set { instanceID = value; this.OnPropertyChanged("InstanceID"); } }
         public string HBLAssetDir { get; set; }
+        public string WinPass { get; set; }
         public Client()
         {
 
@@ -36,7 +37,7 @@ namespace HyperBaseLiveWpf.Models
         {
             using (StreamWriter sw = new StreamWriter(Location + "\\Install.bat"))
             {
-                sw.WriteLine("hyperbase.live.client /i");
+                sw.WriteLine("hyperbase.live.client /install -start /username=" + Environment.UserName +  " -password=" + WinPass +   " /accounttype=localsystem /startup=automatic");
             }
         }
         private void WriteStart()

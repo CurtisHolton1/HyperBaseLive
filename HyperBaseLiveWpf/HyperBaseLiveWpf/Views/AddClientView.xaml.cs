@@ -85,6 +85,10 @@ namespace HyperBaseLiveWpf.Views
                         if (versionResponse != null)
                         {
                             clientToInstall.Version = versionResponse.Version;
+                            //clientToInstall.WinPass = Microsoft.VisualBasic.Interaction.InputBox("Windows password", "Please enter your Windows password", "", 0, 0);
+                            while (string.IsNullOrEmpty(clientToInstall.WinPass)){
+                                clientToInstall.WinPass = Microsoft.VisualBasic.Interaction.InputBox("Windows password", "Please enter your Windows password", "", 0, 0);
+                            }
                             ///////////////////////////
                             var wnd = new InstallClientView(clientToInstall);
                             wnd.Show();

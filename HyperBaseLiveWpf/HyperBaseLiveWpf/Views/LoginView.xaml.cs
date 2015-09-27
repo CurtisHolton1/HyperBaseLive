@@ -22,28 +22,23 @@ namespace HyperBaseLiveWpf.Views
         {
             //Properties.Settings.Default.UserName = "yhhh";
             //Properties.Settings.Default.Password = "fdsafdsa";
-            //Properties.Settings.Default.Save();
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.UserName))
+            //Properties.Settings.Default.Save();   
+            
+            this.Hide();
+            if (HblApiCaller.Authenticate(Properties.Settings.Default.UserName, Properties.Settings.Default.Password))
             {
-                this.Hide();
-                if (HblApiCaller.Authenticate(Properties.Settings.Default.UserName, Properties.Settings.Default.Password))
-                {
-                    LoginComplete();
-                }
-                else {
-                    this.Show();
-                }
+                LoginComplete();
             }
-          
+            else
+            {
+                this.Show();
                 UserName = "Username";
                 InitializeComponent();
                 this.DataContext = this;
                 WindowWatcher.AddWindow(this);
                 DbManager dbM = new DbManager();
                 dbM.CreateDB();
-            
-            
+            }                      
         }
 
    
