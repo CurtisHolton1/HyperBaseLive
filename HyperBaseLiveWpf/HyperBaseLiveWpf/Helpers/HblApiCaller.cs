@@ -21,7 +21,7 @@ namespace HyperBaseLiveWpf.Helpers
     public static class HblApiCaller
     {
         public static HBLToken Token { get; set; }
-        public static async Task<bool> Authenticate(string clientId, string clientSecret)
+        public static async Task<bool> AuthenticateAsync(string clientId, string clientSecret)
         {
             var hblApi = "https://api.hyperbase-live.com/token";
             var request = string.Format("grant_type=password&userName={0}&password={1}", HttpUtility.UrlEncode(clientId), HttpUtility.UrlEncode(clientSecret));
@@ -34,6 +34,7 @@ namespace HyperBaseLiveWpf.Helpers
                 return false;
             }
         }
+  
 
         private static HBLToken HttpPost(string datamarketAccessUri, string requestDetails)
         {
