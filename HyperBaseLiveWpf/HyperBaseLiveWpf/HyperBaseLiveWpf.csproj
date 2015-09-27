@@ -98,6 +98,7 @@
     <Compile Include="Helpers\DbManager.cs" />
     <Compile Include="Helpers\HblApiCaller.cs" />
     <Compile Include="Helpers\SingleInstance.cs" />
+    <Compile Include="Menu\Logout.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Helpers\ClientManager.cs" />
     <Compile Include="Helpers\Updater.cs" />

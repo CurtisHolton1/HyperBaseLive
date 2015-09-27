@@ -28,5 +28,9 @@ namespace HyperBaseLiveWpf.Menu
         {
             return new Clients();
         }
+        public static IMenuItem GetLogoutClass()
+        {
+            return new Logout();
+        }
     }
 }

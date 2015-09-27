@@ -21,30 +21,32 @@ namespace HyperBaseLiveWpf.Views
         public LoginView()
         {
             //Properties.Settings.Default.UserName = "";
-            //Properties.Settings.Default.Password = "";
+            //Properties.Settings.Default.Password = "fdsafdsa";
             //Properties.Settings.Default.Save();
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.UserName))
             {
                 this.Hide();
-                RememberedLogin();
+                if (HblApiCaller.Authenticate(Properties.Settings.Default.UserName, Properties.Settings.Default.Password))
+                {
+                    LoginComplete();
+                }
+                else {
+                    this.Show();
+                }
             }
-            else
-            {
+          
                 UserName = "Username";
                 InitializeComponent();
                 this.DataContext = this;
                 WindowWatcher.AddWindow(this);
                 DbManager dbM = new DbManager();
                 dbM.CreateDB();
-            }
+            
+            
         }
 
-        private async void RememberedLogin()
-        {
-            if (await Task.Run(() => HblApiCaller.AuthenticateAsync(Properties.Settings.Default.UserName, Properties.Settings.Default.Password)))
-                LoginComplete();
-        }
+   
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
         {
             ErrorMessage.Visibility = Visibility.Hidden;

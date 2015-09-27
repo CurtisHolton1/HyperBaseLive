@@ -125,6 +125,11 @@ namespace HyperBaseLiveWpf.Views
         {
             MenuStaticClassFactory.GetClientsClass().PerformAction();
         }
+
+        private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuStaticClassFactory.GetLogoutClass().PerformAction();
+        }
     }
 
     public class ShowClientsCommand : ICommand

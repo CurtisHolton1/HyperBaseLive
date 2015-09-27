@@ -17,6 +17,7 @@
                     <MenuItem x:Name="ClientsMenuItem" Header="Clients" Click="ClientsMenuItem_Click" FontWeight="Bold"/>
                     <MenuItem x:Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click"></MenuItem>
                     <MenuItem x:Name="UpdateMenuItem" Header="Update All" Click="UpdateMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="LogoutMenuItem" Header="Logout" Click="LogoutMenuItem_Click"></MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <!--tb:TaskbarIcon.TrayPopup>
