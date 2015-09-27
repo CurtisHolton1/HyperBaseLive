@@ -20,7 +20,7 @@ namespace HyperBaseLiveWpf.Views
         public string Password { get { return PasswordBox1.Password; } set { password = value; this.OnPropertyChanged("Password"); } }
         public LoginView()
         {
-            //Properties.Settings.Default.UserName = "";
+            //Properties.Settings.Default.UserName = "yhhh";
             //Properties.Settings.Default.Password = "fdsafdsa";
             //Properties.Settings.Default.Save();
 
