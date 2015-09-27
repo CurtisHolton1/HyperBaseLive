@@ -17,19 +17,21 @@ namespace HyperBaseLiveWpf.Views
         public string UserName { get {return userName; } set {userName = value; this.OnPropertyChanged("UserName");} }
 
         private string password;
-        public string Password { get { return password; } set { password = value; this.OnPropertyChanged("Password"); } }
+        public string Password { get { return PasswordBox1.Password; } set { password = value; this.OnPropertyChanged("Password"); } }
         public LoginView()
         {
-            UserName = "Username";
+            //Properties.Settings.Default.UserName = "";
+            //Properties.Settings.Default.Password = "";
+            //Properties.Settings.Default.Save();
+
             if (!string.IsNullOrEmpty(Properties.Settings.Default.UserName))
             {
                 this.Hide();
-                UserName = Properties.Settings.Default.UserName;
-                Password = Properties.Settings.Default.Password;
                 RememberedLogin();
             }
             else
             {
+                UserName = "Username";
                 InitializeComponent();
                 this.DataContext = this;
                 WindowWatcher.AddWindow(this);
@@ -40,7 +42,7 @@ namespace HyperBaseLiveWpf.Views
 
         private async void RememberedLogin()
         {
-            if (await Task.Run(() => HblApiCaller.AuthenticateAsync(UserName, Password)))
+            if (await Task.Run(() => HblApiCaller.AuthenticateAsync(Properties.Settings.Default.UserName, Properties.Settings.Default.Password)))
                 LoginComplete();
         }
         private void UserNameBox_GotFocus(object sender, RoutedEventArgs e)       
@@ -96,7 +98,10 @@ namespace HyperBaseLiveWpf.Views
             }
             Properties.Settings.Default.UserName = UserName;
             Properties.Settings.Default.Password = Password;
-            Properties.Settings.Default.Save();
+            if ((bool)RememberCheckbox.IsChecked)
+            {
+                Properties.Settings.Default.Save();
+            }
             Updater.UpdateAllClients();
             Window win = new ClientsView();
             win.Show();
